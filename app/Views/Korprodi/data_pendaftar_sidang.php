@@ -125,12 +125,20 @@ use CodeIgniter\Images\Image;
                                                 <?php
                                                 if ($data_jadwal[0]->jenis_sidang == 'sidang skripsi') {
                                                     $d_s = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE a.`nim`='" . $key->nim . "' AND b.`jenis_sidang`='seminar proposal' ORDER BY a.`create_at` DESC")->getResult();
-                                                    $d_s = date_create(date('Y-m-d', strtotime($d_s[0]->waktu_sidang)));
-                                                    $d_now = date_create(date('Y-m-d'));
-                                                    $selisih = date_diff($d_s, $d_now);
+                                                    if (isset($d_s[0])) {
+                                                        if ($d_s[0]->waktu_sidang == "0000-00-00 00:00:00") {
+                                                            $d_s = date_create(date('Y-m-d', strtotime($d_s[0]->create_at)));
+                                                        } else {
+                                                            $d_s = date_create(date('Y-m-d', strtotime($d_s[0]->waktu_sidang)));
+                                                        }
+                                                        $d_now = date_create(date('Y-m-d'));
+                                                        $selisih = date_diff($d_s, $d_now);
+                                                        echo "<td>" . $selisih->y . " tahun, " . $selisih->m . " bulan, " . $selisih->d . " hari</td>";
+                                                    } else {
+                                                        echo "<td>- tahun, - bulan, - hari</td>";
+                                                    }
+                                                }
                                                 ?>
-                                                    <td><?= $selisih->y . " tahun, " . $selisih->m . " bulan, " . $selisih->d . " hari" ?></td>
-                                                <?php } ?>
                                                 <td>
                                                     <a class="btn btn-warning btn-sm" data-bs-target="#modalupdate<?= $key->id_pendaftar ?>" data-bs-toggle="modal" href="#"><i class="las la-pen">Setting</i></a>
                                                 </td>
