@@ -137,8 +137,28 @@ use CodeIgniter\Images\Image;
                                             <tr>
                                                 <th scope="row"><?= $no ?></th>
                                                 <td style="text-align: center; vertical-align: middle;"><?= $key->id ?></td>
-                                                <td style="text-align: left; vertical-align: middle;"><?= $mhs[0]->nama ?></td>
-                                                <td style="text-align: center; vertical-align: middle;"><?= $judul[0]->judul_topik ?></td>
+                                                <td style="text-align: left; vertical-align: middle;">
+                                                <?php
+                                                // $mhs[0]->nama 
+                                                if(!empty($nama)){
+                                                    echo $nama[0]->nama;
+                                                }
+                                                else{
+                                                    echo "";
+                                                }
+                                                ?>
+                                                </td>
+                                                <td style="text-align: center; vertical-align: middle;">
+                                                <?php 
+                                                // $judul[0]->judul_topik 
+                                                if(!empty($judul)){
+                                                    echo $judul[0]->judul_topik;
+                                                }
+                                                else{
+                                                    echo "";
+                                                }
+                                                ?>
+                                                </td>
                                                 <td style="text-align: center; vertical-align: middle;"><?= $nb ?></td>
                                                 <td style="text-align: center; vertical-align: middle;"><?= $ns ?></td>
                                                 <td style="text-align: center; vertical-align: middle;"><?= $total ?></td>

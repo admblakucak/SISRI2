@@ -65,16 +65,26 @@ use CodeIgniter\Images\Image;
                                                                             <tr>
                                                                                 <td><?= $no ?></td>
                                                                                 <td><?= $key1->nim . ' - ' . $key1->nama ?></td>
-                                                                                <td><?= $judul[0]->judul_topik ?></td>
+                                                                                <td>
+                                                                                    <?php
+                                                                                    // $judul[0]->judul_topik 
+                                                                                    if(!empty($judul)){
+                                                                                        echo $judul[0]->judul_topik;
+                                                                                    }
+                                                                                    else{
+                                                                                        echo "";
+                                                                                    }
+                                                                                    ?>
+                                                                                </td>
                                                                                 <td><?= !empty($sidang) ? $sidang[0]->waktu_sidang : "" ?></td>
                                                                                 <td><?= !empty($sidang) ? $sidang[0]->ruang_sidang : "" ?></td>
                                                                                 <td>
                                                                                     <?php
                                                                                     if (!empty($sidang)) {
                                                                                         if ($sidang[0]->hasil_sidang == '1') {
-                                                                                            echo "Disetuji tanpa perbaikan";
+                                                                                            echo "Disetujui tanpa perbaikan";
                                                                                         } elseif ($sidang[0]->hasil_sidang == '2') {
-                                                                                            echo "Disetuji dengan perbaikan";
+                                                                                            echo "Disetujui dengan perbaikan";
                                                                                         } elseif ($sidang[0]->hasil_sidang == '3') {
                                                                                             echo "Tidak disetujui/mengulang";
                                                                                         } else {
@@ -186,16 +196,26 @@ use CodeIgniter\Images\Image;
                                                                             <tr>
                                                                                 <td><?= $no ?></td>
                                                                                 <td><?= $key2->nim . ' - ' . $key2->nama ?></td>
-                                                                                <td><?= $judul[0]->judul_topik ?></td>
+                                                                                <td>
+                                                                                    <?php 
+                                                                                    // $judul[0]->judul_topik 
+                                                                                    if(!empty($judul)){
+                                                                                        echo $judul[0]->judul_topik;
+                                                                                    }
+                                                                                    else{
+                                                                                        echo "";
+                                                                                    }
+                                                                                    ?>
+                                                                                </td>
                                                                                 <td><?= !empty($sidang) ? $sidang[0]->waktu_sidang : "" ?></td>
                                                                                 <td><?= !empty($sidang) ? $sidang[0]->ruang_sidang : "" ?></td>
                                                                                 <td>
                                                                                     <?php
                                                                                     if (!empty($sidang)) {
                                                                                         if ($sidang[0]->hasil_sidang == '1') {
-                                                                                            echo "Disetuji tanpa perbaikan";
+                                                                                            echo "Disetujui tanpa perbaikan";
                                                                                         } elseif ($sidang[0]->hasil_sidang == '2') {
-                                                                                            echo "Disetuji dengan perbaikan";
+                                                                                            echo "Disetujui dengan perbaikan";
                                                                                         } elseif ($sidang[0]->hasil_sidang == '3') {
                                                                                             echo "Tidak disetujui/mengulang";
                                                                                         } else {
@@ -240,7 +260,7 @@ use CodeIgniter\Images\Image;
                                                                                                 <div class="form-group">
                                                                                                     <label for="exampleInputEmail1">Status Ujian Skripsi</label>
                                                                                                     <label class="rdiobox mb-1">
-                                                                                                        <input <?= !empty($sidang) ? ($sidang[0]->hasil_sidang == '1' ? "checked" : '') : '' ?> disabled type="radio" name="status" value="1"><span>Disetuji tanpa perbaikan</span>
+                                                                                                        <input <?= !empty($sidang) ? ($sidang[0]->hasil_sidang == '1' ? "checked" : '') : '' ?> disabled type="radio" name="status" value="1"><span>Disetujui tanpa perbaikan</span>
                                                                                                     </label>
                                                                                                     <label class="rdiobox mb-1">
                                                                                                         <input <?= !empty($sidang) ? ($sidang[0]->hasil_sidang == '2' ? "checked" : '') : '' ?> disabled type="radio" name="status" value="2"><span>Disetujui dengan perbaikan</span>
