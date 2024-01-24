@@ -115,19 +115,19 @@ use CodeIgniter\Images\Image;
                                             if (!empty($sidang)) {
                                                 if ($total >= 80) {
                                                     $grade = "A";
-                                                } elseif ($total >= 75 && $total <= 79) {
+                                                } elseif ($total >= 75 && $total < 78) {
                                                     $grade = "B+";
-                                                } elseif ($total >= 70 && $total <= 74) {
+                                                } elseif ($total >= 70 && $total < 75) {
                                                     $grade = "B";
-                                                } elseif ($total >= 65 && $total <= 69) {
+                                                } elseif ($total >= 65 && $total < 70) {
                                                     $grade = "C+";
-                                                } elseif ($total >= 60 && $total <= 64) {
+                                                } elseif ($total >= 60 && $total < 65) {
                                                     $grade = "C";
-                                                } elseif ($total >= 55 && $total <= 59) {
+                                                } elseif ($total >= 55 && $total < 60) {
                                                     $grade = "D+";
-                                                } elseif ($total >= 50 && $total <= 54) {
+                                                } elseif ($total >= 50 && $total < 55) {
                                                     $grade = "D";
-                                                } else {
+                                                } elseif ($total < 50) {
                                                     $grade = "E";
                                                 }
                                             } else {
@@ -138,26 +138,24 @@ use CodeIgniter\Images\Image;
                                                 <th scope="row"><?= $no ?></th>
                                                 <td style="text-align: center; vertical-align: middle;"><?= $key->id ?></td>
                                                 <td style="text-align: left; vertical-align: middle;">
-                                                <?php
-                                                // $mhs[0]->nama 
-                                                if(!empty($nama)){
-                                                    echo $nama[0]->nama;
-                                                }
-                                                else{
-                                                    echo "";
-                                                }
-                                                ?>
+                                                    <?php
+                                                    // $mhs[0]->nama 
+                                                    if (!empty($nama)) {
+                                                        echo $nama[0]->nama;
+                                                    } else {
+                                                        echo "";
+                                                    }
+                                                    ?>
                                                 </td>
                                                 <td style="text-align: center; vertical-align: middle;">
-                                                <?php 
-                                                // $judul[0]->judul_topik 
-                                                if(!empty($judul)){
-                                                    echo $judul[0]->judul_topik;
-                                                }
-                                                else{
-                                                    echo "";
-                                                }
-                                                ?>
+                                                    <?php
+                                                    // $judul[0]->judul_topik 
+                                                    if (!empty($judul)) {
+                                                        echo $judul[0]->judul_topik;
+                                                    } else {
+                                                        echo "";
+                                                    }
+                                                    ?>
                                                 </td>
                                                 <td style="text-align: center; vertical-align: middle;"><?= $nb ?></td>
                                                 <td style="text-align: center; vertical-align: middle;"><?= $ns ?></td>
