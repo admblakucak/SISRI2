@@ -38,7 +38,7 @@
     <table width="100%" style="border: 1px solid black;border-collapse: collapse;">
         <tr>
             <td style="border: 1px solid black;text-align:center;padding: 10px;" rowspan="2">
-                <img src="<?= base_url('image/Logo_UTM.png') ?>" style="width: 100px;">
+                <img src="<?= base_url('image/logo-ft-2024.png') ?>" style="width: 100px;">
             </td>
             <td style="text-align:center;font-size: 18px;border: 1px solid black;" colspan="3"><b>NILAI MAHASIWA</b></td>
         </tr>
@@ -104,6 +104,7 @@
                 $nb = (($nb_pembimbing1 + $nb_pembimbing2) / 2) * (60 / 100);
                 $ns = (($ns_pembimbing1 + $ns_pembimbing2 + $ns_penguji1 + $ns_penguji2 + $ns_penguji3) / 5) * (40 / 100);
                 $total = $nb + $ns;
+                $grade = "E";
                 $sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE a.`nim`='" . $key->id . "' AND b.`jenis_sidang`='sidang skripsi' ORDER BY create_at DESC LIMIT 1")->getResult();
                 if (!empty($sidang)) {
                     if ($total >= 80) {
@@ -123,9 +124,10 @@
                     } else {
                         $grade = "E";
                     }
-                } else {
-                    $grade = "<span class='text-danger ms-2'>Belum Mendaftar Sidang Skripsi</span>";
-                }
+                };
+                // else {
+                //     $grade = "<span class='text-danger ms-2'>Belum Mendaftar Sidang Skripsi</span>";
+                // }
             ?>
                 <tr>
                     <th scope="row"><?= $no ?></th>
