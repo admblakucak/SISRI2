@@ -38,7 +38,7 @@
     <table width="100%" style="border: 1px solid black;border-collapse: collapse;">
         <tr>
             <td style="border: 1px solid black;text-align:center;padding: 10px;" rowspan="2">
-                <img src="<?= base_url('image/logo-ft-2024.png') ?>" style="width: 100px;">
+                <img src="image/logo-ft-2024.png" style="width: 100px;">
             </td>
             <td style="text-align:center;font-size: 18px;border: 1px solid black;" colspan="3"><b>NILAI MAHASIWA</b></td>
         </tr>
@@ -109,17 +109,17 @@
                 if (!empty($sidang)) {
                     if ($total >= 80) {
                         $grade = "A";
-                    } elseif ($total >= 75 && $total <= 79) {
+                    } elseif ($total >= 75 && $total < 80) {
                         $grade = "B+";
-                    } elseif ($total >= 70 && $total <= 74) {
+                    } elseif ($total >= 70 && $total < 75) {
                         $grade = "B";
-                    } elseif ($total >= 65 && $total <= 69) {
+                    } elseif ($total >= 65 && $total < 70) {
                         $grade = "C+";
-                    } elseif ($total >= 60 && $total <= 64) {
+                    } elseif ($total >= 60 && $total < 65) {
                         $grade = "C";
-                    } elseif ($total >= 55 && $total <= 59) {
+                    } elseif ($total >= 55 && $total < 60) {
                         $grade = "D+";
-                    } elseif ($total >= 50 && $total <= 54) {
+                    } elseif ($total >= 50 && $total < 55) {
                         $grade = "D";
                     } else {
                         $grade = "E";
@@ -132,8 +132,26 @@
                 <tr>
                     <th scope="row"><?= $no ?></th>
                     <td style="text-align: center; vertical-align: middle; border: 1px solid black;"><?= $key->id ?></td>
-                    <td style="text-align: left; vertical-align: middle; border: 1px solid black;"><?= $mhs[0]->nama ?></td>
-                    <td style="text-align: center; vertical-align: middle; border: 1px solid black;"><?= $judul[0]->judul_topik ?></td>
+                    <td style="text-align: left; vertical-align: middle; border: 1px solid black;">
+                        <?php
+                        // $mhs[0]->nama 
+                        if (!empty($mhs)) {
+                            echo $mhs[0]->nama;
+                        } else {
+                            echo "";
+                        }
+                        ?>
+                    </td>
+                    <td style="text-align: center; vertical-align: middle; border: 1px solid black;">
+                        <?php
+                        // $judul[0]->judul_topik
+                        if (!empty($judul)) {
+                            echo $judul[0]->judul_topik;
+                        } else {
+                            echo "";
+                        }
+                        ?>
+                    </td>
                     <td style="text-align: center; vertical-align: middle; border: 1px solid black;"><?= $nb ?></td>
                     <td style="text-align: center; vertical-align: middle; border: 1px solid black;"><?= $ns ?></td>
                     <td style="text-align: center; vertical-align: middle; border: 1px solid black;"><?= $total ?></td>
