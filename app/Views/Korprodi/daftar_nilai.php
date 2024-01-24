@@ -141,9 +141,10 @@ use CodeIgniter\Images\Image;
                                                 <td style="text-align: center; vertical-align: middle;"><?= $key->id ?></td>
                                                 <td style="text-align: left; vertical-align: middle;">
                                                     <?php
-                                                    // $mhs[0]->nama
-                                                    if (!empty($nama)) {
-                                                        echo $nama[0]->nama;
+                                                    // menampilkan nama mahasiswa
+                                                    // $mhs[0]->nama 
+                                                    if (!empty($mhs)) {
+                                                        echo $mhs[0]->nama;
                                                     } else {
                                                         echo "";
                                                     }
