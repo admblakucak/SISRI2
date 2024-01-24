@@ -63,8 +63,8 @@ use CodeIgniter\Images\Image;
                                             <th style="text-align: center; vertical-align: middle;" class="col-sm-7 col-md-6 col-lg-4"><span>Judul Skripsi</span></th>
                                             <th style="text-align: center; vertical-align: middle;" class="col-sm-7 col-md-6 col-lg-3"><span>Nilai Bimbingan</span></th>
                                             <th style="text-align: center; vertical-align: middle;" class="col-sm-7 col-md-6 col-lg-3"><span>Nilai Ujian Skripsi</span></th>
-                                            <th style=" text-align: center; vertical-align: middle;" class="col-sm-7 col-md-6 col-lg-4"><span>Nilai Akhir Angka</span></th>
-                                            <th style=" text-align: center; vertical-align: middle;" class="col-sm-7 col-md-6 col-lg-4"><span>Nilai Akhir Huruf</span></th>
+                                            <th style="text-align: center; vertical-align: middle;" class="col-sm-7 col-md-6 col-lg-4"><span>Nilai Akhir Angka</span></th>
+                                            <th style="text-align: center; vertical-align: middle;" class="col-sm-7 col-md-6 col-lg-4"><span>Nilai Akhir Huruf</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -111,11 +111,12 @@ use CodeIgniter\Images\Image;
                                             $nb = (($nb_pembimbing1 + $nb_pembimbing2) / 2) * (60 / 100);
                                             $ns = (($ns_pembimbing1 + $ns_pembimbing2 + $ns_penguji1 + $ns_penguji2 + $ns_penguji3) / 5) * (40 / 100);
                                             $total = $nb + $ns;
+                                            $grade = "E";
                                             $sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE a.`nim`='" . $key->id . "' AND b.`jenis_sidang`='sidang skripsi' ORDER BY create_at DESC LIMIT 1")->getResult();
                                             if (!empty($sidang)) {
                                                 if ($total >= 80) {
                                                     $grade = "A";
-                                                } elseif ($total >= 75 && $total < 78) {
+                                                } elseif ($total >= 75 && $total < 80) {
                                                     $grade = "B+";
                                                 } elseif ($total >= 70 && $total < 75) {
                                                     $grade = "B";
@@ -127,19 +128,20 @@ use CodeIgniter\Images\Image;
                                                     $grade = "D+";
                                                 } elseif ($total >= 50 && $total < 55) {
                                                     $grade = "D";
-                                                } elseif ($total < 50) {
+                                                } else {
                                                     $grade = "E";
                                                 }
-                                            } else {
-                                                $grade = "<span class='text-danger ms-2'>Belum Mendaftar Sidang Skripsi</span>";
-                                            }
+                                            };
+                                            // else {
+                                            //     $grade = "<span class='text-danger ms-2'>Belum Mendaftar Sidang Skripsi</span>";
+                                            // }
                                         ?>
                                             <tr>
                                                 <th scope="row"><?= $no ?></th>
                                                 <td style="text-align: center; vertical-align: middle;"><?= $key->id ?></td>
                                                 <td style="text-align: left; vertical-align: middle;">
                                                     <?php
-                                                    // $mhs[0]->nama 
+                                                    // $mhs[0]->nama
                                                     if (!empty($nama)) {
                                                         echo $nama[0]->nama;
                                                     } else {
