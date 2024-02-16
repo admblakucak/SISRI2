@@ -114,31 +114,29 @@
                                             <div class="text-left text-lg-start pb-3">
                                                 <button type="submit" class="btn btn-modif btn-light btn-outline text-white" style="padding-left: 2.5rem; padding-right: 2.5rem;"><b>Login</b></button>
                                             </div>
-                                            <?php 
+                                            <?php
                                             // session()->getFlashdata('message'); 
                                             ?>
                                             <!-- <div class="row row-xs">
                                                 <div class="col-sm-7 mg-t-10 mg-sm-t-0">
-                                                    <a class="btn btn-primary btn-google btn-block btn-outline" href="<?=base_url() ?>redirect"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Sign In with Google</a>
+                                                    <a class="btn btn-primary btn-google btn-block btn-outline" href="<?= base_url() ?>redirect"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Sign In with Google</a>
                                                 </div> -->
-                                                <!-- <div class="col-sm-5">
+                                            <!-- <div class="col-sm-5">
                                                     <p><a href="/password">Lupa Password?</a></p>
                                                 </div> -->
-                                            </div>
-                                        </form>
                                     </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                        <br>
-                        <div class="col-auto">
-                            <span>Copyright © 2022 <a href="http://teknik.trunojoyo.ac.id/">FT-UTM</a>.
-                                All rights reserved.</span>
-                        </div>
+                    </div>
+                    <br>
+                    <div class="col-auto">
+                        <span>Copyright © 2022 <a href="http://teknik.trunojoyo.ac.id/">FT-UTM</a>.
+                            All rights reserved.</span>
                     </div>
             </div>
-            </section>
         </div>
+        </section>
     </div>
-</div>
 </div>

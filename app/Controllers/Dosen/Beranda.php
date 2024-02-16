@@ -27,7 +27,7 @@ class Beranda extends BaseController
             'title' => $title,
             'db' => $this->db,
         ];
-        // return view('Dosen/beranda_dosen', $data);
-        return view('kosong', $data);
+        return view('Dosen/beranda_dosen', $data);
+        // return view('kosong', $data);
     }
 }
