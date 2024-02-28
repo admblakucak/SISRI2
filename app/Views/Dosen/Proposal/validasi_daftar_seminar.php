@@ -40,6 +40,7 @@ use CodeIgniter\Images\Image;
                                                 <tbody id='show_data2'>
                                                     <?php
                                                     $no = 1;
+                                                    // dd($data_mhs_bimbingan);
                                                     foreach ($data_mhs_bimbingan as $key) {
                                                         $pem1 = $db->query("SELECT * FROM tb_pengajuan_pembimbing a left join tb_dosen b on a.nip=b.nip WHERE a.nim='" . $key['nim'] . "' AND a.sebagai='1' AND a.status_pengajuan='diterima'")->getResult();
                                                         $pem2 = $db->query("SELECT * FROM tb_pengajuan_pembimbing a left join tb_dosen b on a.nip=b.nip WHERE a.nim='" . $key['nim'] . "' AND a.sebagai='2' AND a.status_pengajuan='diterima'")->getResult();
@@ -47,8 +48,25 @@ use CodeIgniter\Images\Image;
                                                         $sts_pem1 = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . $key['nim'] . "' AND jenis_sidang='seminar proposal' AND izin_sebagai='pembimbing 1'")->getResult();
                                                         $sts_pem2 = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . $key['nim'] . "' AND jenis_sidang='seminar proposal' AND izin_sebagai='pembimbing 2'")->getResult();
                                                         $sts_koor = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . $key['nim'] . "' AND jenis_sidang='seminar proposal' AND izin_sebagai='koordinator'")->getResult();
+                                                        // dd($sts_koor[0]->nip == session()->get('ses_id'));
+                                                        if ($sts_koor || $sts_pem1 || $sts_pem2 != null) {
+                                                            if (isset($sts_koor[0]->nip) && $sts_koor[0] == session()->get('ses_id')) {
+                                                                if ($sts_koor[0]->status == "disetujui") {
+                                                                    continue;
+                                                                }
+                                                            } elseif ($sts_pem1[0]->nip == session()->get('ses_id')) {
+                                                                if ($sts_pem1[0]->status == "disetujui") {
+                                                                    continue;
+                                                                }
+                                                            } elseif ($sts_pem2[0]->nip == session()->get('ses_id')) {
+                                                                if ($sts_pem2[0]->status == "disetujui") {
+                                                                    continue;
+                                                                }
+                                                            }
+                                                        }
 
                                                     ?>
+
                                                         <tr>
                                                             <td>
                                                                 <img alt="avatar" class="rounded-circle avatar-md me-2" src="<?= base_url() ?>/image/<?= $key['image'] ?>">

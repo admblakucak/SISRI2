@@ -44,7 +44,7 @@ use CodeIgniter\Images\Image;
                                                                 <table class="table table-striped mg-b-0 text-md-nowrap" id="validasitable1">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th style="text-align: center; vertical-align: middle;"><span>No. </span></th>
+                                                                            <th style="text-align: center; vertical-align: middle;"> <span> No. </span></th>
                                                                             <th style="text-align: center; vertical-align: middle;"><span>Mahasiswa</span></th>
                                                                             <th style="text-align: center; vertical-align: middle;"><span>Judul</span></th>
                                                                             <th style="text-align: center; vertical-align: middle;"><span>Waktu Sidang</span></th>
@@ -64,7 +64,7 @@ use CodeIgniter\Images\Image;
                                                                         ?>
                                                                             <?php if (!empty($sidang)) { ?>
                                                                                 <tr>
-                                                                                    <td><?= $no ?></td>
+                                                                                    <td></td>
                                                                                     <td><?= $key1->nim . ' - ' . $key1->nama ?></td>
                                                                                     <td>
                                                                                         <?php
@@ -110,7 +110,9 @@ use CodeIgniter\Images\Image;
                                                                                         } ?>
                                                                                         <a href="<?= base_url() ?>/berita_acara_proposal_download_file/proposal/<?= $sidang[0]->id_pendaftar ?>" class="btn btn-primary btn-sm mt-2 ml-2"><i class="las la-download"> Proposal</i></a>
                                                                                     <?php
-                                                                                } ?>
+                                                                                    $no++;
+                                                                                }
+                                                                                    ?>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <div class="modal" id="modalpembimbing<?= $no ?>">
@@ -158,7 +160,7 @@ use CodeIgniter\Images\Image;
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            <?php $no++;
+                                                                            <?php
                                                                         } ?>
                                                                     </tbody>
                                                                 </table>
@@ -235,6 +237,7 @@ use CodeIgniter\Images\Image;
                                                                                         } ?>
                                                                                         <a href="<?= base_url() ?>/berita_acara_proposal_download_file/proposal/<?= $sidang[0]->id_pendaftar ?>" class="btn btn-primary btn-sm mt-2 ml-2"><i class="las la-download"> Proposal</i></a>
                                                                                     <?php
+                                                                                    $no++;
                                                                                 } ?>
                                                                                     </td>
                                                                                 </tr>
@@ -274,7 +277,7 @@ use CodeIgniter\Images\Image;
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            <?php $no++;
+                                                                            <?php
                                                                         } ?>
                                                                     </tbody>
                                                                 </table>

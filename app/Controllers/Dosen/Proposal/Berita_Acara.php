@@ -21,12 +21,13 @@ class Berita_Acara extends BaseController
         $data_mhs_bimbingan = $this->db->query("SELECT * FROM tb_pengajuan_pembimbing a LEFT JOIN tb_mahasiswa b ON a.`nim`=b.`nim` WHERE nip='" . session()->get('ses_id') . "' AND status_pengajuan='diterima'")->getResult();
         $data_mhs_uji = $this->db->query("SELECT * FROM tb_penguji a LEFT JOIN tb_mahasiswa b ON a.`nim`=b.`nim` WHERE STATUS='aktif' AND nip='" . session()->get('ses_id') . "'")->getResult();
         $data_mhs_bimbingan_disetujui = $this->db->query("SELECT status, nim FROM `tb_perizinan_sidang` WHERE nip = '" . session()->get('ses_id') . "' AND jenis_sidang = 'seminar proposal'")->getResult();
-        // dd($data_mhs_bimbingan_disetujui);
+        // dd("SELECT * FROM tb_pengajuan_pembimbing a LEFT JOIN tb_mahasiswa b ON a.`nim`=b.`nim` WHERE nip='" . session()->get('ses_id') . "' AND status_pengajuan='diterima'");
+        // dd($data_mhs_bimbingan);
         $data = [
             'title' => 'Berita Acara Proposal',
             'db' => $this->db,
             'data_mhs_bimbingan' => $data_mhs_bimbingan,
-            'data_mhs_uji' => $data_mhs_uji
+            'data_mhs_uji' => $data_mhs_uji,
         ];
         return view('Dosen/Proposal/berita_acara_proposal', $data);
     }
