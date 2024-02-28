@@ -70,7 +70,7 @@
 								</ul>
 							</li>
 							<?php
-							$total_acc_dosen_penguji = $db->query("SELECT * FROM `tb_acc_revisi` WHERE `nim` ='" . session()->get('ses_id') . "'")->getResult();
+							$total_acc_dosen_penguji = $db->query("SELECT * FROM `tb_acc_revisi` WHERE `nim` ='" . session()->get('ses_id') . "' AND jenis_sidang = 'seminar proposal'")->getResult();
 							// dd(count($total_acc_dosen_penguji));
 
 							if (count($total_acc_dosen_penguji) == 3) {

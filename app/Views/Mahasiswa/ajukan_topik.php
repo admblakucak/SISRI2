@@ -79,7 +79,15 @@ use CodeIgniter\Images\Image;
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-3 mb-0">Update</button>
+                            <?php
+                            $validasi_daftar_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang WHERE nim='" . session()->get('ses_id') . "'")->getResult();
+                            if (!empty($validasi_daftar_sidang)) { ?>
+                                <button type="submit" class="btn btn-primary mt-3 mb-0" disabled>Update</button>
+
+                            <?php } else { ?>
+
+                                <button type="submit" class="btn btn-primary mt-3 mb-0">Update</button>
+                            <?php } ?>
                         </form>
                     </div>
                 </div>
