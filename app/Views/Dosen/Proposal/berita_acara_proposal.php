@@ -59,8 +59,9 @@ use CodeIgniter\Images\Image;
                                                                         $no = 1;
                                                                         foreach ($data_mhs_bimbingan as $key1) {
                                                                             $judul = $db->query("SELECT * FROM tb_pengajuan_topik WHERE nim='" . $key1->nim . "'")->getResult();
-                                                                            $sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='seminar proposal' AND a.`nim`='" . $key1->nim . "' ORDER BY create_at DESC LIMIT 1")->getResult();
+                                                                            $sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='seminar proposal' AND a.`nim`='" . $key1->nim . "'")->getResult();
                                                                             $berita_acara = $db->query("SELECT * FROM tb_berita_acara WHERE nim='" . $key1->nim . "' AND nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing $key1->sebagai' AND status='ditandatangani' AND jenis_sidang='proposal'")->getResult();
+
                                                                         ?>
                                                                             <?php if (!empty($sidang)) { ?>
                                                                                 <tr>
@@ -109,10 +110,7 @@ use CodeIgniter\Images\Image;
                                                                                             }
                                                                                         } ?>
                                                                                         <a href="<?= base_url() ?>/berita_acara_proposal_download_file/proposal/<?= $sidang[0]->id_pendaftar ?>" class="btn btn-primary btn-sm mt-2 ml-2"><i class="las la-download"> Proposal</i></a>
-                                                                                    <?php
-                                                                                    $no++;
-                                                                                }
-                                                                                    ?>
+
                                                                                     </td>
                                                                                 </tr>
                                                                                 <div class="modal" id="modalpembimbing<?= $no ?>">
@@ -157,6 +155,11 @@ use CodeIgniter\Images\Image;
                                                                                                     <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Keluar</button>
                                                                                                 </div>
                                                                                             </form>
+                                                                                        <?php
+                                                                                        $no++;
+                                                                                    }
+                                                                                        ?>
+
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
