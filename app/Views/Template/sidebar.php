@@ -18,7 +18,8 @@
 						</div>
 						<div class="user-info">
 							<?php
-							$namaunit = $db->query("SELECT * FROM tb_unit WHERE idunit='" . session()->get('ses_idunit') . "'")->getResult()[0]->namaunit; ?>
+							$namaunit = $db->query("SELECT * FROM tb_unit WHERE idunit='" . session()->get('ses_idunit') . "'")->getResult()[0]->namaunit;
+							?>
 							<h4 class="fw-semibold mt-3 mb-0"><?= session()->get('ses_nama'); ?></h4>
 							<span class="mb-0 text-muted"><?= session()->get('ses_id'); ?></span><br>
 							<span class="mb-0 text-muted"><?= $namaunit ?></span>
@@ -53,7 +54,7 @@
 								<ul class="slide-menu">
 									<li><a class="slide-item" href="<?= base_url() ?>bimbingan_proposal/<?= $pem1[0]->nip ?>">Bimbingan Proposal</a></li>
 									<li><a class="slide-item" href="<?= base_url() ?>daftar_seminar">Daftar Seminar</a></li>
-									<li><a class="slide-item" href="<?= base_url() ?>berkas_mhs_proposal">Berkas</a></li>
+									<li><a class="slide-item" href="<?= base_url() ?>berkas_mhs_proposal">Berkas Seminar</a></li>
 									<?php
 									if ($penguji1 != NULL) {
 									?>
@@ -82,7 +83,7 @@
 									<ul class="slide-menu">
 										<li><a class="slide-item" href="<?= base_url() ?>bimbingan_skripsi/<?= $pem1[0]->nip ?>">Bimbingan Skripsi</a></li>
 										<li><a class=" slide-item" href="<?= base_url() ?>daftar_sidang">Daftar Sidang</a></li>
-										<li><a class="slide-item" href="<?= base_url() ?>berkas_mhs_skripsi">Berkas</a></li>
+										<li><a class="slide-item" href="<?= base_url() ?>berkas_mhs_skripsi">Berkas Sidang</a></li>
 										<?php
 										if ($penguji1 != NULL) {
 										?>
@@ -98,8 +99,28 @@
 										<?php } ?>
 									</ul>
 								</li>
-							<?php } ?>
+							<?php }
+							?>
+							<?php
+							$cek_status_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND a.`nim`='" . session()->get('ses_id') . "'")->getResult();
+							if (count($cek_status_sidang) > 0) {
+								// 	dd('benar');
+								// }
+								// dd("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND a.`nim`='" . session()->get('ses_id') . "'");
+							?>
+								<li class="slide">
+									<a class="side-menu__item" data-bs-toggle="slide" href="<?= base_url() ?>informasi_nilai"><svg style="width:24px;height:24px" viewBox="0 0 24 24">
+											<path fill="currentColor" d="M6 9H8V15H6V9M16 9H18V15H16V9M21 3C22.1 3 23 3.9 23 5V19C23 20.1 22.1 21 21 21H3C1.9 21 1 20.1 1 19V5C1 3.9 1.9 3 3 3H21M5 7C4.4 7 4 7.4 4 8V16C4 16.6 4.4 17 5 17H9C9.6 17 10 16.6 10 16V8C10 7.4 9.6 7 9 7H5M15 7C14.4 7 14 7.4 14 8V16C14 16.6 14.4 17 15 17H19C19.6 17 20 16.6 20 16V8C20 7.4 19.6 7 19 7H15M12 11C12.6 11 13 10.6 13 10C13 9.4 12.6 9 12 9C11.4 9 11 9.4 11 10C11 10.6 11.4 11 12 11M12 15C12.6 15 13 14.6 13 14C13 13.4 12.6 13 12 13C11.4 13 11 13.4 11 14C11 14.6 11.4 15 12 15Z" />
+
+										</svg> &nbsp; &nbsp;<span class="side-menu__label">Informasi Nilai</span>
+									</a>
+									<!-- <ul class="slide-menu">
+										<li><a class="slide-item" href="<?= base_url() ?>input_nilai_bimbingan">Input Nilai Pembimbing (Bimbingan & Ujian)</a></li>
+										<li><a class="slide-item" href="<?= base_url() ?>input_nilai_skripsi">Input Nilai Penguji (Ujian)</a></li>
+									</ul> -->
+								</li>
 						<?php
+							}
 						}
 						?>
 					<?php } elseif (session()->get('ses_login') == 'dosen' || session()->get('ses_login') == 'korprodi') {; ?>

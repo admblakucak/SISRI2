@@ -178,6 +178,7 @@ use CodeIgniter\Images\Image;
                                             <?php
                                             date_default_timezone_set("Asia/Jakarta");
                                             $no = 1;
+                                            $sudah_mendaftar = false;
                                             foreach ($data_jadwal as $key) {
                                                 if (time() <= strtotime($key->expire)) {
                                                     // }
@@ -200,12 +201,14 @@ use CodeIgniter\Images\Image;
                                                             } elseif (time() >= strtotime($key->open)) {
                                                                 if (count($acc_pem1) > 0 && count($acc_pem2) > 0 && count($acc_kor) > 0) {
                                                                     if (count($cek_pendaftar_sidang) > 0) {
-                                                                        echo "<a class='text-success'>Telah Mendaftar</a>";
+                                                                        echo "<a class='text-success'>Anda Sudah terdaftar pada Sidang Skripsi Periode " .  $cek_status_sidang[0]->periode . "</a>";
+                                                                        $sudah_mendaftar = true;
                                                                     } else {
-                                                                        if (count($cek_status_sidang) <= 0) {
+                                                                        // dd("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='seminar proposal' AND a.`nim`='" . session()->get('ses_id') . "' AND (hasil_sidang!=3)");
+                                                                        if (count($cek_status_sidang) > 0) {
                                                             ?>
                                                                             <div class="btn-group">
-                                                                                <a class="btn btn-primary btn-sm" data-bs-target="#modaldaftar<?= $key->id_jadwal ?>" id="revisi" data-bs-toggle="modal" href="#">Daftar Seminar</a>
+                                                                                <button class="btn btn-primary btn-sm" disabled data-bs-target="#modaldaftar<?= $key->id_jadwal ?>" id="revisi" data-bs-toggle="modal" href="#">Daftar Seminar</button>
                                                                             </div>
                                                             <?php }
                                                                     }

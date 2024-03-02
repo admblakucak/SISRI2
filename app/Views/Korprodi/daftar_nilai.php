@@ -1,10 +1,12 @@
 <?php
 
+
 use CodeIgniter\Images\Image;
 ?>
 <?= $this->extend('Template/content') ?>
 
 <?= $this->section('content') ?>
+
 
 <div class="container-fluid">
     <div class="row mt-3">
@@ -24,7 +26,7 @@ use CodeIgniter\Images\Image;
                                 <?= csrf_field() ?>
                                 <div class="form-group mb-2 ml-4" style="width: 20%;">
                                     <select class="form-control select2" name="id_periode">
-                                        <option selected disabled>Semua Angkatan</option>
+                                        <option selected disabled>Semuass Angkatan</option>
                                         <?php
                                         foreach ($data_periode as $key) {
                                             if (substr($key->idperiode, 4) == 1) {

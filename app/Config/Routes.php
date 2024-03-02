@@ -135,6 +135,8 @@ $routes->add('/hapus_bimbingan_revisi_skripsi', 'Mahasiswa\Skripsi\Revisi::hapus
 $routes->add('/daftar_sidang', 'Mahasiswa\Skripsi\Daftar_Sidang::index');
 $routes->add('/izin_sidang', 'Mahasiswa\Skripsi\Daftar_Sidang::izin');
 $routes->add('/mendaftar_sidang', 'Mahasiswa\Skripsi\Daftar_Sidang::mendaftar');
+//Route Khusus Controller Mahasiswa-InformasiNilai
+$routes->add('/informasi_nilai', 'Mahasiswa\Informasi_nilai::index');
 // --------------------------------------DOSEN-------------------------------------------
 //Route Khusus Controller Dosen-Beranda
 $routes->add('/beranda_dosen', 'Dosen\Beranda::index');
@@ -216,6 +218,7 @@ $routes->get('/form_bimbingan_proposal/(:any)/(:any)', 'Cetak::form_bimbingan_pr
 $routes->get('/berita_acara_proposal/(:any)', 'Cetak::berita_acara_proposal/$1');
 $routes->get('/form_bimbingan_skripsi/(:any)/(:any)', 'Cetak::form_bimbingan_skripsi/$1/$2');
 $routes->get('/berita_acara_skripsi/(:any)', 'Cetak::berita_acara_skripsi/$1');
+$routes->get('/nilai_akhir_skripsi/(:any)', 'Cetak::nilai_akhir_skripsi/$1');
 
 $routes->get('/cetak_pendaftar/(:any)/(:any)/(:any)', 'Cetak::pendaftar/$1/$2/$3');
 
