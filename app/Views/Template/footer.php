@@ -212,6 +212,18 @@
 			"sEmptyTable": "Data Kosong"
 		}
 	});
+	$('#validasitable4').DataTable({
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
+			"sEmptyTable": "Data Kosong"
+		}
+	});
+	$('#validasitable5').DataTable({
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
+			"sEmptyTable": "Data Kosong"
+		}
+	});
 </script>
 
 </body>

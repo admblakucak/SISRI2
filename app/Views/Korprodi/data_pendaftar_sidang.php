@@ -80,7 +80,7 @@ use CodeIgniter\Images\Image;
                                             <th style="text-align: center; vertical-align: middle;"><span>Aksi</span></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody> 
                                         <?php
                                         date_default_timezone_set("Asia/Jakarta");
                                         $no = 1;
