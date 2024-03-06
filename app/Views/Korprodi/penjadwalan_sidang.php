@@ -136,6 +136,11 @@ use CodeIgniter\Images\Image;
                                                             <input type="hidden" name="id_jadwal" value="<?= $key->id_jadwal ?>" />
                                                             <button class="btn btn-primary btn-sm" type='submit'><i class="fa fa-search"></i></button>
                                                         </form>
+                                                        <form action="<?= base_url() ?>data_pendaftar" method="POST" enctype="multipart/form-data">
+                                                            <?= csrf_field() ?>
+                                                            <input type="hidden" name="id_jadwal" value="<?= $key->id_jadwal ?>" />
+                                                            <button class="btn btn-primary btn-sm" type='submit'><i class="fa fa-envelope"></i></button>
+                                                        </form>
                                                         <a class="btn btn-warning btn-sm" data-bs-target="#modalupdate<?= $key->id_jadwal ?>" data-bs-toggle="modal" href="#"><i class="las la-pen"></i></a>
                                                         <a class="btn btn-danger btn-sm" data-bs-target="#modaldel<?= $key->id_jadwal ?>" data-bs-toggle="modal" href="#"><i class="las la-trash"></i></a>
                                                     </div>

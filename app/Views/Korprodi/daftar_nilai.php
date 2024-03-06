@@ -26,7 +26,7 @@ use CodeIgniter\Images\Image;
                                 <?= csrf_field() ?>
                                 <div class="form-group mb-2 ml-4" style="width: 20%;">
                                     <select class="form-control select2" name="id_periode">
-                                        <option selected disabled>Semuass Angkatan</option>
+                                        <option selected disabled>Semua Angkatan</option>
                                         <?php
                                         foreach ($data_periode as $key) {
                                             if (substr($key->idperiode, 4) == 1) {

@@ -152,6 +152,7 @@ class Penjadwalan_sidang extends BaseController
             $cek_p2 = $this->db->query("SELECT * FROM tb_penguji WHERE id_pendaftar='$id_pendaftar' AND sebagai='2'")->getResult();
             $cek_p3 = $this->db->query("SELECT * FROM tb_penguji WHERE id_pendaftar='$id_pendaftar' AND sebagai='3'")->getResult();
             $this->db->query("UPDATE tb_pendaftar_sidang SET waktu_sidang='$waktu_sidang',ruang_sidang='$ruang_sidang' WHERE id_pendaftar='$id_pendaftar'");
+            // if ($jenis_sidang == 'seminar proposal' || $jenis_sidang == 'sidang skripsi') {
             if ($jenis_sidang == 'seminar proposal') {
                 $cek = $this->db->query("SELECT * FROM tb_penguji WHERE nim ='$nim'")->getResult();
                 if ($cek != NULL) {
@@ -179,13 +180,16 @@ class Penjadwalan_sidang extends BaseController
         } else {
             $idunit = $this->db->query("SELECT * FROM tb_dosen WHERE nip='" . session()->get('ses_id') . "'")->getResult()[0]->idunit;
             $idjurusan = $this->db->query("SELECT c.`idunit` AS idjurusan FROM tb_dosen a LEFT JOIN tb_unit b ON a.`idunit`=b.idunit LEFT JOIN tb_unit c ON b.`parentunit`=c.`idunit` WHERE a.nip='" . session()->get('ses_id') . "'")->getResult()[0]->idjurusan;
+            $idFakultas = $this->db->query("SELECT parentunit FROM tb_unit WHERE idunit='" . $idjurusan . "'")->getResult()[0]->parentunit;
             $data = [
                 'title' => 'Data Pendaftar Sidang',
                 'db' => $this->db,
                 'idunit' => $idunit,
                 'id_jadwal' => $id_jadwal,
                 'idjurusan' => $idjurusan,
+                'data_dosen_fakultas' => $this->db->query("SELECT a.*, b.parentunit as 'jurusan', c.parentunit as fakultas FROM tb_dosen a join tb_unit b on a.idunit = b.idunit join tb_unit c on b.parentunit=c.idunit WHERE c.parentunit = '" . $idFakultas . "'")->getResult(),
                 'data_dosen_f' => $this->db->query("SELECT * FROM tb_dosen a LEFT JOIN tb_unit b ON a.`idunit`=b.`idunit` LEFT JOIN tb_unit c ON b.`parentunit`=c.`idunit` WHERE c.`idunit`='$idjurusan'")->getResult(),
+                'data_dosen_prodi' => $this->db->query("SELECT * from tb_dosen WHERE idunit = '" . $idunit . "'")->getResult(),
                 'data_pendaftar' => $this->db->query("SELECT * FROM tb_pendaftar_sidang WHERE id_jadwal='$id_jadwal'")->getResult(),
                 'data_jadwal' => $this->db->query("SELECT * FROM tb_jadwal_sidang WHERE id_jadwal='$id_jadwal'")->getResult(),
             ];

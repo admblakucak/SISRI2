@@ -33,6 +33,42 @@ class Nilai extends BaseController
         ];
         return view('Korprodi/daftar_nilai', $data);
     }
+
+    public function belum_dinilai()
+    {
+        if (session()->get('ses_id') == '' || session()->get('ses_login') != 'korprodi') {
+            return redirect()->to('/');
+        }
+
+        $data = [
+            'title' => 'Daftar Dosen yang Belum Menilai',
+            'tipe' => 'belum_dinilai',
+            'db' => $this->db,
+            'data_mhs' => $this->db->query("SELECT * FROM tb_users  WHERE idunit='" . session()->get('ses_idunit') . "' AND role='mahasiswa' ORDER BY id ASC")->getResult(),
+            'data_periode' => $this->db->query("SELECT * FROM tb_periode")->getResult(),
+            'data_jadwal' => $this->db->query("SELECT * FROM tb_jadwal_sidang WHERE idunit='" . session()->get('ses_idunit') . "' AND jenis_sidang='sidang skripsi'")->getResult(),
+        ];
+        // dd($data['data_mhs']);
+        return view('Korprodi/daftar_informasi_nilai', $data);
+    }
+    public function sudah_dinilai()
+    {
+        if (session()->get('ses_id') == '' || session()->get('ses_login') != 'korprodi') {
+            return redirect()->to('/');
+        }
+
+        $data = [
+            'title' => 'Daftar Dosen yang sudah Menilai',
+            'tipe' => 'sudah_dinilai',
+            'db' => $this->db,
+            'data_mhs' => $this->db->query("SELECT * FROM tb_users  WHERE idunit='" . session()->get('ses_idunit') . "' AND role='mahasiswa' ORDER BY id ASC")->getResult(),
+            'data_periode' => $this->db->query("SELECT * FROM tb_periode")->getResult(),
+            'data_jadwal' => $this->db->query("SELECT * FROM tb_jadwal_sidang WHERE idunit='" . session()->get('ses_idunit') . "' AND jenis_sidang='sidang skripsi'")->getResult(),
+        ];
+        // dd($data['data_mhs']);
+        return view('Korprodi/daftar_informasi_nilai', $data);
+    }
+
     public function export()
     {
         if (session()->get('ses_id') == '' || session()->get('ses_login') != 'korprodi') {
@@ -72,6 +108,7 @@ class Nilai extends BaseController
             return redirect()->to("export_nilai_pdf/$idperiode/$id_jadwal");
         }
     }
+
     public function export_pdf($idperiode = null, $id_jadwal = null)
     {
         $link = base_url() . "export_nilai_pdf/$idperiode/$id_jadwal";

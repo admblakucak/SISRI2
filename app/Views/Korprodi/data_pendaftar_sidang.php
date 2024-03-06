@@ -5,6 +5,7 @@ use CodeIgniter\Images\Image;
 <?= $this->extend('Template/content') ?>
 
 <?= $this->section('content') ?>
+
 <div class="container-fluid">
     <div class="row mt-3">
         <div class="col-xl-12">
@@ -80,7 +81,7 @@ use CodeIgniter\Images\Image;
                                             <th style="text-align: center; vertical-align: middle;"><span>Aksi</span></th>
                                         </tr>
                                     </thead>
-                                    <tbody> 
+                                    <tbody>
                                         <?php
                                         date_default_timezone_set("Asia/Jakarta");
                                         $no = 1;
@@ -140,9 +141,9 @@ use CodeIgniter\Images\Image;
                                                 }
                                                 ?>
                                                 <td>
-                                                    <a class="btn btn-warning btn-sm" data-bs-target="#modalupdate<?= $key->id_pendaftar ?>" data-bs-toggle="modal" href="#"><i class="las la-pen">Setting</i></a>
+                                                    <a class="btn btn-warning btn-sm setting_jadwal" data-bs-target="#modalupdate<?= $key->id_pendaftar ?>" data-bs-toggle="modal" href="#"><i class="las la-pen">Setting</i></a>
                                                 </td>
-                                                <div class="modal" id="modalupdate<?= $key->id_pendaftar ?>">
+                                                <div class="modal " id="modalupdate<?= $key->id_pendaftar ?>">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content modal-content-demo">
                                                             <div class="modal-header">
@@ -173,21 +174,24 @@ use CodeIgniter\Images\Image;
                                                                         <label for="exampleInputPeriode">Ruang Sidang</label>
                                                                         <input type="teks" class="form-control" id="exampleInput" value="<?= $key->ruang_sidang ?>" name="ruang_sidang">
                                                                     </div>
-                                                                    <?php if ($data_jadwal[0]->jenis_sidang == 'seminar proposal') { ?>
+                                                                    <?php if ($data_jadwal[0]->jenis_sidang == 'seminar proposal' || $data_jadwal[0]->jenis_sidang == 'sidang skripsi') { ?>
                                                                         <div class="form-group">
-                                                                            <label for="exampleInputJenis Sidang">Penguji 1</label>
+                                                                            <label for="nip_p1">Penguji 1</label>
                                                                             <div class="row row-sm">
-                                                                                <select class="form-control select" name="nip_p1">
+
+                                                                                <select class="form-control" name="nip_p1" id="nip_p1">
                                                                                     <?php
+
                                                                                     $cek = $db->query("SELECT * FROM tb_penguji where sebagai='1' and id_pendaftar='$key->id_pendaftar'")->getResult();
                                                                                     ?>
                                                                                     <option <?= $cek == NULL ? 'selected' : '' ?> disabled> Pilih Penguji 1
                                                                                     </option>
+
                                                                                     <?php
-                                                                                    foreach ($data_dosen_f as $key1) {
+                                                                                    foreach ($data_dosen_prodi as $key1) {
                                                                                         if ($key1->nip != $pem1[0]->nip && $key1->nip != $pem2[0]->nip) {
                                                                                     ?>
-                                                                                            <option <?= $key1->nip == $penguji_1 ? 'selected' : '' ?> value="<?= $key1->nip ?>">
+                                                                                            <option <?= $key1->nip == $penguji_1 ? 'selected' : '' ?> value=" <?= $key1->nip ?>">
                                                                                                 <?= $key1->nip . ' - ' . $key1->gelardepan . ' ' . $key1->nama . ', ' . $key1->gelarbelakang ?>
                                                                                             </option>
                                                                                     <?php }
@@ -226,7 +230,7 @@ use CodeIgniter\Images\Image;
                                                                                     <option <?= $cek == NULL ? 'selected' : '' ?> disabled> Pilih Penguji 3
                                                                                     </option>
                                                                                     <?php
-                                                                                    foreach ($data_dosen_f as $key1) {
+                                                                                    foreach ($data_dosen_fakultas as $key1) {
                                                                                         if ($key1->nip != $pem1[0]->nip && $key1->nip != $pem2[0]->nip) {
                                                                                     ?>
                                                                                             <option <?= $key1->nip == $penguji_3 ? 'selected' : '' ?> value="<?= $key1->nip ?>">
@@ -272,4 +276,6 @@ use CodeIgniter\Images\Image;
         window.history.replaceState(null, null, window.location.href);
     }
 </script>
+
+
 <?= $this->endSection(); ?>
