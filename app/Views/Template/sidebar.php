@@ -169,6 +169,14 @@
 								<li><a class="slide-item" href="<?= base_url() ?>input_nilai_skripsi">Input Nilai Penguji (Ujian)</a></li>
 							</ul>
 						</li>
+						<li class="slide">
+							<a class="side-menu__item" href="<?= base_url() ?>riwayat_bimbingan">
+								<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+									<path fill="currentColor" d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z" />
+								</svg> &nbsp;
+								<span class="side-menu__label">Riwayat Bimbingan</span>
+							</a>
+						</li>
 						<?php if (session()->get('ses_login') == 'korprodi') {; ?>
 							<li class="side-item side-item-category">KOORDINATOR PRODI</li>
 							<li class="slide">

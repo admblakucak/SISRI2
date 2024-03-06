@@ -19,7 +19,7 @@ use CodeIgniter\Images\Image;
                     <div class="row mt-3">
                         <div class="col-xl-12">
                             <div class="table-responsive">
-                                <table class="table text-md-nowrap" id="validasitable1">
+                                <table class="table text-md-nowrap" id="validasitable2">
                                     <thead>
                                         <tr>
                                             <th style="text-align: center; vertical-align: middle;"><span>No.</span></th>

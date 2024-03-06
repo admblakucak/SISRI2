@@ -188,6 +188,9 @@ $routes->add('/input_nilai_bimbingan', 'Dosen\Nilai::index');
 $routes->add('/save_nilai_bimbingan', 'Dosen\Nilai::save_nilai_bimbingan');
 $routes->add('/input_nilai_skripsi', 'Dosen\Nilai::nilai_skripsi');
 $routes->add('/save_nilai_skripsi', 'Dosen\Nilai::save_nilai_skripsi');
+// Routes riwayat bimbingan
+$routes->add('/riwayat_bimbingan', 'Dosen\Riwayat_bimbingan::index');
+
 // --------------------------------------KORPRODI-------------------------------------------
 //Route Khusus Controller Korprodi-Penjadwalan Sidang
 $routes->add('/bidang_minat', 'Korprodi\Bidang_Minat::index');

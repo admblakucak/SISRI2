@@ -21,7 +21,7 @@ use CodeIgniter\Images\Image;
                     <div class="table-responsive border-top userlist-table">
                         <div class="row mt-3"></div>
                         <div class="table-responsive userlist-table">
-                            <table class="table card-table table-vcenter text-nowrap mb-0" id="validasitable1">
+                            <table class="table card-table table-vcenter text-nowrap mb-0" id="validasitable2">
                                 <thead>
                                     <tr>
                                         <th><span>&nbsp;</span></th>
@@ -34,8 +34,9 @@ use CodeIgniter\Images\Image;
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $no = 1;
-                                    foreach ($data_mhs_bimbingan_baru as $key) { ?>
+                                    $no = 0;
+                                    foreach ($data_mhs_bimbingan_baru as $key) {
+                                    ?>
                                         <tr>
                                             <td>
                                                 <img alt="avatar" class="rounded-circle avatar-md me-2" src="<?= base_url() ?>image/<?= $key['image'] ?>">
@@ -70,7 +71,12 @@ use CodeIgniter\Images\Image;
                                         </tr>
                                     <?php } ?>
                                     <?php
-                                    foreach ($data_mhs_bimbingan as $key) { ?>
+                                    foreach ($data_mhs_bimbingan as $key) {
+                                        // $status_acc_revisi = $db->query("SELECT * FROM tb_acc_revisi WHERE nim ='" . $key['nim'] . "' AND nip='" . session()->get('ses_id') . "' AND jenis_sidang='skripsi'")->getResult();
+                                        // if ($status_acc_revisi) {
+                                        //     continue;
+                                        // }
+                                    ?>
                                         <tr>
                                             <td>
                                                 <img alt="avatar" class="rounded-circle avatar-md me-2" src="<?= base_url() ?>image/<?= $key['image'] ?>">
@@ -103,7 +109,9 @@ use CodeIgniter\Images\Image;
                                                 </div>
                                             </td>
                                         </tr>
-                                    <?php } ?>
+                                    <?php
+                                        $no++;
+                                    } ?>
                                 </tbody>
                             </table>
                         </div>
