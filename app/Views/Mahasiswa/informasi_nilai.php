@@ -43,7 +43,8 @@ use CodeIgniter\Images\Image;
                   <tbody>
                     <?php
                     $id_pendaftar = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND nim='" . session()->get('ses_id') . "' ORDER BY create_at DESC LIMIT 1")->getResult()[0]->id_pendaftar;
-                    $jadwal_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang WHERE id_pendaftar='$id_pendaftar'")->getResult();
+                    $jadwal_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang WHERE id_pendaftar='$id_pendaftar' AND hasil_sidang < 3")->getResult();
+                    // dd($jadwal_sidang);
                     if (!empty($jadwal_sidang)) {
                       $d_now = new Datetime();
                       $d_sidang = new Datetime($jadwal_sidang[0]->waktu_sidang);
@@ -52,13 +53,13 @@ use CodeIgniter\Images\Image;
                         // karena $d_now utc+00 sedangkan $d_sidang utc+7
                         if ($selisih->h >= 17) {
                           $cek_nilai = $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' ORDER BY `tb_nilai`.`sebagai` ASC")->getResult();
-                          if ($cek_nilai === false) {
+                          if (count($cek_nilai) <= 0) {
+                            dd(count($cek_nilai));
                             $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji1[0]->nip . "','penguji 1','80')");
                             $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji2[0]->nip . "','penguji 2','80')");
                             $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji3[0]->nip . "','penguji 3','80')");
                           } else {
                             $cek_nilai_penguji1 = $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' AND nip ='" . $penguji1[0]->nip . "' AND sebagai = 'penguji 1' ")->getResult();
-                            // dd($cek_nilai_penguji1[0]->id_nilai);
                             if (empty($cek_nilai_penguji1) || empty($cek_nilai_penguji1[0]->nilai_ujian)) {
                               $db->query("UPDATE `tb_nilai` SET nilai_ujian='80' where id_nilai='" . $cek_nilai_penguji1[0]->id_nilai . "'");
                             }

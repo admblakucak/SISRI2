@@ -43,6 +43,7 @@ class Berita_Acara extends BaseController
             if ($status == 3) {
                 // dd("SELECT * FROM tb_pendaftar_sidang WHERE nim='" . $nim . "'");
                 $this->db->query("UPDATE tb_penguji SET `status`='nonaktif' WHERE nim='$nim' AND jenis_sidang='sidang skripsi'");
+                $this->db->query("DELETE FROM tb_nilai WHERE nim='$nim'");
                 // $cek_pendaftar_sidang = $this->db->query("SELECT * FROM tb_pendaftar_sidang WHERE nim='" . session()->get('ses_id') . "'")->getResult();
             }
             $this->db->query("UPDATE tb_pendaftar_sidang SET hasil_sidang='$status' WHERE id_pendaftar='$id_pendaftar'");
