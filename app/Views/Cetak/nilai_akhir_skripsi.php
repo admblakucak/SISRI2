@@ -46,7 +46,7 @@
     </tr>
     <tr>
       <td colspan="2" style="text-align:center;font-size: 18px;border: 1px solid black;"><b>NILAI AKHIR SKRIPSI</b></td>
-      <td style="border: 1px solid black;padding: 5px;text-align:center;">Tanggal : <b><?= date('d-m-Y') ?></b></td>
+      <td style="border: 1px solid black;padding: 5px;text-align:center;">Tanggal Cetak : <b><?= date('d-m-Y') ?></b></td>
     </tr>
   </table>
   <?php
@@ -122,7 +122,7 @@
       <td> : <?= $id_pendaftar != NULL ? date('H:i:s', strtotime($jadwal_sidang[0]->waktu_sidang)) . ' WIB' : '' ?></td>
     </tr>
     <tr>
-      <th align="left"> Tempat </th>
+      <th align="left"> Tempat :</th>
       <td> : <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->ruang_sidang : '' ?></td>
     </tr>
   </table>
@@ -153,6 +153,9 @@
       <th align="left"> Judul Skripsi </th>
       <td> : <?= ucwords(strtolower($judul_skripsi)) ?></td>
     </tr>
+    <tr>
+      <th align="left"> Rekapitulasi Nilai :</th>
+    </tr>
   </table>
 
   <table width="100%" style="border: 1px solid black; margin-top: 5px;">
@@ -163,17 +166,19 @@
         <th style="text-align: center; vertical-align: middle;"><span>Penguji 1</span></th>
         <th style="text-align: center; vertical-align: middle;"><span>Penguji 2</span></th>
         <th style="text-align: center; vertical-align: middle;"><span>Penguji 3</span></th>
-        <th style="text-align: center; vertical-align: middle;"><span>Nilai Akhir</span></th>
+        <th style="text-align: center; vertical-align: middle;"><span>Nilai Akhir Angka</span></th>
+        <th style="text-align: center; vertical-align: middle;"><span>Nilai Akhir Huruf</span></th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <?php
         foreach ($data_nilai as $key) { ?>
-          <td style="vertical-align: middle;" class=" <?= empty($key->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($key->nilai_ujian) ? "Belum <br> Dinilai" : "Sudah <br>Dinilai" ?></td>
+          <td style="vertical-align: middle;" class=" <?= empty($key->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($key->nilai_ujian) ? "Belum <br> Dinilai" : $key->nilai_ujian ?></td>
         <?php } ?>
 
-        <td style="font-size: 18px; vertical-align: middle;" class=" text-center"><?= $grade ?></td>
+        <td style="font-weight: bold vertical-align: middle;" class=" text-center"><?= $total_nilai ?></td>
+        <td style="font-weight: bold; vertical-align: middle;" class=" text-center"><?= $grade ?></td>
 
       </tr>
     </tbody>

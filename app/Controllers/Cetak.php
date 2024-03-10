@@ -46,10 +46,11 @@ class Cetak extends BaseController
             'db' => $this->db,
             'dosen_pembimbing_1' => $this->db->query("SELECT * FROM tb_pengajuan_pembimbing a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` WHERE a.nim='" . $id . "' AND a.status_pengajuan='diterima' AND sebagai='1'")->getResult(),
             'dosen_pembimbing_2' => $this->db->query("SELECT * FROM tb_pengajuan_pembimbing a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` WHERE a.nim='" . $id . "' AND a.status_pengajuan='diterima' AND sebagai='2'")->getResult(),
-            'penguji_1' => $this->db->query("SELECT * from tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` where a.nim='" . session()->get('ses_id') . "' AND a.`status`='aktif' AND a.sebagai='1'")->getResult(),
-            'penguji_2' => $this->db->query("SELECT * from tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` where a.nim='" . session()->get('ses_id') . "' AND a.`status`='aktif' AND a.sebagai='2'")->getResult(),
-            'penguji_3' => $this->db->query("SELECT * from tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` where a.nim='" . session()->get('ses_id') . "' AND a.`status`='aktif' AND a.sebagai='3'")->getResult(),
+            'penguji_1' => $this->db->query("SELECT * from tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` where a.nim='" . session()->get('ses_id') . "' AND a.`status`='aktif' AND a.sebagai='1' ORDER BY a.`jenis_sidang` DESC ")->getResult(),
+            'penguji_2' => $this->db->query("SELECT * from tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` where a.nim='" . session()->get('ses_id') . "' AND a.`status`='aktif' AND a.sebagai='2' ORDER BY a.`jenis_sidang` DESC ")->getResult(),
+            'penguji_3' => $this->db->query("SELECT * from tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` where a.nim='" . session()->get('ses_id') . "' AND a.`status`='aktif' AND a.sebagai='3' ORDER BY a.`jenis_sidang` DESC ")->getResult(),
         ];
+        // dd($data['penguji_2']);
         return view('Mahasiswa/Skripsi/berkas_sidang', $data);
     }
     public function form_bimbingan_proposal($id, $id_pembimbing)
@@ -436,7 +437,7 @@ class Cetak extends BaseController
             }
         };
 
-        return $grade;
+        return [$total, $grade];
     }
     public function nilai_akhir_skripsi($id, $idunit)
     {
@@ -532,7 +533,8 @@ class Cetak extends BaseController
         $data_nilai = $this->db->query("SELECT * FROM `tb_nilai` a  WHERE a.nim = '" . $id . "'  ORDER BY `a`.`sebagai` ASC")->getResult();
         $dummy_nilai = [1, 2, 3, 4, 5];
         $nilai = empty($data_nilai) ? $dummy_nilai : $data_nilai;
-        $grade = $this->_grade($this->db, $id);
+        $grade = $this->_grade($this->db, $id)[1];
+        $total_nilai = $this->_grade($this->db, $id)[0];
         $data = [
             'title' => 'Nilai Akhir Skripsi',
             'baseurl' => base_url(),
@@ -555,7 +557,8 @@ class Cetak extends BaseController
             'nm_jurusan' => $jurusan[0]->namaunit,
             'nm_fakultas' => $fakultas[0]->namaunit,
             'data_nilai' => $nilai,
-            'grade' => $grade
+            'grade' => $grade,
+            'total_nilai' => $total_nilai,
         ];
         $dompdf = new Dompdf();
         $filename = $id . "-" . date('y-m-d-H-i-s');

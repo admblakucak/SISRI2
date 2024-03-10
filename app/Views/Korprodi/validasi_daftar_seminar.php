@@ -327,7 +327,7 @@ use CodeIgniter\Images\Image;
                                                                                 $sts_koor = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . $key2['nim'] . "' AND jenis_sidang='skripsi' AND izin_sebagai='koordinator'")->getResult();
                                                                                 $waktu_sidang_proposal = $db->query("SELECT a.nim, a.waktu_sidang, b.jenis_sidang FROM `tb_pendaftar_sidang` a JOIN tb_jadwal_sidang b ON a.id_jadwal=b.id_jadwal WHERE a.nim ='" . $key['nim'] . "' AND b.jenis_sidang = 'seminar proposal' AND a.waktu_sidang IS NOT NULL")->getResult();
                                                                                 $waktu_sidang_skripsi = $db->query("SELECT a.nim, a.waktu_sidang, b.jenis_sidang FROM `tb_pendaftar_sidang` a JOIN tb_jadwal_sidang b ON a.id_jadwal=b.id_jadwal WHERE a.nim ='" . $key['nim'] . "' AND b.jenis_sidang = 'sidang skripsi' ")->getResult();
-                                                                                if (!empty($waktu_sidang_proposal[0]->waktu_sidang) || !empty($waktu_sidang_skripsi[0]->waktu_sidang)) {
+                                                                                if (!empty($waktu_sidang_proposal[0]->waktu_sidang) && !empty($waktu_sidang_skripsi[0]->waktu_sidang)) {
                                                                                     $date_time_sidang_skripsi = new DateTime($waktu_sidang_skripsi[0]->waktu_sidang);
                                                                                     $date_time_sidang_proposal = new DateTime($waktu_sidang_proposal[0]->waktu_sidang);
                                                                                     // $interval = $date_time_sidang_proposal->diff($date_time_sidang_skripsi)->format('%y tahun %m bulan %d hari');
@@ -491,7 +491,7 @@ use CodeIgniter\Images\Image;
                                                                                         $interval = $interval->format('%d hari');
                                                                                     }
                                                                                 } else {
-                                                                                    if (!$date_time_sidang_proposal || !$date_time_sidang_skripsi) {
+                                                                                    if (empty($date_time_sidang_proposal) || empty($date_time_sidang_skripsi)) {
                                                                                         $interval = 'kosong';
                                                                                     } elseif (!empty($date_time_sidang_proposal)) {
                                                                                         $interval = 'sidang skripsi kosong';

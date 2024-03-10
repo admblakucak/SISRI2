@@ -42,9 +42,22 @@
 						<?php
 						$pem1 = $db->query("SELECT * from tb_pengajuan_pembimbing where nim='" . session()->get('ses_id') . "' AND status_pengajuan='diterima' AND sebagai='1'")->getResult();
 						$pem2 = $db->query("SELECT * from tb_pengajuan_pembimbing where nim='" . session()->get('ses_id') . "' AND status_pengajuan='diterima' AND sebagai='2'")->getResult();
-						$penguji1 = $db->query("SELECT * from tb_penguji where nim='" . session()->get('ses_id') . "' AND `status`='aktif' AND sebagai='1'")->getResult();
-						$penguji2 = $db->query("SELECT * from tb_penguji where nim='" . session()->get('ses_id') . "' AND `status`='aktif' AND sebagai='2'")->getResult();
-						$penguji3 = $db->query("SELECT * from tb_penguji where nim='" . session()->get('ses_id') . "' AND `status`='aktif' AND sebagai='3'")->getResult();
+						$penguji_sempro1 = $db->query("SELECT * from tb_penguji where nim='" . session()->get('ses_id') . "' AND `status`='aktif' AND sebagai='1' AND jenis_sidang='' ")->getResult();
+						$penguji_sempro2 = $db->query("SELECT * from tb_penguji where nim='" . session()->get('ses_id') . "' AND `status`='aktif' AND sebagai='2' AND jenis_sidang='' ")->getResult();
+						$penguji_sempro3 = $db->query("SELECT * from tb_penguji where nim='" . session()->get('ses_id') . "' AND `status`='aktif' AND sebagai='3' AND jenis_sidang='' ")->getResult();
+
+						$penguji1  = $db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=1")->getResult();
+						if (empty($penguji1)) {
+							$penguji1  = $db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=1")->getResult();
+						}
+						$penguji2  = $db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=2")->getResult();
+						if (empty($penguji2)) {
+							$penguji2  = $db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=2")->getResult();
+						}
+						$penguji3  = $db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=3")->getResult();
+						if (empty($penguji3)) {
+							$penguji3  = $db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=3")->getResult();
+						}
 						if (count($pem1) != 0 && count($pem2) != 0) {
 						?>
 							<li class="slide">
@@ -56,25 +69,37 @@
 									<li><a class="slide-item" href="<?= base_url() ?>daftar_seminar">Daftar Seminar</a></li>
 									<li><a class="slide-item" href="<?= base_url() ?>berkas_mhs_proposal">Berkas Seminar</a></li>
 									<?php
-									if ($penguji1 != NULL) {
+									if ($penguji_sempro1 != NULL) {
 									?>
-										<li><a class="slide-item" href="<?= base_url() ?>bimbingan_revisi_proposal/<?= $penguji1[0]->nip ?>">Revisi Proopsal</a></li>
+										<li><a class="slide-item" href="<?= base_url() ?>bimbingan_revisi_proposal/<?= $penguji_sempro1[0]->nip ?>">Revisi Proopsal</a></li>
 									<?php
-									} elseif ($penguji2 != NULL) {
+									} elseif ($penguji_sempro2 != NULL) {
 									?>
-										<li><a class="slide-item" href="<?= base_url() ?>bimbingan_revisi_proposal/<?= $penguji2[0]->nip ?>">Revisi Proposal</a></li>
+										<li><a class="slide-item" href="<?= base_url() ?>bimbingan_revisi_proposal/<?= $penguji_sempro2[0]->nip ?>">Revisi Proposal</a></li>
 									<?php
-									} elseif ($penguji3 != NULL) {
+									} elseif ($penguji_sempro3 != NULL) {
 									?>
-										<li><a class="slide-item" href="<?= base_url() ?>bimbingan_revisi_proposal/<?= $penguji3[0]->nip ?>">Revisi Proposal</a></li>
+										<li><a class="slide-item" href="<?= base_url() ?>bimbingan_revisi_proposal/<?= $penguji_sempro3[0]->nip ?>">Revisi Proposal</a></li>
 									<?php } ?>
 								</ul>
 							</li>
 							<?php
-							$total_acc_dosen_penguji = $db->query("SELECT * FROM `tb_acc_revisi` WHERE `nim` ='" . session()->get('ses_id') . "' AND jenis_sidang = 'seminar proposal'")->getResult();
+							$dosen_penguji = $db->query("SELECT nip FROM `tb_penguji` WHERE nim = '" . session()->get('ses_id') . "' AND status = 'aktif'  AND jenis_sidang='' ORDER BY `tb_penguji`.`sebagai` ASC")->getResult();
+							if (!empty($dosen_penguji[0]->nip)) {
+								$acc_dosen_penguji1 = $db->query("SELECT * FROM `tb_acc_revisi` WHERE `nim` ='" . session()->get('ses_id') . "' AND jenis_sidang = 'seminar proposal' AND nip='" . $dosen_penguji[0]->nip . "' ")->getResult();
+								$acc_dosen_penguji2 = $db->query("SELECT * FROM `tb_acc_revisi` WHERE `nim` ='" . session()->get('ses_id') . "' AND jenis_sidang = 'seminar proposal' AND nip='" . $dosen_penguji[1]->nip . "' ")->getResult();
+								$acc_dosen_penguji3 = $db->query("SELECT * FROM `tb_acc_revisi` WHERE `nim` ='" . session()->get('ses_id') . "' AND jenis_sidang = 'seminar proposal' AND nip='" . $dosen_penguji[2]->nip . "' ")->getResult();
+								if (!empty($acc_dosen_penguji1) && !empty($acc_dosen_penguji2) && !empty($acc_dosen_penguji3)) {
+									$total_acc_dosen_penguji = 3;
+								} else {
+									$total_acc_dosen_penguji = 0;
+								}
+							} else {
+								$total_acc_dosen_penguji = 0;
+							}
 							// dd(count($total_acc_dosen_penguji));
 
-							if (count($total_acc_dosen_penguji) == 3) {
+							if ($total_acc_dosen_penguji >= 3) {
 							?>
 								<li class=" slide">
 									<a class="side-menu__item" data-bs-toggle="slide" href="#"><svg style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -103,7 +128,7 @@
 							?>
 							<?php
 							$cek_status_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND a.`nim`='" . session()->get('ses_id') . "'")->getResult();
-							if (count($cek_status_sidang) > 0) {
+							if (count($cek_status_sidang) > 0 && $total_acc_dosen_penguji == 3) {
 								// 	dd('benar');
 								// }
 								// dd("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND a.`nim`='" . session()->get('ses_id') . "'");

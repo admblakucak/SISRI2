@@ -120,6 +120,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		$.fn.modal.Constructor.prototype._enforceFocus = function() {};
 		var t = $('#validasitable1').DataTable({
 			"language": {
 				"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
@@ -136,6 +137,31 @@
 		});
 
 		t.on('order.dt search.dt', function() {
+				t.column(0, {
+					search: 'applied',
+					order: 'applied'
+				}).nodes().each(function(cell, i) {
+					cell.innerHTML = i + 1
+				})
+			})
+			.draw();
+
+		var table2 = $('#validasitable10').DataTable({
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
+				"sEmptyTable": "Data Kosong"
+			},
+			"columnDefs": [{
+				"searchable": false,
+				"orderable": false,
+				"targets": 0
+			}],
+			"order": [
+				[7, 'asc']
+			],
+		});
+
+		table2.on('order.dt search.dt', function() {
 				t.column(0, {
 					search: 'applied',
 					order: 'applied'

@@ -21,16 +21,35 @@ class Informasi_nilai extends BaseController
     $id = session()->get('ses_id');
     // $id = '160431100078';
     $data_judul = $this->db->query("SELECT judul_topik FROM `tb_pengajuan_topik` WHERE `judul_topik` IS NOT NULL AND nim = '" . $id . "'")->getResult();
-    $data_nilai = $this->db->query("SELECT * FROM `tb_nilai` a  WHERE a.nim = '" . $id . "'  ORDER BY `a`.`sebagai` ASC")->getResult();
-    $dummy_nilai = [1, 2, 3, 4, 5];
-    $nilai = empty($data_nilai) ? $dummy_nilai : $data_nilai;
-    $db = $this->db;
+    $nilai_pem1 = $this->db->query("SELECT * FROM `tb_nilai` a  WHERE a.nim = '" . $id . "' AND sebagai = 'pembimbing 1'")->getResult();
+    $nilai_pem2 = $this->db->query("SELECT * FROM `tb_nilai` a  WHERE a.nim = '" . $id . "' AND sebagai = 'pembimbing 2'")->getResult();
 
+    // penguji 
+    $penguji1  = $this->db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=1")->getResult();
+    if (empty($penguji1)) {
+      $penguji1  = $this->db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=1")->getResult();
+    }
+    $penguji2  = $this->db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=2")->getResult();
+    if (empty($penguji2)) {
+      $penguji2  = $this->db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=2")->getResult();
+    }
+    $penguji3  = $this->db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=3")->getResult();
+    if (empty($penguji3)) {
+      $penguji3  = $this->db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=3")->getResult();
+    }
+
+    $nilai_penguji1 = $this->db->query("SELECT * FROM `tb_nilai` a  WHERE a.nim = '" . $id . "' AND sebagai = 'penguji 1'AND nip ='" . $penguji1[0]->nip . "'")->getResult();
+    $nilai_penguji2 = $this->db->query("SELECT * FROM `tb_nilai` a  WHERE a.nim = '" . $id . "' AND sebagai = 'penguji 2'AND nip ='" . $penguji2[0]->nip . "'")->getResult();
+    $nilai_penguji3 = $this->db->query("SELECT * FROM `tb_nilai` a  WHERE a.nim = '" . $id . "' AND sebagai = 'penguji 3'AND nip ='" . $penguji3[0]->nip . "'")->getResult();
+    // dd("SELECT * FROM `tb_nilai` a  WHERE a.nim = '" . $id . "' AND sebagai = 'penguji 3'");
+    $db = $this->db;
+    // dd($nilai_penguji3);
     $pembimbing1 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $id . "' AND sebagai='pembimbing 1'")->getResult();
     $pembimbing2 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $id . "' AND sebagai='pembimbing 2'")->getResult();
-    $penguji1 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $id . "' AND sebagai='penguji 1'")->getResult();
-    $penguji2 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $id . "' AND sebagai='penguji 2'")->getResult();
-    $penguji3 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $id . "' AND sebagai='penguji 3'")->getResult();
+    // dd($pembimbing2);
+    // $penguji1 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $id . "' AND sebagai='penguji 1'")->getResult();
+    // $penguji2 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $id . "' AND sebagai='penguji 2'")->getResult();
+    // $penguji3 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $id . "' AND sebagai='penguji 3'")->getResult();
     if (!empty($pembimbing1)) {
       $nb_pembimbing1 = $pembimbing1[0]->nilai_bimbingan == NULL ? 0 : $pembimbing1[0]->nilai_bimbingan;
       $ns_pembimbing1 = $pembimbing1[0]->nilai_ujian == NULL ? 0 : $pembimbing1[0]->nilai_ujian;
@@ -45,18 +64,18 @@ class Informasi_nilai extends BaseController
       $nb_pembimbing2 = 0;
       $ns_pembimbing2 = 0;
     }
-    if (!empty($penguji1)) {
-      $ns_penguji1 = $penguji1[0]->nilai_ujian == NULL ? 0 : $penguji1[0]->nilai_ujian;
+    if (!empty($nilai_penguji1)) {
+      $ns_penguji1 = $nilai_penguji1[0]->nilai_ujian == NULL ? 0 : $nilai_penguji1[0]->nilai_ujian;
     } else {
       $ns_penguji1 = 0;
     }
-    if (!empty($penguji2)) {
-      $ns_penguji2 = $penguji2[0]->nilai_ujian == NULL ? 0 : $penguji2[0]->nilai_ujian;
+    if (!empty($nilai_penguji2)) {
+      $ns_penguji2 = $nilai_penguji2[0]->nilai_ujian == NULL ? 0 : $nilai_penguji2[0]->nilai_ujian;
     } else {
       $ns_penguji2 = 0;
     }
-    if (!empty($penguji3)) {
-      $ns_penguji3 = $penguji3[0]->nilai_ujian == NULL ? 0 : $penguji3[0]->nilai_ujian;
+    if (!empty($nilai_penguji3)) {
+      $ns_penguji3 = $nilai_penguji3[0]->nilai_ujian == NULL ? 0 : $nilai_penguji3[0]->nilai_ujian;
     } else {
       $ns_penguji3 = 0;
     }
@@ -85,17 +104,23 @@ class Informasi_nilai extends BaseController
       }
     };
 
-
-
     // else {
     $data = [
       'title' => 'Daftar Nilai Ujian Skripsi',
       'db' => $this->db,
       'data_judul' => $data_judul[0]->judul_topik,
-      'data_nilai' => $nilai,
+      'penguji1' => $penguji1,
+      'penguji2' => $penguji2,
+      'penguji3' => $penguji3,
+      'dosen_pembimbing' => $this->db->query("SELECT * FROM tb_pengajuan_pembimbing a WHERE a.nim='" . $id . "' AND a.status_pengajuan='diterima' ORDER BY a.`sebagai` ASC ")->getResult(),
+      'nilai_pem1' => $nilai_pem1,
+      'nilai_pem2' => $nilai_pem2,
+      'nilai_penguji1' => $nilai_penguji1,
+      'nilai_penguji2' => $nilai_penguji2,
+      'nilai_penguji3' => $nilai_penguji3,
       'grade' => $grade
     ];
-    // dd($data_judul);
+    // dd($data['dosen_pembimbing'][0]->nip);
     return view('Mahasiswa/informasi_nilai', $data);
   }
 }

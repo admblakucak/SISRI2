@@ -15,9 +15,13 @@ class Ajukan_Topik extends BaseController
     }
     public function index()
     {
+
+
         if (session()->get('ses_id') == '' || session()->get('ses_login') != 'mahasiswa') {
             return redirect()->to('/');
         }
+
+
         $data_mahasiswa = $this->db->query("SELECT * FROM tb_mahasiswa where nim='" . session()->get('ses_id') . "'")->getResult();
         $idunit = $data_mahasiswa[0]->idunit;
 
@@ -66,6 +70,29 @@ class Ajukan_Topik extends BaseController
         ];
         return view('Mahasiswa/ajukan_topik', $data);
     }
+
+    public static function __return_bytes($val)
+    {
+        $val  = trim($val);
+
+        if (is_numeric($val))
+            return $val;
+
+        $last = strtolower($val[strlen($val) - 1]);
+        $val  = substr($val, 0, -1); // necessary since PHP 7.1; otherwise optional
+
+        switch ($last) {
+                // The 'G' modifier is available since PHP 5.1.0
+            case 'g':
+                $val *= 1024;
+            case 'm':
+                $val *= 1024;
+            case 'k':
+                $val *= 1024;
+        }
+
+        return $val;
+    }
     public function proses_ajukan_topik()
     {
 
@@ -75,8 +102,31 @@ class Ajukan_Topik extends BaseController
         set_time_limit(0);
         ini_set('max_execution_time', 0);
         ini_set('max_input_time', 0);
-        ini_set('post_max_size', '1000M');
-        ini_set('upload_max_filesize', '1000M');
+        $maxPostSize = $this->__return_bytes(ini_get('post_max_size'));
+
+        if (!empty($berkas)) {
+            if ($berkas->getSize() > $maxPostSize) {
+                session()->setFlashdata('message_ajukan_topik', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+                <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Ukuran File Maksimal 1 MB' . '</span>
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>');
+                return redirect()->to('/ajukan_topik_mahasiswa');
+            }
+        } else {
+            session()->setFlashdata('message_ajukan_topik', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+            <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'File berkas harus diisi' . '</span>
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>');
+            return redirect()->to('/ajukan_topik_mahasiswa');
+        }
+        // ini_set('post_max_size', '1M');
+        // ini_set('upload_max_filesize', '1M');
         if (!$this->validate([
             'topik' => [
                 'rules' => 'required',
@@ -100,10 +150,10 @@ class Ajukan_Topik extends BaseController
             ],
             'berkas' => [
                 // 'rules' => 'uploaded[berkas]|mime_in[berkas,application/pdf]|max_size[berkas,2048]',
-                'rules' => 'max_size[berkas,5120]',
+                'rules' => 'max_size[berkas, 1024]',
                 'errors' => [
                     // 'uploaded' => 'Harus Ada File yang diupload',
-                    'max_size' => 'Ukuran File Maksimal 5 MB'
+                    'max_size' => 'Ukuran File Maksimal 1 MB'
                 ]
             ]
         ])) {

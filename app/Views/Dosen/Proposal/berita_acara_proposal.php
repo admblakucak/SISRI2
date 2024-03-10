@@ -60,6 +60,8 @@ use CodeIgniter\Images\Image;
                                                                         foreach ($data_mhs_bimbingan as $key1) {
                                                                             $judul = $db->query("SELECT * FROM tb_pengajuan_topik WHERE nim='" . $key1->nim . "'")->getResult();
                                                                             $sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='seminar proposal' AND a.`nim`='" . $key1->nim . "'")->getResult();
+                                                                            // dd($sidang);
+                                                                            // dd("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='seminar proposal' AND a.`nim`='" . $key1->nim . "'");
                                                                             $berita_acara = $db->query("SELECT * FROM tb_berita_acara WHERE nim='" . $key1->nim . "' AND nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing $key1->sebagai' AND status='ditandatangani' AND jenis_sidang='proposal'")->getResult();
 
                                                                         ?>
@@ -177,7 +179,7 @@ use CodeIgniter\Images\Image;
                                                     <div class="row">
                                                         <div class="col-xl-12">
                                                             <div class="table-responsive">
-                                                                <table class="table table-striped mg-b-0 text-md-nowrap" id="validasitable2">
+                                                                <table class="table table-striped mg-b-0 text-md-nowrap" id="validasitable10">
                                                                     <thead>
                                                                         <tr>
                                                                             <th style="text-align: center; vertical-align: middle;"><span>No. </span></th>
@@ -202,7 +204,7 @@ use CodeIgniter\Images\Image;
                                                                                 continue;
                                                                             } ?>
                                                                             <tr>
-                                                                                <td><?= $no ?></td>
+                                                                                <td></td>
                                                                                 <td><?= $key2->nim . ' - ' . $key2->nama ?></td>
                                                                                 <td>
                                                                                     <?php
@@ -244,10 +246,11 @@ use CodeIgniter\Images\Image;
                                                                                     } ?>
                                                                                     <a href="<?= base_url() ?>/berita_acara_proposal_download_file/proposal/<?= $sidang[0]->id_pendaftar ?>" class="btn btn-primary btn-sm mt-2 ml-2"><i class="las la-download"> Proposal</i></a>
                                                                                     <?php
-                                                                                    $no++;
                                                                                     ?>
                                                                                 </td>
                                                                             </tr>
+
+
                                                                             <div class="modal" id="modalpenguji<?= $no ?>">
                                                                                 <div class="modal-dialog" role="document">
                                                                                     <div class="modal-content modal-content-demo">
@@ -281,6 +284,7 @@ use CodeIgniter\Images\Image;
                                                                                                 <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Keluar</button>
                                                                                             </div>
                                                                                         </form>
+                                                                                        <?php $no++; ?>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
