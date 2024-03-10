@@ -54,8 +54,9 @@ use CodeIgniter\Images\Image;
                         if ($selisih->h >= 17) {
                           $cek_nilai = $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' ORDER BY `tb_nilai`.`sebagai` ASC")->getResult();
                           if (count($cek_nilai) <= 0) {
-                            dd(count($cek_nilai));
-                            $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji1[0]->nip . "','penguji 1','80')");
+                            $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . session()->get('ses_id') . "','" . $dosen_pembimbing[0]->nip . "','pembimbing 1','80','80')  ");
+                            $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . session()->get('ses_id') . "','" . $dosen_pembimbing[1]->nip . "','pembimbing 2','80','80')  ");
+                            $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji1[0]->nip . "','penguji 1','80')  ");
                             $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji2[0]->nip . "','penguji 2','80')");
                             $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji3[0]->nip . "','penguji 3','80')");
                           } else {

@@ -96,6 +96,11 @@ $routes->add('/delete_korprodi', 'Admin\Korprodi::delete');
 $routes->add('/data_akun_khusus', 'Admin\Akun_Khusus::index');
 $routes->add('/add_akun_khusus', 'Admin\Akun_Khusus::add');
 $routes->add('/delete_akun_khusus', 'Admin\Akun_Khusus::delete');
+//ROute Khusus Controller Admin-Akademik
+$routes->add('/data_admin_akademik', 'Admin\Admin_Akademik::index');
+$routes->add('/add_admin_akademik', 'Admin\Admin_Akademik::add');
+$routes->add('/delete_admin_akademik', 'Admin\Admin_Akademik::delete');
+
 // -------------------------------------MAHASISWA-----------------------------------------
 //Route Khusus Controller Mahasiswa-Beranda
 $routes->add('/beranda_mahasiswa', 'Mahasiswa\Beranda::index');
@@ -218,6 +223,14 @@ $routes->get('/export_nilai_pdf/(:any)/(:any)', 'Korprodi\Nilai::export_pdf/$1/$
 //Route Khusus Controller Koorprodi-Data dosesn
 $routes->add('/data_dosen_koorprodi', 'Korprodi\Data_Dosen::index');
 $routes->add('/update_kuota_dosen', 'Korprodi\Data_Dosen::update');
+
+// --------------------------------------Admin Akademik-------------------------------------------
+$routes->add('/admin_akademik_data_nilai', 'Admin_akademik\Data_Nilai::index');
+$routes->add('/admin_akademik_data_skripsi', 'Admin_akademik\Data_Skripsi::index');
+$routes->add('/export_nilai_admin_akademik', 'Admin_akademik\Data_Nilai::export');
+
+
+
 // --------------------------------------CETAK-------------------------------------------
 $routes->add('/berkas_mhs_proposal', 'Cetak::berkas_mhs_proposal');
 $routes->add('/berkas_mhs_skripsi', 'Cetak::berkas_mhs_skripsi');

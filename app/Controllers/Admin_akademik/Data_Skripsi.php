@@ -18,6 +18,10 @@ class Data_Skripsi extends BaseController
     if (session()->get('ses_id') == '' || session()->get('ses_login') != 'admin_akademik') {
       return redirect()->to('/');
     }
-    return view('Dosen/Proposal/berita_acara_proposal');
+
+    $data = [
+      'title' => 'Data Skripsi'
+    ];
+    return view('perbaikan', $data);
   }
 }

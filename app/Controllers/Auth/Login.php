@@ -120,6 +120,7 @@ class Login extends BaseController
                     $this->db->query("UPDATE tb_jumlah_pembimbing SET jumlah='" . (count($jumlah_bimbingan1) - count($jumlah_bimbinganselesai1)) . "' WHERE nip='" . $data[0]->id . "' AND sebagai='pembimbing 1' ");
                     $this->db->query("UPDATE tb_jumlah_pembimbing SET jumlah='" . (count($jumlah_bimbingan2) - count($jumlah_bimbinganselesai2)) . "' WHERE nip='" . $data[0]->id . "' AND sebagai='pembimbing 2' ");
                     $cek_kor = $this->db->query("SELECT * FROM tb_korprodi where nip='" . $data[0]->id . "'")->getResult();
+                    $cek_admin_akademik = $this->db->query("SELECT * FROM tb_admin_akademik where nip='" . $data[0]->id . "'")->getResult();
                     if (count($cek_kor) > 0) {
                         $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
                         session()->set('ses_image', $image);
@@ -128,6 +129,15 @@ class Login extends BaseController
                         session()->set('ses_idunit', $data[0]->idunit);
                         session()->set('ses_nama', name($this->db, $data[0]->id));
                         $this->db->query("INSERT INTO tb_log (user,`action`,`log`,date_time) VALUES ('" . session()->get('ses_id') . "','login','Login Korprodi',now())");
+                        return redirect()->to('/beranda_dosen');
+                    } elseif (count($cek_admin_akademik) > 0) {
+                        $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
+                        session()->set('ses_image', $image);
+                        session()->set('ses_login', 'admin_akademik');
+                        session()->set('ses_id', $data[0]->id);
+                        session()->set('ses_idunit', $data[0]->idunit);
+                        session()->set('ses_nama', name($this->db, $data[0]->id));
+                        $this->db->query("INSERT INTO tb_log (user,`action`,`log`,date_time) VALUES ('" . session()->get('ses_id') . "','login','Login Admin Akademik',now())");
                         return redirect()->to('/beranda_dosen');
                     } else {
                         $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
