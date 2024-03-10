@@ -220,6 +220,7 @@ $routes->add('/daftar_belum_dinilai', 'Korprodi\Nilai::belum_dinilai');
 $routes->add('/daftar_sudah_dinilai', 'Korprodi\Nilai::sudah_dinilai');
 $routes->add('/export_nilai', 'Korprodi\Nilai::export');
 $routes->get('/export_nilai_pdf/(:any)/(:any)', 'Korprodi\Nilai::export_pdf/$1/$2');
+$routes->get('/export_sudah_nilai_pdf/(:any)/(:any)', 'Korprodi\Nilai::export_sudah_dinilai_pdf/$1/$2');
 //Route Khusus Controller Koorprodi-Data dosesn
 $routes->add('/data_dosen_koorprodi', 'Korprodi\Data_Dosen::index');
 $routes->add('/update_kuota_dosen', 'Korprodi\Data_Dosen::update');
@@ -239,6 +240,7 @@ $routes->get('/berita_acara_proposal/(:any)', 'Cetak::berita_acara_proposal/$1')
 $routes->get('/form_bimbingan_skripsi/(:any)/(:any)', 'Cetak::form_bimbingan_skripsi/$1/$2');
 $routes->get('/berita_acara_skripsi/(:any)', 'Cetak::berita_acara_skripsi/$1');
 $routes->get('/nilai_akhir_skripsi/(:any)', 'Cetak::nilai_akhir_skripsi/$1');
+// $routes->get('/cetak_daftar_sudah_dinilai/(:any)', 'Cetak::export_pdf/$1');
 
 $routes->get('/cetak_pendaftar/(:any)/(:any)/(:any)', 'Cetak::pendaftar/$1/$2/$3');
 

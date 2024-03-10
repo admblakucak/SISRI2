@@ -25,7 +25,7 @@ use CodeIgniter\Images\Image;
               <hr>
               <div class="table-responsive">
 
-                <a href="<?= base_url() ?>nilai_akhir_skripsi/<?= session()->get('ses_id') ?>/<?= session()->get('ses_idunit') ?>"><button class="btn btn-primary mb-3" type="button">Cetak</button></a>
+                <a href="<?= base_url() ?>export_sudah_nilai_pdf/<?= $tipe ?>/<?= session()->get('ses_idunit') ?>"><button class="btn btn-primary mb-3" type="button">Cetak</button></a>
                 <table class="table table-striped mg-b-0 text-md-nowrap" id="validasitable3">
                   <thead>
                     <tr>
@@ -145,6 +145,8 @@ use CodeIgniter\Images\Image;
     </div>
   </div>
 </div>
+
+
 
 
 

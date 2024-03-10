@@ -143,4 +143,41 @@ class Nilai extends BaseController
         $dompdf->stream($filename, array('Attachment' => false));
         exit();
     }
+    public function export_sudah_dinilai_pdf($tipe = null, $id_jadwal = null)
+    {
+        $idperiode = 'semua';
+        $id_jadwal = 'semua';
+        $link = base_url() . "export_nilai_pdf/$tipe/$id_jadwal";
+        $qr_link = $this->qr->cetakqr($link);
+        $tb_unit = $this->db->query("SELECT * FROM tb_unit WHERE idunit='" . session()->get('ses_idunit') . "'")->getResult();
+        if ($idperiode == 'semua') {
+            if ($id_jadwal == 'semua') {
+                $data = $this->db->query("SELECT * FROM tb_users a LEFT JOIN tb_mahasiswa b ON a.`id`=b.`nim` WHERE a.`idunit`='" . session()->get('ses_idunit') . "' AND a.role='mahasiswa' ORDER BY id ASC")->getResult();
+            } else {
+                $data = $this->db->query("SELECT * FROM tb_users a LEFT JOIN tb_mahasiswa b ON a.`id`=b.`nim` LEFT JOIN tb_pendaftar_sidang c ON c.`nim`=a.`id` WHERE a.`idunit`='" . session()->get('ses_idunit') . "' AND a.`role`='mahasiswa' AND c.`id_jadwal`='" . $id_jadwal . "' ORDER BY id ASC")->getResult();
+            }
+        } else {
+            if ($id_jadwal == 'semua') {
+                $data = $this->db->query("SELECT * FROM tb_users a LEFT JOIN tb_mahasiswa b ON a.`id`=b.`nim` LEFT JOIN tb_pendaftar_sidang c ON c.`nim`=a.`id` WHERE a.`idunit`='" . session()->get('ses_idunit') . "' AND a.`role`='mahasiswa' AND b.`idperiode`='" . $idperiode . "' ORDER BY id ASC")->getResult();
+            } else {
+                $data = $this->db->query("SELECT * FROM tb_users a LEFT JOIN tb_mahasiswa	b ON a.`id`=b.`nim` LEFT JOIN tb_pendaftar_sidang c ON c.`nim`=a.`id` WHERE a.`idunit`='" . session()->get('ses_idunit') . "' AND a.role='mahasiswa' AND b.`idperiode`='$idperiode' AND c.`id_jadwal`='$id_jadwal' ORDER BY id ASC;")->getResult();
+            }
+        }
+        $data = [
+            'tipe' => $tipe,
+            'title' => 'Daftar Nilai Ujian Skripsi',
+            'db' => $this->db,
+            'data_mhs' => $data,
+            'baseurl' => base_url(),
+            'qr_link' => $qr_link,
+            'namaunit' => $tb_unit[0]->namaunit
+        ];
+        $dompdf = new Dompdf();
+        $filename = date('y-m-d-H-i-s');
+        $dompdf->loadHtml(view('Cetak/export_sudah_nilai_pdf', $data));
+        $dompdf->setPaper('A4', 'potrait');
+        $dompdf->render();
+        $dompdf->stream($filename, array('Attachment' => false));
+        exit();
+    }
 }

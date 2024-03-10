@@ -45,49 +45,50 @@ use CodeIgniter\Images\Image;
                     $id_pendaftar = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND nim='" . session()->get('ses_id') . "' ORDER BY create_at DESC LIMIT 1")->getResult()[0]->id_pendaftar;
                     $jadwal_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang WHERE id_pendaftar='$id_pendaftar' AND hasil_sidang < 3")->getResult();
                     // dd($jadwal_sidang);
-                    if (!empty($jadwal_sidang)) {
-                      $d_now = new Datetime();
-                      $d_sidang = new Datetime($jadwal_sidang[0]->waktu_sidang);
-                      if ($d_now > $d_sidang) {
-                        $selisih = date_diff($d_now, $d_sidang);
-                        // karena $d_now utc+00 sedangkan $d_sidang utc+7
-                        if ($selisih->h >= 17) {
-                          $cek_nilai = $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' ORDER BY `tb_nilai`.`sebagai` ASC")->getResult();
-                          if (count($cek_nilai) <= 0) {
-                            $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . session()->get('ses_id') . "','" . $dosen_pembimbing[0]->nip . "','pembimbing 1','80','80')  ");
-                            $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . session()->get('ses_id') . "','" . $dosen_pembimbing[1]->nip . "','pembimbing 2','80','80')  ");
-                            $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji1[0]->nip . "','penguji 1','80')  ");
-                            $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji2[0]->nip . "','penguji 2','80')");
-                            $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji3[0]->nip . "','penguji 3','80')");
-                          } else {
-                            $cek_nilai_penguji1 = $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' AND nip ='" . $penguji1[0]->nip . "' AND sebagai = 'penguji 1' ")->getResult();
-                            if (empty($cek_nilai_penguji1) || empty($cek_nilai_penguji1[0]->nilai_ujian)) {
-                              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80' where id_nilai='" . $cek_nilai_penguji1[0]->id_nilai . "'");
-                            }
-                            $cek_nilai_penguji2 = $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' AND nip ='" . $penguji2[0]->nip . "' AND sebagai = 'penguji 2' ")->getResult();
-                            if (empty($cek_nilai_penguji2) || empty($cek_nilai_penguji2[0]->nilai_ujian)) {
-                              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80' where id_nilai='" . $cek_nilai_penguji2[0]->id_nilai . "'");
-                              // $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji2[0]->nip . "','penguji 2','80')");
-                            }
-                            $cek_nilai_penguji3 = $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' AND nip ='" . $penguji3[0]->nip . "' AND sebagai = 'penguji 3' ")->getResult();
-                            if (empty($cek_nilai_penguji3) || empty($cek_nilai_penguji3[0]->nilai_ujian)) {
-                              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80' where id_nilai='" . $cek_nilai_penguji3[0]->id_nilai . "'");
-                              // $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji3[0]->nip . "','penguji 3','80')");
-                            }
-                            $cek_nilai_pembimbing1 =  $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' AND sebagai = 'pembimbing 1' ")->getResult();
-                            if (empty($cek_nilai_pembimbing1) || empty($cek_nilai_pembimbing1[0]->nilai_bimbingan) || empty($cek_nilai_pembimbing1[0]->nilai_ujian)) {
-                              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80', nilai_bimbingan='80' where id_nilai='" . $cek_nilai_pembimbing1[0]->id_nilai . "'");
-                              // $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . session()->get('ses_id') . "','" . $dosen_pembimbing[0]->nip . "','pembimbing 1','80','80')");
-                            }
-                            $cek_nilai_pembimbing2 =  $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' AND sebagai = 'pembimbing 2' ")->getResult();
-                            if (empty($cek_nilai_pembimbing2)  || empty($cek_nilai_pembimbing2[0]->nilai_bimbingan) || empty($cek_nilai_pembimbing2[0]->nilai_ujian)) {
-                              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80', nilai_bimbingan='80' where id_nilai='" . $cek_nilai_pembimbing2[0]->id_nilai . "'");
-                              // $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . session()->get('ses_id') . "','" . $dosen_pembimbing[1]->nip . "','pembimbing 2','80','80')");
-                            }
-                          }
-                        }
-                      }
-                    }
+                    // Revisi TB_NILAI jika lebih dari 24 jam otomatis nilai 80
+                    // if (!empty($jadwal_sidang)) {
+                    //   $d_now = new Datetime();
+                    //   $d_sidang = new Datetime($jadwal_sidang[0]->waktu_sidang);
+                    //   if ($d_now > $d_sidang) {
+                    //     $selisih = date_diff($d_now, $d_sidang);
+                    //     // karena $d_now utc+00 sedangkan $d_sidang utc+7
+                    //     if ($selisih->h >= 17) {
+                    //       $cek_nilai = $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' ORDER BY `tb_nilai`.`sebagai` ASC")->getResult();
+                    //       if (count($cek_nilai) <= 0) {
+                    //         $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . session()->get('ses_id') . "','" . $dosen_pembimbing[0]->nip . "','pembimbing 1','80','80')  ");
+                    //         $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . session()->get('ses_id') . "','" . $dosen_pembimbing[1]->nip . "','pembimbing 2','80','80')  ");
+                    //         $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji1[0]->nip . "','penguji 1','80')  ");
+                    //         $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji2[0]->nip . "','penguji 2','80')");
+                    //         $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji3[0]->nip . "','penguji 3','80')");
+                    //       } else {
+                    //         $cek_nilai_penguji1 = $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' AND nip ='" . $penguji1[0]->nip . "' AND sebagai = 'penguji 1' ")->getResult();
+                    //         if (empty($cek_nilai_penguji1) || empty($cek_nilai_penguji1[0]->nilai_ujian)) {
+                    //           $db->query("UPDATE `tb_nilai` SET nilai_ujian='80' where id_nilai='" . $cek_nilai_penguji1[0]->id_nilai . "'");
+                    //         }
+                    //         $cek_nilai_penguji2 = $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' AND nip ='" . $penguji2[0]->nip . "' AND sebagai = 'penguji 2' ")->getResult();
+                    //         if (empty($cek_nilai_penguji2) || empty($cek_nilai_penguji2[0]->nilai_ujian)) {
+                    //           $db->query("UPDATE `tb_nilai` SET nilai_ujian='80' where id_nilai='" . $cek_nilai_penguji2[0]->id_nilai . "'");
+                    //           // $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji2[0]->nip . "','penguji 2','80')");
+                    //         }
+                    //         $cek_nilai_penguji3 = $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' AND nip ='" . $penguji3[0]->nip . "' AND sebagai = 'penguji 3' ")->getResult();
+                    //         if (empty($cek_nilai_penguji3) || empty($cek_nilai_penguji3[0]->nilai_ujian)) {
+                    //           $db->query("UPDATE `tb_nilai` SET nilai_ujian='80' where id_nilai='" . $cek_nilai_penguji3[0]->id_nilai . "'");
+                    //           // $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . session()->get('ses_id') . "','" . $penguji3[0]->nip . "','penguji 3','80')");
+                    //         }
+                    //         $cek_nilai_pembimbing1 =  $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' AND sebagai = 'pembimbing 1' ")->getResult();
+                    //         if (empty($cek_nilai_pembimbing1) || empty($cek_nilai_pembimbing1[0]->nilai_bimbingan) || empty($cek_nilai_pembimbing1[0]->nilai_ujian)) {
+                    //           $db->query("UPDATE `tb_nilai` SET nilai_ujian='80', nilai_bimbingan='80' where id_nilai='" . $cek_nilai_pembimbing1[0]->id_nilai . "'");
+                    //           // $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . session()->get('ses_id') . "','" . $dosen_pembimbing[0]->nip . "','pembimbing 1','80','80')");
+                    //         }
+                    //         $cek_nilai_pembimbing2 =  $db->query("SELECT * FROM tb_nilai where nim ='" . session()->get('ses_id') . "' AND sebagai = 'pembimbing 2' ")->getResult();
+                    //         if (empty($cek_nilai_pembimbing2)  || empty($cek_nilai_pembimbing2[0]->nilai_bimbingan) || empty($cek_nilai_pembimbing2[0]->nilai_ujian)) {
+                    //           $db->query("UPDATE `tb_nilai` SET nilai_ujian='80', nilai_bimbingan='80' where id_nilai='" . $cek_nilai_pembimbing2[0]->id_nilai . "'");
+                    //           // $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . session()->get('ses_id') . "','" . $dosen_pembimbing[1]->nip . "','pembimbing 2','80','80')");
+                    //         }
+                    //       }
+                    //     }
+                    //   }
+                    // }
                     ?>
                     <tr>
                       <td scope="row">1</td>
