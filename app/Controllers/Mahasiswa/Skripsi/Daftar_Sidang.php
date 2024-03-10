@@ -130,18 +130,20 @@ class Daftar_Sidang extends BaseController
         ini_set('upload_max_filesize', '1000M');
         if (!$this->validate([
             'berkas_proposal' => [
-                'rules' => 'uploaded[berkas_proposal]|mime_in[berkas_proposal,application/pdf]',
+                'rules' => 'uploaded[berkas_proposal]|mime_in[berkas_proposal,application/pdf]|max_size[berkas_proposal, 5026]',
                 'errors' => [
                     'uploaded' => 'File berkas proposal harus diupload.',
-                    'mime_in' => 'File Extention Harus Berupa pdf'
+                    'mime_in' => 'File Extention Harus Berupa pdf',
+                    'max_size' => 'Ukuran File proposal Maksimal 5 MB'
                 ]
 
             ],
             'berkas_turnitin' => [
-                'rules' => 'uploaded[berkas_turnitin]|mime_in[berkas_turnitin,application/pdf]',
+                'rules' => 'uploaded[berkas_turnitin]|mime_in[berkas_turnitin,application/pdf]|max_size[berkas_proposal, 5026]',
                 'errors' => [
                     'uploaded' => 'File berkas turnitin harus diupload.',
-                    'mime_in' => 'File Extention Harus Berupa pdf'
+                    'mime_in' => 'File Extention Harus Berupa pdf',
+                    'max_size' => 'Ukuran File turnitin Maksimal 20 MB'
                 ]
             ]
         ])) {
@@ -170,6 +172,15 @@ class Daftar_Sidang extends BaseController
                 </button>
             </div>');
             } else {
+                $nim = session()->get('ses_id');
+                $this->db->query("UPDATE tb_penguji SET `status`='nonaktif' WHERE nim='$nim' AND jenis_sidang = 'sidang skripsi'");
+                $penguji1 = $this->db->query("SELECT * FROM tb_penguji where nim ='" . session()->get('ses_id') . "' AND jenis_sidang = '' AND status='aktif' AND sebagai = 1")->getResult()[0]->nip;
+                $penguji2 = $this->db->query("SELECT * FROM tb_penguji where nim ='" . session()->get('ses_id') . "' AND jenis_sidang = '' AND status='aktif' AND sebagai = 2")->getResult()[0]->nip;
+                $penguji3 = $this->db->query("SELECT * FROM tb_penguji where nim ='" . session()->get('ses_id') . "' AND jenis_sidang = '' AND status='aktif' AND sebagai = 3")->getResult()[0]->nip;
+                // dd($penguji1);
+                $this->db->query("INSERT INTO tb_penguji (nim,nip,sebagai,`status`,jenis_sidang) VALUES('$nim','$penguji1','1','aktif','sidang skripsi')");
+                $this->db->query("INSERT INTO tb_penguji (nim,nip,sebagai,`status`,jenis_sidang) VALUES('$nim','$penguji2','2','aktif','sidang skripsi')");
+                $this->db->query("INSERT INTO tb_penguji (nim,nip,sebagai,`status`,jenis_sidang) VALUES('$nim','$penguji3','3','aktif','sidang skripsi')");
                 if ($berkas->move(WRITEPATH . '../public/berkas/', $name) && $berkas2->move(WRITEPATH . '../public/berkas/', $name2)) {
                     $this->db->query("INSERT INTO tb_pendaftar_sidang (nim,id_jadwal,create_at,file_proposal,file_turnitin) VALUES ('" . session()->get('ses_id') . "','$id_jadwal',now(),'" . $name . "','" . $name2 . "')");
                     session()->setFlashdata("message", '<div class="alert alert-success alert-dismissible fade show" role="alert">

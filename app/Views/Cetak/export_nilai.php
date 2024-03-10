@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:x="urn:schemas-microsoft-com:office:excel">
 
 <head>
     <meta charset="UTF-8">
@@ -10,8 +10,9 @@
 
 <body>
     <?php
+    header("Cache-Control: no-cache, no-store, must-revalidate");
     header("Content-type: application/vnd-ms-excel");
-    header("Content-Disposition: attachment; filename=Daftar Nilai.xls");
+    header("Content-Disposition: attachment; filename=Daftar Nsilai.xls");
     ?>
     <table border="1">
         <thead>

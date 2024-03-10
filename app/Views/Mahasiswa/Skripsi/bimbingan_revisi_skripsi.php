@@ -114,6 +114,7 @@ use CodeIgniter\Images\Image;
                                             <div class="media-contact-name">
                                                 <span>
                                                     <?php
+
                                                     if ($key2->nip == $how) {
                                                         $image_dosen = $key2->image != NULL ? $key2->image : 'Profile_Default.png';
                                                         $pembimbing = "Penguji $key2->sebagai";

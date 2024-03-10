@@ -82,6 +82,7 @@ class Mahasiswa extends BaseController
             'db' => $this->db,
             'total_data' => $total_data
         ];
+
         return view('Admin/data_prodi', $data);
     }
     public function angkatan_mhs($id)

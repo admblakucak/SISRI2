@@ -178,6 +178,7 @@ use CodeIgniter\Images\Image;
                                             <?php
                                             date_default_timezone_set("Asia/Jakarta");
                                             $no = 1;
+                                            $sudah_mendaftar = false;
                                             foreach ($data_jadwal as $key) {
                                                 if (time() <= strtotime($key->expire)) {
                                                     // }
@@ -194,18 +195,35 @@ use CodeIgniter\Images\Image;
                                                             $acc_pem2 = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . session()->get('ses_id') . "' AND izin_sebagai='pembimbing 2' AND jenis_sidang='seminar proposal' AND `status`='disetujui' ")->getResult();
                                                             $acc_kor = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . session()->get('ses_id') . "' AND izin_sebagai='koordinator' AND jenis_sidang='seminar proposal' AND `status`='disetujui' ")->getResult();
                                                             $cek_pendaftar_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang WHERE nim='" . session()->get('ses_id') . "' AND id_jadwal='" . $key->id_jadwal . "' ")->getResult();
-                                                            $cek_status_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='seminar proposal' AND a.`nim`='" . session()->get('ses_id') . "' AND (hasil_sidang!=3)")->getResult();
+                                                            $cek_status_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='seminar proposal' AND a.`nim`='" . session()->get('ses_id') . "' AND (a.hasil_sidang <3 or a.hasil_sidang is null)")->getResult();
+                                                            // dd($cek_status_sidang);
                                                             if (time() < strtotime($key->open)) {
                                                                 echo "<a class='text-danger'>Belum Dibuka</a>";
                                                             } elseif (time() >= strtotime($key->open)) {
                                                                 if (count($acc_pem1) > 0 && count($acc_pem2) > 0 && count($acc_kor) > 0) {
+                                                                    // dd($cek_pendaftar_sidang[0]->hasil_sidang);
                                                                     if (count($cek_pendaftar_sidang) > 0) {
-                                                                        echo "<a class='text-success'>Telah Mendaftar</a>";
-                                                                    } else {
-                                                                        if (count($cek_status_sidang) <= 0) {
+                                                                        if ($cek_pendaftar_sidang[0]->hasil_sidang < 3) {
+                                                                            $sudah_mendaftar = true;
                                                             ?>
+                                                                            <a class='text-success'> Anda Sudah terdaftar pada Seminar Proposal Periode <?= empty($cek_status_sidang[0]->periode) ? "" : $cek_status_sidang[0]->periode ?> </a>
+
+                                                                        <?php } else { ?>
+                                                                            <a class='text-danger'> Hasil Seminar Proposal Anda Ditolak</a>
+
+                                                                        <?php }
+                                                                        ?>
+                                                                        <?php } else {
+                                                                        // dd($cek_status_sidang);
+                                                                        if (count($cek_status_sidang) > 0) {
+                                                                            // dd('masuk sini');
+                                                                        ?>
                                                                             <div class="btn-group">
-                                                                                <a class="btn btn-primary btn-sm" data-bs-target="#modaldaftar<?= $key->id_jadwal ?>" id="revisi" data-bs-toggle="modal" href="#">Daftar Seminar</a>
+                                                                                <button class="btn btn-primary btn-sm" data-bs-target="#modaldaftar<?= $key->id_jadwal ?>" id="revisi" data-bs-toggle="modal" href="#" disabled>Daftar Seminar</button>
+                                                                            </div>
+                                                                        <?php } else { ?>
+                                                                            <div class="btn-group">
+                                                                                <button class="btn btn-primary btn-sm" data-bs-target="#modaldaftar<?= $key->id_jadwal ?>" id="revisi" data-bs-toggle="modal" href="#">Daftar Seminar</button>
                                                                             </div>
                                                             <?php }
                                                                     }

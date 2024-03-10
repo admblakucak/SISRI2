@@ -62,7 +62,7 @@ class Revisi extends BaseController
                 'jk' => $key->jk,
                 'namaunit' => $key->namaunit,
                 'image' => $image,
-                'sum_pemberitahuan' => $sum_pemberitahuan
+                'sum_pemberitahuan' => $sum_pemberitahuan,
             ];
             array_push($data_mhs, $data);
         }
@@ -77,7 +77,10 @@ class Revisi extends BaseController
             'db' => $this->db,
             'data_mhs_bimbingan_baru' => $data_baru,
             'data_mhs_bimbingan' => $data_mhs,
+            'status_acc_revisi' => $this->db->query("SELECT * FROM tb_acc_revisi WHERE nip='" . session()->get('ses_id') . "' AND jenis_sidang='skripsi'")->getResult()
         ];
+
+        // dd($data['status_acc_revisi']);
         return view('Dosen/Skripsi/data_bimbingan_revisi_skripsi', $data);
     }
     public function bimbingan_skripsi_dosen($nim)

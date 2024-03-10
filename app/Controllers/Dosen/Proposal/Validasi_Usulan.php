@@ -25,9 +25,10 @@ class Validasi_Usulan extends BaseController
             'jumlah_pembimbing_p2' => $this->db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 2'")->getResult(),
             'data_menunggu' => $this->db->query("SELECT a.*,b.*,c.*,c.`nama` AS nama_topik,d.nama as nama_mhs FROM tb_pengajuan_pembimbing a LEFT JOIN tb_pengajuan_topik b ON a.`nim`=b.nim LEFT JOIN tb_topik c ON b.`id_topik`=c.`idtopik` LEFT JOIN tb_mahasiswa d ON a.`nim`=d.`nim` WHERE nip='" . session()->get('ses_id') . "' AND status_pengajuan='menunggu'")->getResult(),
             'data_ditolak' => $this->db->query("SELECT a.*,b.nim AS nim,b.`nip` AS nip,sebagai,status_pengajuan,pesan,reject_at,c.`nama`,e.`nama` AS nama_topik,d.`judul_topik` AS judul FROM tb_penolakan_pengajuan_pembimbing a  LEFT JOIN tb_pengajuan_pembimbing b ON a.`id_pengajuan_pembimbing`=b.`id_pengajuan_pembimbing` LEFT JOIN tb_mahasiswa c ON b.`nim`=c.`nim` LEFT JOIN tb_pengajuan_topik d ON b.`nim`=d.`nim` LEFT JOIN tb_topik e ON d.`id_topik`=e.idtopik WHERE b.nip='" . session()->get('ses_id') . "'")->getResult(),
-            'data_diterima' => $this->db->query("SELECT d.judul_topik,b.`id_pengajuan_pembimbing`, b.`nim`,c.`nama`,b.`nip`,b.`agree_at`,b.`sebagai`,d.`berkas`,b.`status_pengajuan`,e.`nama` AS nama_topik
-            FROM tb_pengajuan_pembimbing b LEFT JOIN tb_mahasiswa c ON b.`nim`=c.`nim` LEFT JOIN tb_pengajuan_topik d ON b.`nim`=d.`nim` LEFT JOIN tb_topik e ON d.`id_topik`=e.idtopik WHERE b.nip='" . session()->get('ses_id') . "' AND status_pengajuan='diterima'")->getResult()
+            'data_diterima' => $this->db->query("SELECT d.judul_topik,b.`id_pengajuan_pembimbing`, b.`nim`,c.`nama`,b.`nip`,b.`agree_at`,b.`sebagai`,d.`berkas`,b.`status_pengajuan`,e.`nama` AS nama_topik, b.pesan
+            FROM tb_pengajuan_pembimbing b LEFT JOIN tb_mahasiswa c ON b.`nim`=c.`nim` LEFT JOIN tb_pengajuan_topik d ON b.`nim`=d.`nim` LEFT JOIN tb_topik e ON d.`id_topik`=e.idtopik WHERE b.nip='" . session()->get('ses_id') . "' AND status_pengajuan='diterima' AND b.pesan IS NULL")->getResult()
         ];
+        // dd($data['data_diterima']);
         return view('Dosen/Proposal/Validasi_Usulan', $data);
     }
     public function setujui_validasi($id)

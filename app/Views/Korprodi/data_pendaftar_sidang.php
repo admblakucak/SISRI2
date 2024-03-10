@@ -5,6 +5,8 @@ use CodeIgniter\Images\Image;
 <?= $this->extend('Template/content') ?>
 
 <?= $this->section('content') ?>
+
+
 <div class="container-fluid">
     <div class="row mt-3">
         <div class="col-xl-12">
@@ -95,10 +97,20 @@ use CodeIgniter\Images\Image;
                                             $penguji_1 = '';
                                             $penguji_2 = '';
                                             $penguji_3 = '';
+                                            // dd($data_jadwal[0]->jenis_sidang);
                                             if ($data_jadwal[0]->jenis_sidang == 'sidang skripsi') {
-                                                $penguji1 = $db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$key->nim' AND a.sebagai='1' AND a.`status`='aktif'")->getResult();
-                                                $penguji2 = $db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$key->nim' AND a.sebagai='2' AND a.`status`='aktif'")->getResult();
-                                                $penguji3 = $db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$key->nim' AND a.sebagai='3' AND a.`status`='aktif'")->getResult();
+                                                $penguji1 = $db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$key->nim' AND a.sebagai='1' AND a.`status`='aktif' AND jenis_sidang='sidang skripsi'")->getResult();
+                                                $penguji2 = $db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$key->nim' AND a.sebagai='2' AND a.`status`='aktif' AND jenis_sidang='sidang skripsi'")->getResult();
+                                                $penguji3 = $db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$key->nim' AND a.sebagai='3' AND a.`status`='aktif' AND jenis_sidang='sidang skripsi'")->getResult();
+                                                if (empty($penguji1[0]->jenis_sidang)) {
+                                                    $penguji1 = $db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$key->nim' AND a.sebagai='1' AND a.`status`='aktif'")->getResult();
+                                                }
+                                                if (empty($penguji2[0]->jenis_sidang)) {
+                                                    $penguji2 = $db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$key->nim' AND a.sebagai='2' AND a.`status`='aktif'")->getResult();
+                                                }
+                                                if (empty($penguji3[0]->jenis_sidang)) {
+                                                    $penguji3 = $db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$key->nim' AND a.sebagai='3' AND a.`status`='aktif'")->getResult();
+                                                }
                                             }
                                             if ($penguji1 != NULL) {
                                                 $penguji_1 = $penguji1[0]->nip;
@@ -124,7 +136,22 @@ use CodeIgniter\Images\Image;
                                                 <td><?= $key->ruang_sidang ?></td>
                                                 <?php
                                                 if ($data_jadwal[0]->jenis_sidang == 'sidang skripsi') {
-                                                    $d_s = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE a.`nim`='" . $key->nim . "' AND b.`jenis_sidang`='seminar proposal' ORDER BY a.`create_at` DESC")->getResult();
+                                                    if (!empty($key->waktu_sidang)) {
+                                                        $d_now = new Datetime();
+                                                        $d_sidang = new Datetime($key->waktu_sidang);
+                                                        if ($d_now > $d_sidang) {
+                                                        
+                                                            # code...
+                                                        }
+                                                        $selisih = date_diff($d_now, $d_sidang);
+                                                        // dd($selisih);
+                                                        $cek_nilai = $db->query("SELECT * FROM tb_nilai where nim ='" . $key->nim . "'")->getResult();
+                                                        if ($cek_nilai === false) {
+                                                            # code...
+                                                        }
+                                                    }
+                                                    $d_s = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE a.`nim`='" . $key->nim . "' AND b.`jenis_sidang`='seminar proposal' ORDER BY a.`create_at` ASC")->getResult();
+                                                    // dd($d_s);
                                                     if (isset($d_s[0])) {
                                                         if ($d_s[0]->waktu_sidang == "0000-00-00 00:00:00") {
                                                             $d_s = date_create(date('Y-m-d', strtotime($d_s[0]->create_at)));
@@ -140,120 +167,27 @@ use CodeIgniter\Images\Image;
                                                 }
                                                 ?>
                                                 <td>
-                                                    <a class="btn btn-warning btn-sm" data-bs-target="#modalupdate<?= $key->id_pendaftar ?>" data-bs-toggle="modal" href="#"><i class="las la-pen">Setting</i></a>
+                                                    <form action="<?= base_url() ?>edit_data_pendaftar" method="POST" enctype="multipart/form-data">
+                                                        <?= csrf_field() ?>
+
+                                                        <input type="hidden" name='id_pendaftar' value="<?= $key->id_pendaftar ?>">
+                                                        <input type="hidden" name='id_jadwal' value="<?= $key->id_jadwal ?>">
+                                                        <input type="hidden" name='idunit' value="<?= $idunit ?>">
+                                                        <input type="hidden" name='nim' value="<?= $key->nim ?>">
+                                                        <input type="hidden" name='penguji_1' value="<?= $penguji_1 ?>">
+                                                        <input type="hidden" name='penguji_2' value="<?= $penguji_2 ?>">
+                                                        <input type="hidden" name='penguji_3' value="<?= $penguji_3 ?>">
+                                                        <input type="hidden" name='waktu_sidang' value="<?= $key->waktu_sidang ?>">
+                                                        <input type="hidden" name='ruang_sidang' value="<?= $key->ruang_sidang ?>">
+                                                        <input type="hidden" name='pem1' value="<?= $pem1[0]->nip ?>">
+                                                        <input type="hidden" name='pem2' value="<?= $pem2[0]->nip ?>">
+                                                        <input type="hidden" name='data_jadwal[0]->jenis_sidang' value="<?= $data_jadwal[0]->jenis_sidang ?>">
+                                                        <input type="hidden" name='update' value="update">
+                                                        <button class="btn btn-warning btn-sm setting_jadwal" type="submit"><i class="las la-pen">Setting</i></button>
+                                                        <!-- <a class="btn btn-warning btn-sm setting_jadwal" id="btn<?= $key->id_pendaftar ?>" href="#"><i class="las la-pen">Setting</i></a> -->
+                                                    </form>
                                                 </td>
-                                                <div class="modal" id="modalupdate<?= $key->id_pendaftar ?>">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content modal-content-demo">
-                                                            <div class="modal-header">
-                                                                <h6 class="modal-title">Edit Jadwal Sidang</h6><button aria-label="Close" class="close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-                                                            </div>
-                                                            <form action="<?= base_url() ?>data_pendaftar" method="POST" enctype="multipart/form-data">
-                                                                <?= csrf_field() ?>
-                                                                <input type="hidden" name="id_pendaftar" value="<?= $key->id_pendaftar ?>" />
-                                                                <input type="hidden" name="id_jadwal" value="<?= $id_jadwal ?>" />
-                                                                <input type="hidden" name="nim" value="<?= $key->nim ?>" />
-                                                                <input type="hidden" name="jenis_sidang" value="<?= $data_jadwal[0]->jenis_sidang ?>" />
-                                                                <div class="modal-body">
-                                                                    <input type="hidden" name="idunit" value="<?= $idunit ?>">
-                                                                    <div class="form-group">
-                                                                        <label for="exampleInputTutup">Waktu Sidang</label>
-                                                                        <div class="row row-sm">
-                                                                            <div class="input-group col-md-12">
-                                                                                <div class="input-group-text">
-                                                                                    <div class="input-group-text">
-                                                                                        <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <input name='waktu_sidang' class="form-control" id="datepickeropen<?= $key->id_pendaftar ?>" value="<?= $key->waktu_sidang ?>" type="text">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <label for="exampleInputPeriode">Ruang Sidang</label>
-                                                                        <input type="teks" class="form-control" id="exampleInput" value="<?= $key->ruang_sidang ?>" name="ruang_sidang">
-                                                                    </div>
-                                                                    <?php if ($data_jadwal[0]->jenis_sidang == 'seminar proposal') { ?>
-                                                                        <div class="form-group">
-                                                                            <label for="exampleInputJenis Sidang">Penguji 1</label>
-                                                                            <div class="row row-sm">
-                                                                                <select class="form-control select" name="nip_p1">
-                                                                                    <?php
-                                                                                    $cek = $db->query("SELECT * FROM tb_penguji where sebagai='1' and id_pendaftar='$key->id_pendaftar'")->getResult();
-                                                                                    ?>
-                                                                                    <option <?= $cek == NULL ? 'selected' : '' ?> disabled> Pilih Penguji 1
-                                                                                    </option>
-                                                                                    <?php
-                                                                                    foreach ($data_dosen_f as $key1) {
-                                                                                        if ($key1->nip != $pem1[0]->nip && $key1->nip != $pem2[0]->nip) {
-                                                                                    ?>
-                                                                                            <option <?= $key1->nip == $penguji_1 ? 'selected' : '' ?> value="<?= $key1->nip ?>">
-                                                                                                <?= $key1->nip . ' - ' . $key1->gelardepan . ' ' . $key1->nama . ', ' . $key1->gelarbelakang ?>
-                                                                                            </option>
-                                                                                    <?php }
-                                                                                    } ?>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="exampleInputJenis Sidang">Penguji 2</label>
-                                                                            <div class="row row-sm">
-                                                                                <select class="form-control select" name="nip_p2">
-                                                                                    <?php
-                                                                                    $cek = $db->query("SELECT * FROM tb_penguji where sebagai='2' and id_pendaftar='$key->id_pendaftar'")->getResult();
-                                                                                    ?>
-                                                                                    <option <?= $cek == NULL ? 'selected' : '' ?> disabled> Pilih Penguji 2
-                                                                                    </option>
-                                                                                    <?php
-                                                                                    foreach ($data_dosen_f as $key1) {
-                                                                                        if ($key1->nip != $pem1[0]->nip && $key1->nip != $pem2[0]->nip) {
-                                                                                    ?>
-                                                                                            <option <?= $key1->nip == $penguji_2 ? 'selected' : '' ?> value="<?= $key1->nip ?>">
-                                                                                                <?= $key1->nip . ' - ' . $key1->gelardepan . ' ' . $key1->nama . ', ' . $key1->gelarbelakang ?>
-                                                                                            </option>
-                                                                                    <?php }
-                                                                                    } ?>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="exampleInputJenis Sidang">Penguji 3</label>
-                                                                            <div class="row row-sm">
-                                                                                <select class="form-control select" name="nip_p3">
-                                                                                    <?php
-                                                                                    $cek = $db->query("SELECT * FROM tb_penguji where sebagai='3' and id_pendaftar='$key->id_pendaftar'")->getResult();
-                                                                                    ?>
-                                                                                    <option <?= $cek == NULL ? 'selected' : '' ?> disabled> Pilih Penguji 3
-                                                                                    </option>
-                                                                                    <?php
-                                                                                    foreach ($data_dosen_f as $key1) {
-                                                                                        if ($key1->nip != $pem1[0]->nip && $key1->nip != $pem2[0]->nip) {
-                                                                                    ?>
-                                                                                            <option <?= $key1->nip == $penguji_3 ? 'selected' : '' ?> value="<?= $key1->nip ?>">
-                                                                                                <?= $key1->nip . ' - ' . $key1->gelardepan . ' ' . $key1->nama . ', ' . $key1->gelarbelakang ?>
-                                                                                            </option>
-                                                                                    <?php }
-                                                                                    } ?>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    <?php } ?>
-                                                                </div>
-                                                                <script type="text/javascript">
-                                                                    $(function() {
-                                                                        $('#datepickeropen<?= $key->id_pendaftar ?>').datetimepicker();
-                                                                        $('#datepickerexpire<?= $key->id_pendaftar ?>').datetimepicker();
-                                                                    });
-                                                                </script>
-                                                                <div class="modal-footer">
-                                                                    <input type="hidden" name='update' value="update">
-                                                                    <button class="btn ripple btn-primary" type="submit">Update</button>
-                                                                    <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Keluar</button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
+
                                             </tr>
                                         <?php $no++;
                                         } ?>
@@ -272,4 +206,6 @@ use CodeIgniter\Images\Image;
         window.history.replaceState(null, null, window.location.href);
     }
 </script>
+
+
 <?= $this->endSection(); ?>

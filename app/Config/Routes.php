@@ -96,6 +96,11 @@ $routes->add('/delete_korprodi', 'Admin\Korprodi::delete');
 $routes->add('/data_akun_khusus', 'Admin\Akun_Khusus::index');
 $routes->add('/add_akun_khusus', 'Admin\Akun_Khusus::add');
 $routes->add('/delete_akun_khusus', 'Admin\Akun_Khusus::delete');
+//ROute Khusus Controller Admin-Akademik
+$routes->add('/data_admin_akademik', 'Admin\Admin_Akademik::index');
+$routes->add('/add_admin_akademik', 'Admin\Admin_Akademik::add');
+$routes->add('/delete_admin_akademik', 'Admin\Admin_Akademik::delete');
+
 // -------------------------------------MAHASISWA-----------------------------------------
 //Route Khusus Controller Mahasiswa-Beranda
 $routes->add('/beranda_mahasiswa', 'Mahasiswa\Beranda::index');
@@ -135,6 +140,8 @@ $routes->add('/hapus_bimbingan_revisi_skripsi', 'Mahasiswa\Skripsi\Revisi::hapus
 $routes->add('/daftar_sidang', 'Mahasiswa\Skripsi\Daftar_Sidang::index');
 $routes->add('/izin_sidang', 'Mahasiswa\Skripsi\Daftar_Sidang::izin');
 $routes->add('/mendaftar_sidang', 'Mahasiswa\Skripsi\Daftar_Sidang::mendaftar');
+//Route Khusus Controller Mahasiswa-InformasiNilai
+$routes->add('/informasi_nilai', 'Mahasiswa\Informasi_nilai::index');
 // --------------------------------------DOSEN-------------------------------------------
 //Route Khusus Controller Dosen-Beranda
 $routes->add('/beranda_dosen', 'Dosen\Beranda::index');
@@ -186,6 +193,9 @@ $routes->add('/input_nilai_bimbingan', 'Dosen\Nilai::index');
 $routes->add('/save_nilai_bimbingan', 'Dosen\Nilai::save_nilai_bimbingan');
 $routes->add('/input_nilai_skripsi', 'Dosen\Nilai::nilai_skripsi');
 $routes->add('/save_nilai_skripsi', 'Dosen\Nilai::save_nilai_skripsi');
+// Routes riwayat bimbingan
+$routes->add('/riwayat_bimbingan', 'Dosen\Riwayat_bimbingan::index');
+
 // --------------------------------------KORPRODI-------------------------------------------
 //Route Khusus Controller Korprodi-Penjadwalan Sidang
 $routes->add('/bidang_minat', 'Korprodi\Bidang_Minat::index');
@@ -198,17 +208,30 @@ $routes->add('/add_jadwal_sidang', 'Korprodi\Penjadwalan_Sidang::add');
 $routes->add('/del_jadwal_sidang', 'Korprodi\Penjadwalan_Sidang::del');
 $routes->add('/upd_jadwal_sidang', 'Korprodi\Penjadwalan_Sidang::upd');
 $routes->add('/data_pendaftar', 'Korprodi\Penjadwalan_Sidang::data_pendaftar');
+$routes->post('/edit_data_pendaftar', 'Korprodi\Penjadwalan_Sidang::edit_data_pendaftar/');
+
 $routes->add('/direct_cetak_pendaftar', 'Korprodi\Penjadwalan_Sidang::direct_cetak_pendaftar');
 //Route Khusus Controller Korprodi-Validasi Daftar Seminar
 $routes->add('/validasi_daftar_seminar_koor', 'Korprodi\Validasi_Daftar_Seminar::index');
 $routes->add('/proses_validasi_daftar_seminar_koor', 'Korprodi\Validasi_Daftar_Seminar::validasi');
 //Route Khusus Controller Koorprodi-Nilai
 $routes->add('/daftar_nilai', 'Korprodi\Nilai::index');
+$routes->add('/daftar_belum_dinilai', 'Korprodi\Nilai::belum_dinilai');
+$routes->add('/daftar_sudah_dinilai', 'Korprodi\Nilai::sudah_dinilai');
 $routes->add('/export_nilai', 'Korprodi\Nilai::export');
 $routes->get('/export_nilai_pdf/(:any)/(:any)', 'Korprodi\Nilai::export_pdf/$1/$2');
+$routes->get('/export_sudah_nilai_pdf/(:any)/(:any)', 'Korprodi\Nilai::export_sudah_dinilai_pdf/$1/$2');
 //Route Khusus Controller Koorprodi-Data dosesn
 $routes->add('/data_dosen_koorprodi', 'Korprodi\Data_Dosen::index');
 $routes->add('/update_kuota_dosen', 'Korprodi\Data_Dosen::update');
+
+// --------------------------------------Admin Akademik-------------------------------------------
+$routes->add('/admin_akademik_data_nilai', 'Admin_akademik\Data_Nilai::index');
+$routes->add('/admin_akademik_data_skripsi', 'Admin_akademik\Data_Skripsi::index');
+$routes->add('/export_nilai_admin_akademik', 'Admin_akademik\Data_Nilai::export');
+
+
+
 // --------------------------------------CETAK-------------------------------------------
 $routes->add('/berkas_mhs_proposal', 'Cetak::berkas_mhs_proposal');
 $routes->add('/berkas_mhs_skripsi', 'Cetak::berkas_mhs_skripsi');
@@ -216,6 +239,8 @@ $routes->get('/form_bimbingan_proposal/(:any)/(:any)', 'Cetak::form_bimbingan_pr
 $routes->get('/berita_acara_proposal/(:any)', 'Cetak::berita_acara_proposal/$1');
 $routes->get('/form_bimbingan_skripsi/(:any)/(:any)', 'Cetak::form_bimbingan_skripsi/$1/$2');
 $routes->get('/berita_acara_skripsi/(:any)', 'Cetak::berita_acara_skripsi/$1');
+$routes->get('/nilai_akhir_skripsi/(:any)', 'Cetak::nilai_akhir_skripsi/$1');
+// $routes->get('/cetak_daftar_sudah_dinilai/(:any)', 'Cetak::export_pdf/$1');
 
 $routes->get('/cetak_pendaftar/(:any)/(:any)/(:any)', 'Cetak::pendaftar/$1/$2/$3');
 

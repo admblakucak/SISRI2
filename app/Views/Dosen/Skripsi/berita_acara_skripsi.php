@@ -64,7 +64,7 @@ use CodeIgniter\Images\Image;
                                                                         ?>
                                                                             <tr>
                                                                                 <td><?= $no ?></td>
-                                                                                <td><?= $key1->nim . ' - ' . $key1->nama ?></td>
+                                                                                <td><?= $key1->nim . ' - ' . $key1->nama ?></td> 
                                                                                 <td>
                                                                                     <?php 
                                                                                     // $judul[0]->judul_topik
