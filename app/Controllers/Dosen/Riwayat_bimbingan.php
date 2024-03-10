@@ -25,7 +25,6 @@ class Riwayat_bimbingan extends BaseController
 
     $data_mhs_bimbingan = $this->db->query("SELECT a.nip,a.nim,a.sebagai,a.status_pengajuan, b.nama as nama_mhs, b.idunit as namaunit  FROM `tb_pengajuan_pembimbing` a LEFT JOIN tb_mahasiswa b ON a.nim = b.nim WHERE a.nip = '" . $id . "'  AND a.status_pengajuan = 'diterima'")->getResult();
     $data_mhs_uji = $this->db->query("SELECT a.nip,a.nim,a.sebagai, b.nama as nama_mhs, b.idunit as namaunit  FROM `tb_penguji` a LEFT JOIN tb_mahasiswa b ON a.nim = b.nim WHERE a.nip = '" . $id . "'")->getResult();
-    // dd("SELECT a.nip,a.nim,a.sebagai,a.status_pengajuan, b.nama as nama_mhs, b.idunit as namaunit  FROM `tb_pengajuan_pembimbing` a LEFT JOIN tb_mahasiswa b ON a.nim = b.nim WHERE a.nip = '" . $id . "'  AND a.status_pengajuan = 'diterima'");
     foreach ($data_mhs_bimbingan as $key) {
       $data = [
         'nim' => $key->nim,
@@ -43,7 +42,6 @@ class Riwayat_bimbingan extends BaseController
       ];
       array_push($data_mhs, $data);
     }
-    // dd($data_mhs);
     $data = [
       'title' => 'Riwayat Bimbingan',
       'db' => $this->db,

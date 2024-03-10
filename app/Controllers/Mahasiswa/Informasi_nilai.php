@@ -41,12 +41,9 @@ class Informasi_nilai extends BaseController
     $nilai_penguji1 = $this->db->query("SELECT * FROM `tb_nilai` a  WHERE a.nim = '" . $id . "' AND sebagai = 'penguji 1'AND nip ='" . $penguji1[0]->nip . "'")->getResult();
     $nilai_penguji2 = $this->db->query("SELECT * FROM `tb_nilai` a  WHERE a.nim = '" . $id . "' AND sebagai = 'penguji 2'AND nip ='" . $penguji2[0]->nip . "'")->getResult();
     $nilai_penguji3 = $this->db->query("SELECT * FROM `tb_nilai` a  WHERE a.nim = '" . $id . "' AND sebagai = 'penguji 3'AND nip ='" . $penguji3[0]->nip . "'")->getResult();
-    // dd("SELECT * FROM `tb_nilai` a  WHERE a.nim = '" . $id . "' AND sebagai = 'penguji 3'");
     $db = $this->db;
-    // dd($nilai_penguji3);
     $pembimbing1 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $id . "' AND sebagai='pembimbing 1'")->getResult();
     $pembimbing2 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $id . "' AND sebagai='pembimbing 2'")->getResult();
-    // dd($pembimbing2);
     // $penguji1 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $id . "' AND sebagai='penguji 1'")->getResult();
     // $penguji2 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $id . "' AND sebagai='penguji 2'")->getResult();
     // $penguji3 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $id . "' AND sebagai='penguji 3'")->getResult();
@@ -120,7 +117,6 @@ class Informasi_nilai extends BaseController
       'nilai_penguji3' => $nilai_penguji3,
       'grade' => $grade
     ];
-    // dd($data['dosen_pembimbing'][0]->nip);
     return view('Mahasiswa/informasi_nilai', $data);
   }
 }

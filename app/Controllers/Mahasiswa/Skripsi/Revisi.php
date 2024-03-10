@@ -36,7 +36,6 @@ class Revisi extends BaseController
         $dosen_penguji = [];
         array_push($dosen_penguji, $penguji1[0], $penguji2[0], $penguji3[0]);
 
-        // dd($penguji1);
         $data = [
             'title' => 'Bimbingan Revisi Skripsi',
             'how' => $how,

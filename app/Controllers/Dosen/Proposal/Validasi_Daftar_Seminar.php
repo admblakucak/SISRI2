@@ -23,7 +23,6 @@ class Validasi_Daftar_Seminar extends BaseController
         $data_mhs_bimbingan = $this->db->query("SELECT a.*,b.`nama` AS nama_mhs, b.`jk`, c.`namaunit`, d.* FROM tb_pengajuan_pembimbing a LEFT JOIN tb_mahasiswa b ON b.`nim`=a.`nim` LEFT JOIN tb_unit c ON b.`idunit`=c.`idunit` LEFT JOIN tb_profil_tambahan d ON a.`nim`=d.`id` WHERE nip='$id' AND status_pengajuan='diterima' ORDER BY `a`.`nim` ASC ")->getResult();
         // $data_mhs_bimbingan_disetujui = $this->db->query("SELECT status,nim FROM `tb_perizinan_sidang` WHERE nip = '$id' AND jenis_sidang = 'seminar proposal' ORDER BY `nim` ASC")->getResult();
 
-        // dd($data_mhs_bimbingan_disetujui);
         $i = 0;
         foreach ($data_mhs_bimbingan as $key) {
             // dd($i);
@@ -63,7 +62,6 @@ class Validasi_Daftar_Seminar extends BaseController
             $i++;
         }
 
-        // dd($data_mhs);
         $data = [
             'title' => 'Validasi Pendaftar Seminar Proposal',
             'db' => $this->db,

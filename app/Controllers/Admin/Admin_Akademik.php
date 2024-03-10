@@ -37,7 +37,6 @@ class Admin_Akademik extends BaseController
 
     ];
 
-    // dd($data['prodi']);
     return view('Admin/data_admin_akademik', $data);
   }
   public function add()

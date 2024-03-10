@@ -50,7 +50,6 @@ class Cetak extends BaseController
             'penguji_2' => $this->db->query("SELECT * from tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` where a.nim='" . session()->get('ses_id') . "' AND a.`status`='aktif' AND a.sebagai='2' ORDER BY a.`jenis_sidang` DESC ")->getResult(),
             'penguji_3' => $this->db->query("SELECT * from tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` where a.nim='" . session()->get('ses_id') . "' AND a.`status`='aktif' AND a.sebagai='3' ORDER BY a.`jenis_sidang` DESC ")->getResult(),
         ];
-        // dd($data['penguji_2']);
         return view('Mahasiswa/Skripsi/berkas_sidang', $data);
     }
     public function form_bimbingan_proposal($id, $id_pembimbing)

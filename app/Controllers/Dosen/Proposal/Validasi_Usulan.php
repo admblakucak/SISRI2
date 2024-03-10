@@ -28,7 +28,6 @@ class Validasi_Usulan extends BaseController
             'data_diterima' => $this->db->query("SELECT d.judul_topik,b.`id_pengajuan_pembimbing`, b.`nim`,c.`nama`,b.`nip`,b.`agree_at`,b.`sebagai`,d.`berkas`,b.`status_pengajuan`,e.`nama` AS nama_topik, b.pesan
             FROM tb_pengajuan_pembimbing b LEFT JOIN tb_mahasiswa c ON b.`nim`=c.`nim` LEFT JOIN tb_pengajuan_topik d ON b.`nim`=d.`nim` LEFT JOIN tb_topik e ON d.`id_topik`=e.idtopik WHERE b.nip='" . session()->get('ses_id') . "' AND status_pengajuan='diterima' AND b.pesan IS NULL")->getResult()
         ];
-        // dd($data['data_diterima']);
         return view('Dosen/Proposal/Validasi_Usulan', $data);
     }
     public function setujui_validasi($id)

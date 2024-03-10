@@ -80,7 +80,6 @@ class Revisi extends BaseController
             'status_acc_revisi' => $this->db->query("SELECT * FROM tb_acc_revisi WHERE nip='" . session()->get('ses_id') . "' AND jenis_sidang='skripsi'")->getResult()
         ];
 
-        // dd($data['status_acc_revisi']);
         return view('Dosen/Skripsi/data_bimbingan_revisi_skripsi', $data);
     }
     public function bimbingan_skripsi_dosen($nim)

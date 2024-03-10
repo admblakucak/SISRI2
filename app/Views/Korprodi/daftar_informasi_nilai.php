@@ -42,7 +42,6 @@ use CodeIgniter\Images\Image;
                   </thead>
                   <tbody>
                     <?php
-                    // dd($data_nilai);
                     $no = 1;
                     foreach ($data_mhs as $key) {
                       $nama_mahasiswa = $db->query("SELECT nama from tb_mahasiswa where nim ='" . $key->id . "' ")->getResult();

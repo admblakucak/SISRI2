@@ -54,7 +54,6 @@ use CodeIgniter\Images\Image;
                                   <tbody id='show_data2'>
                                     <?php
                                     $no = 1;
-                                    // dd($data_mhs_bimbingan);
                                     foreach ($data_mhs_bimbingan as $key) {
                                       // $pem1 = $db->query("SELECT a.nim,a.nip,a.sebagai, b.nama,b.gelardepan,b.gelarbelakang, c.nilai_bimbingan, c.nilai_ujian FROM tb_pengajuan_pembimbing a LEFT JOIN tb_dosen b ON a.nip=b.nip LEFT JOIN tb_nilai c ON a.nip = c.nip WHERE a.status_pengajuan = 'diterima' AND a.nim = '" . $key['nim'] . "' AND a.sebagai ='1' ORDER BY `c`.`nilai_bimbingan` DESC")->getResult();
                                       // $pem1 = $db->query("SELECT a.nim,a.nip,a.sebagai, b.nama,b.gelardepan,b.gelarbelakang, c.nilai_bimbingan, c.nilai_ujian FROM tb_pengajuan_pembimbing a LEFT JOIN tb_dosen b ON a.nip=b.nip LEFT JOIN tb_nilai c ON a.nip = c.nip WHERE a.status_pengajuan = 'diterima' AND a.nim = '" . '180441100116' . "' AND a.sebagai ='1' ORDER BY `c`.`nilai_bimbingan` DESC")->getResult();
@@ -78,7 +77,6 @@ use CodeIgniter\Images\Image;
                                       $acc_dosen_penguji_2 = $db->query("SELECT * FROM `tb_acc_revisi` WHERE `nim` ='" . $key['nim'] . "' AND jenis_sidang = 'seminar proposal' AND sebagai ='penguji 2'")->getResult();
                                       $acc_dosen_penguji_3 = $db->query("SELECT * FROM `tb_acc_revisi` WHERE `nim` ='" . $key['nim'] . "' AND jenis_sidang = 'seminar proposal' AND sebagai ='penguji 3'")->getResult();
                                       $keterangan_lulus = 'belum lulus';
-                                      // dd($total_acc_dosen_penguji);
                                       if (empty($acc_dosen_penguji_1) || empty($acc_dosen_penguji_2) || empty($acc_dosen_penguji_3)) {
 
                                         continue;
@@ -86,12 +84,9 @@ use CodeIgniter\Images\Image;
 
                                       $status_acc_revisi = $db->query("SELECT * FROM tb_acc_revisi WHERE nim ='" . $key['nim'] . "' AND nip='" . session()->get('ses_id') . "' AND jenis_sidang='skripsi'")->getResult();
                                       // if (empty($status_acc_revisi)) {
-                                      //   // dd($status_acc_revisi);
                                       //   continue;
                                       // }
-                                      // dd("SELECT * FROM tb_acc_revisi WHERE nim ='" . $key['nim'] . "' AND nip='" . session()->get('ses_id') . "' AND jenis_sidang='skripsi'");
                                       if (!empty($nilai_pem1[0]->nilai_bimbingan) && !empty($nilai_pem2[0]->nilai_bimbingan) && !empty($nilai_penguji1[0]->nilai_ujian) && !empty($nilai_penguji2[0]->nilai_ujian) && !empty($nilai_penguji3[0]->nilai_ujian)) {
-                                        // dd($nilai_pem2[0]->nilai_bimbingan);
                                         $keterangan_lulus = 'Sudah Lulus';
                                         $db->query("UPDATE tb_pengajuan_pembimbing SET pesan = 'Sudah Lulus' WHERE nim='" . $key['nim'] . "'");
                                       }
@@ -194,7 +189,6 @@ use CodeIgniter\Images\Image;
                                   <tbody id='show_data3'>
                                     <?php
                                     $no = 1;
-                                    // dd($data_mhs_bimbingan);
                                     foreach ($data_mhs_uji as $key) {
                                       // $pem1 = $db->query("SELECT a.nim,a.nip,a.sebagai, b.nama,b.gelardepan,b.gelarbelakang, c.nilai_bimbingan, c.nilai_ujian FROM tb_pengajuan_pembimbing a LEFT JOIN tb_dosen b ON a.nip=b.nip LEFT JOIN tb_nilai c ON a.nip = c.nip WHERE a.status_pengajuan = 'diterima' AND a.nim = '" . $key['nim'] . "' AND a.sebagai ='1' ORDER BY `c`.`nilai_bimbingan` DESC")->getResult();
                                       // $pem1 = $db->query("SELECT a.nim,a.nip,a.sebagai, b.nama,b.gelardepan,b.gelarbelakang, c.nilai_bimbingan, c.nilai_ujian FROM tb_pengajuan_pembimbing a LEFT JOIN tb_dosen b ON a.nip=b.nip LEFT JOIN tb_nilai c ON a.nip = c.nip WHERE a.status_pengajuan = 'diterima' AND a.nim = '" . '180441100116' . "' AND a.sebagai ='1' ORDER BY `c`.`nilai_bimbingan` DESC")->getResult();
@@ -227,12 +221,9 @@ use CodeIgniter\Images\Image;
 
                                       $status_acc_revisi = $db->query("SELECT * FROM tb_acc_revisi WHERE nim ='" . $key['nim'] . "' AND nip='" . session()->get('ses_id') . "' AND jenis_sidang='skripsi'")->getResult();
                                       if (empty($status_acc_revisi)) {
-                                        // dd($status_acc_revisi);
                                         continue;
                                       }
-                                      // dd("SELECT * FROM tb_acc_revisi WHERE nim ='" . $key['nim'] . "' AND nip='" . session()->get('ses_id') . "' AND jenis_sidang='skripsi'");
                                       if (!empty($nilai_pem1[0]->nilai_bimbingan) && !empty($nilai_pem2[0]->nilai_bimbingan) && !empty($nilai_penguji1[0]->nilai_ujian) && !empty($nilai_penguji2[0]->nilai_ujian) && !empty($nilai_penguji3[0]->nilai_ujian)) {
-                                        // dd($nilai_pem2[0]->nilai_bimbingan);
                                         $keterangan_lulus = 'Sudah Lulus';
                                         $db->query("UPDATE tb_pengajuan_pembimbing SET pesan = 'Sudah Lulus' WHERE nim='" . $key['nim'] . "'");
                                       }

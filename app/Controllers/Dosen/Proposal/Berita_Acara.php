@@ -21,10 +21,7 @@ class Berita_Acara extends BaseController
         $data_mhs_bimbingan = $this->db->query("SELECT * FROM tb_pengajuan_pembimbing a LEFT JOIN tb_mahasiswa b ON a.`nim`=b.`nim` WHERE nip='" . session()->get('ses_id') . "' AND status_pengajuan='diterima'")->getResult();
         $data_mhs_uji = $this->db->query("SELECT * FROM tb_penguji a LEFT JOIN tb_mahasiswa b ON a.`nim`=b.`nim` WHERE STATUS='aktif' AND nip='" . session()->get('ses_id') . "'")->getResult();
         $data_mhs_bimbingan_disetujui = $this->db->query("SELECT status, nim FROM `tb_perizinan_sidang` WHERE nip = '" . session()->get('ses_id') . "' AND jenis_sidang = 'seminar proposal'")->getResult();
-        // dd("SELECT * FROM tb_pengajuan_pembimbing a LEFT JOIN tb_mahasiswa b ON a.`nim`=b.`nim` WHERE nip='" . session()->get('ses_id') . "' AND status_pengajuan='diterima'");
-        // dd($data_mhs_bimbingan);
 
-        // dd($data_mhs_uji);
         $data = [
             'title' => 'Berita Acara Proposal',
             'db' => $this->db,
@@ -59,7 +56,6 @@ class Berita_Acara extends BaseController
         if ($sebagai == 'pembimbing 1') {
             $status = $this->request->getPost('status');
             if ($status == 3) {
-                // dd("SELECT * FROM tb_pendaftar_sidang WHERE nim='" . $nim . "'");
                 $this->db->query("UPDATE tb_penguji SET `status`='nonaktif' WHERE nim='$nim'");
                 // $cek_pendaftar_sidang = $this->db->query("SELECT * FROM tb_pendaftar_sidang WHERE nim='" . session()->get('ses_id') . "'")->getResult();
             }
@@ -74,7 +70,6 @@ class Berita_Acara extends BaseController
             if (empty($d_berita_acara)) {
                 $this->db->query("INSERT INTO tb_berita_acara (nim,nip,sebagai,status,jenis_sidang,id_pendaftar) VALUES ('$nim','" . session()->get('ses_id') . "','$sebagai','ditandatangani','proposal','$id_pendaftar')");
             } else {
-                // dd($d_berita_acara);
                 $this->db->query("UPDATE tb_berita_acara SET status= 'ditandatangani' WHERE nim='" . $nim . "' AND nip='" . session()->get('ses_id') . "' AND sebagai='" . $sebagai . "' AND jenis_sidang='proposal' AND id_pendaftar='$id_pendaftar'");
             }
         }

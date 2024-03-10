@@ -60,7 +60,6 @@ class Nilai extends BaseController
         $data_mhs_uji_jika_diganti = $this->db->query("SELECT a.*,b.`nama` AS nama_mhs, b.`jk`, c.`namaunit`, d.* FROM tb_penguji a LEFT JOIN tb_mahasiswa b ON b.`nim`=a.`nim` LEFT JOIN tb_unit c ON b.`idunit`=c.`idunit` LEFT JOIN tb_profil_tambahan d ON a.`nim`=d.`id` WHERE nip='$id' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi'  ")->getResult();
         // $data_mhs_uji = $this->db->query("SELECT a.*,b.`nama` AS nama_mhs, b.`jk`, c.`namaunit`, d.* FROM tb_penguji a LEFT JOIN tb_mahasiswa b ON b.`nim`=a.`nim` LEFT JOIN tb_unit c ON b.`idunit`=c.`idunit` LEFT JOIN tb_profil_tambahan d ON a.`nim`=d.`id` WHERE nip='$id' AND a.status='aktif' ORDER BY a.`jenis_sidang` ASC ")->getResult();
         $data_mhs_uji = $this->db->query("SELECT a.*,b.`nama` AS nama_mhs, b.`jk`, c.`namaunit`, d.* FROM tb_penguji a LEFT JOIN tb_mahasiswa b ON b.`nim`=a.`nim` LEFT JOIN tb_unit c ON b.`idunit`=c.`idunit` LEFT JOIN tb_profil_tambahan d ON a.`nim`=d.`id` WHERE nip='$id' AND a.status='aktif'  ORDER BY a.`jenis_sidang` ASC ")->getResult();
-        // dd($data_mhs_uji);
         $mhs_uji_baru = [];
         $no_uji = 0;
         if (!empty($data_mhs_uji_jika_diganti)) {
@@ -68,10 +67,7 @@ class Nilai extends BaseController
             foreach ($data_mhs_uji_jika_diganti as $key_3) {
                 array_push($mhs_ujian, $key_3->id);
             }
-            // dd($mhs_ujian);
-            // dd(array_search('190411100170', $mhs_ujian) !== false);
             $mhs_uji_baru = [];
-            // dd($mhs_uji_baru);
             foreach ($data_mhs_uji as $key) {
                 if (array_search($key->id, $mhs_ujian) !== false) {
                     continue;
@@ -79,7 +75,6 @@ class Nilai extends BaseController
                     array_push($mhs_uji_baru, $key);
                 }
             }
-            // dd($mhs_uji_baru);
 
             foreach ($data_mhs_uji_jika_diganti as $key_2) {
                 array_push($mhs_uji_baru, $key_2);
@@ -88,9 +83,6 @@ class Nilai extends BaseController
             $mhs_uji_baru = $data_mhs_uji;
         }
 
-        // dd($mhs_uji_baru);
-        // $data_mhs=  array_filter($data_mhs_uji, fn($b)=>$b['id'] != );
-        // dd($data_mhs_uji_jika_diganti);
 
         foreach ($mhs_uji_baru as $key) {
             if ($key->image != NULL) {

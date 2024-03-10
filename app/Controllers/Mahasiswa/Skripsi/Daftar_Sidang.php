@@ -177,7 +177,6 @@ class Daftar_Sidang extends BaseController
                 $penguji1 = $this->db->query("SELECT * FROM tb_penguji where nim ='" . session()->get('ses_id') . "' AND jenis_sidang = '' AND status='aktif' AND sebagai = 1")->getResult()[0]->nip;
                 $penguji2 = $this->db->query("SELECT * FROM tb_penguji where nim ='" . session()->get('ses_id') . "' AND jenis_sidang = '' AND status='aktif' AND sebagai = 2")->getResult()[0]->nip;
                 $penguji3 = $this->db->query("SELECT * FROM tb_penguji where nim ='" . session()->get('ses_id') . "' AND jenis_sidang = '' AND status='aktif' AND sebagai = 3")->getResult()[0]->nip;
-                // dd($penguji1);
                 $this->db->query("INSERT INTO tb_penguji (nim,nip,sebagai,`status`,jenis_sidang) VALUES('$nim','$penguji1','1','aktif','sidang skripsi')");
                 $this->db->query("INSERT INTO tb_penguji (nim,nip,sebagai,`status`,jenis_sidang) VALUES('$nim','$penguji2','2','aktif','sidang skripsi')");
                 $this->db->query("INSERT INTO tb_penguji (nim,nip,sebagai,`status`,jenis_sidang) VALUES('$nim','$penguji3','3','aktif','sidang skripsi')");

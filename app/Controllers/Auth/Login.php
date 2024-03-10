@@ -37,7 +37,7 @@ class Login extends BaseController
         // var_dump($result);
 
         session()->destroy();
-        return view('Login/login_new');
+        return view('Login/login');
     }
     public function khusus($id)
     {

@@ -223,7 +223,6 @@ use CodeIgniter\Images\Image;
                                                             $acc_seminar_penguji2 = $db->query("SELECT * from tb_acc_revisi where nim='" . session()->get('ses_id') . "' AND `jenis_sidang`='seminar proposal' AND sebagai='Penguji 2'")->getResult();
                                                             $acc_seminar_penguji3 = $db->query("SELECT * from tb_acc_revisi where nim='" . session()->get('ses_id') . "' AND `jenis_sidang`='seminar proposal' AND sebagai='Penguji 3'")->getResult();
                                                             $cek_status_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND a.`nim`='" . session()->get('ses_id') . "' AND (a.hasil_sidang <3 or a.hasil_sidang is null)")->getResult();
-                                                            // dd("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND a.`nim`='" . session()->get('ses_id') . "'");
                                                             if (time() < strtotime($key->open)) {
                                                                 echo "<a class='text-danger'>Belum Dibuka</a>";
                                                             } elseif (time() >= strtotime($key->open)) {
@@ -238,7 +237,6 @@ use CodeIgniter\Images\Image;
                                                                         } else {
 
                                                                             if (count($cek_status_sidang) > 0) {
-                                                                                // dd('masuk sini');
                                                                             ?>
                                                                                 <div class="btn-group">
                                                                                     <button class="btn btn-primary btn-sm" <?= $ststbl ?> data-bs-target="#modaldaftar<?= $key->id_jadwal ?>" id="revisi" data-bs-toggle="modal" href="#" aria-disabled="true" disabled>Daftar Sidang</button>

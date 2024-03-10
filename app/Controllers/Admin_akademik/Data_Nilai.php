@@ -20,7 +20,6 @@ class Data_Nilai extends BaseController
   }
   public function index()
   {
-    // dd('masuk sini');
     if (session()->get('ses_id') == '' || session()->get('ses_login') != 'admin_akademik') {
       return redirect()->to('/');
     }
@@ -45,7 +44,6 @@ class Data_Nilai extends BaseController
     $id_jadwal = $this->request->getPost("id_jadwal");
     $jenis_file = $this->request->getPost("jenis_file");
     if ($jenis_file == 'excel') {
-      // dd('masuk sini');
       if ($idperiode == '') {
         if ($id_jadwal == '') {
           $data = $this->db->query("SELECT * FROM tb_users a LEFT JOIN tb_mahasiswa b ON a.`id`=b.`nim` WHERE a.`idunit`='" . session()->get('ses_idunit') . "' AND a.role='mahasiswa' ORDER BY id ASC")->getResult();

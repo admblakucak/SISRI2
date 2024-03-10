@@ -48,7 +48,6 @@ class Nilai extends BaseController
             'data_periode' => $this->db->query("SELECT * FROM tb_periode")->getResult(),
             'data_jadwal' => $this->db->query("SELECT * FROM tb_jadwal_sidang WHERE idunit='" . session()->get('ses_idunit') . "' AND jenis_sidang='sidang skripsi'")->getResult(),
         ];
-        // dd($data['data_mhs']);
         return view('Korprodi/daftar_informasi_nilai', $data);
     }
     public function sudah_dinilai()
@@ -65,7 +64,6 @@ class Nilai extends BaseController
             'data_periode' => $this->db->query("SELECT * FROM tb_periode")->getResult(),
             'data_jadwal' => $this->db->query("SELECT * FROM tb_jadwal_sidang WHERE idunit='" . session()->get('ses_idunit') . "' AND jenis_sidang='sidang skripsi'")->getResult(),
         ];
-        // dd($data['data_mhs']);
         return view('Korprodi/daftar_informasi_nilai', $data);
     }
 
@@ -78,7 +76,6 @@ class Nilai extends BaseController
         $id_jadwal = $this->request->getPost("id_jadwal");
         $jenis_file = $this->request->getPost("jenis_file");
         if ($jenis_file == 'excel') {
-            // dd('masuk sini');
             if ($idperiode == '') {
                 if ($id_jadwal == '') {
                     $data = $this->db->query("SELECT * FROM tb_users a LEFT JOIN tb_mahasiswa b ON a.`id`=b.`nim` WHERE a.`idunit`='" . session()->get('ses_idunit') . "' AND a.role='mahasiswa' ORDER BY id ASC")->getResult();

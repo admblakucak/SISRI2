@@ -97,7 +97,6 @@ use CodeIgniter\Images\Image;
                                             $penguji_1 = '';
                                             $penguji_2 = '';
                                             $penguji_3 = '';
-                                            // dd($data_jadwal[0]->jenis_sidang);
                                             if ($data_jadwal[0]->jenis_sidang == 'sidang skripsi') {
                                                 $penguji1 = $db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$key->nim' AND a.sebagai='1' AND a.`status`='aktif' AND jenis_sidang='sidang skripsi'")->getResult();
                                                 $penguji2 = $db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$key->nim' AND a.sebagai='2' AND a.`status`='aktif' AND jenis_sidang='sidang skripsi'")->getResult();
@@ -139,19 +138,11 @@ use CodeIgniter\Images\Image;
                                                     if (!empty($key->waktu_sidang)) {
                                                         $d_now = new Datetime();
                                                         $d_sidang = new Datetime($key->waktu_sidang);
-                                                        if ($d_now > $d_sidang) {
-                                                        
-                                                            # code...
-                                                        }
+
                                                         $selisih = date_diff($d_now, $d_sidang);
-                                                        // dd($selisih);
                                                         $cek_nilai = $db->query("SELECT * FROM tb_nilai where nim ='" . $key->nim . "'")->getResult();
-                                                        if ($cek_nilai === false) {
-                                                            # code...
-                                                        }
                                                     }
                                                     $d_s = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE a.`nim`='" . $key->nim . "' AND b.`jenis_sidang`='seminar proposal' ORDER BY a.`create_at` ASC")->getResult();
-                                                    // dd($d_s);
                                                     if (isset($d_s[0])) {
                                                         if ($d_s[0]->waktu_sidang == "0000-00-00 00:00:00") {
                                                             $d_s = date_create(date('Y-m-d', strtotime($d_s[0]->create_at)));

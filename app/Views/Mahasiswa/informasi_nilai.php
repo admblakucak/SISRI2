@@ -44,7 +44,6 @@ use CodeIgniter\Images\Image;
                     <?php
                     $id_pendaftar = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND nim='" . session()->get('ses_id') . "' ORDER BY create_at DESC LIMIT 1")->getResult()[0]->id_pendaftar;
                     $jadwal_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang WHERE id_pendaftar='$id_pendaftar' AND hasil_sidang < 3")->getResult();
-                    // dd($jadwal_sidang);
                     // Revisi TB_NILAI jika lebih dari 24 jam otomatis nilai 80
                     // if (!empty($jadwal_sidang)) {
                     //   $d_now = new Datetime();

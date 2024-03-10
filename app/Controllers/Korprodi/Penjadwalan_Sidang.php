@@ -134,7 +134,6 @@ class Penjadwalan_sidang extends BaseController
         if (session()->get('ses_id') == '' || session()->get('ses_login') != 'korprodi') {
             return redirect()->to('/');
         }
-        // dd('data pendaftar');
         $id_jadwal = $this->request->getPost('id_jadwal');
         $jenis_sidang = $this->request->getPost('jenis_sidang');
         if ($id_jadwal == NULL) {
@@ -142,7 +141,6 @@ class Penjadwalan_sidang extends BaseController
         }
         $update = $this->request->getPost('update');
         if (isset($update)) {
-            // dd('ada isinya');
             $nim = $this->request->getPost('nim');
             $id_pendaftar = $this->request->getPost('id_pendaftar');
             $waktu_sidang = $this->request->getPost('waktu_sidang');
@@ -157,7 +155,6 @@ class Penjadwalan_sidang extends BaseController
             $this->db->query("UPDATE tb_pendaftar_sidang SET waktu_sidang='$waktu_sidang',ruang_sidang='$ruang_sidang' WHERE id_pendaftar='$id_pendaftar'");
             // if ($jenis_sidang == 'seminar proposal' || $jenis_sidang == 'sidang skripsi') {
             if ($jenis_sidang == 'seminar proposal') {
-                // dd('masuk sini sa');
                 $cek = $this->db->query("SELECT * FROM tb_penguji WHERE nim ='$nim'")->getResult();
                 if ($cek != NULL) {
                     $this->db->query("UPDATE tb_penguji SET `status`='nonaktif' WHERE nim='$nim'");
@@ -180,7 +177,6 @@ class Penjadwalan_sidang extends BaseController
                 echo "INSERT INTO tb_penguji (nim,nip,sebagai,id_pendaftar,`status`) VALUES('$nim','$nip_p3','3','$id_pendaftar','aktif')";
             } else {
                 $this->db->query("UPDATE tb_penguji SET `status`='nonaktif' WHERE nim='$nim' AND jenis_sidang='sidang skripsi'");
-                // dd($nim);
                 $cek_p1 = $this->db->query("SELECT * FROM tb_penguji WHERE id_pendaftar='$id_pendaftar' AND sebagai='1' AND jenis_sidang ='sidang skripsi'")->getResult();
                 $cek_p2 = $this->db->query("SELECT * FROM tb_penguji WHERE id_pendaftar='$id_pendaftar' AND sebagai='2' AND jenis_sidang ='sidang skripsi'")->getResult();
                 $cek_p3 = $this->db->query("SELECT * FROM tb_penguji WHERE id_pendaftar='$id_pendaftar' AND sebagai='3' AND jenis_sidang ='sidang skripsi'")->getResult();
@@ -227,10 +223,6 @@ class Penjadwalan_sidang extends BaseController
     {
         if (session()->get('ses_id') == '' || session()->get('ses_login') != 'korprodi') {
             return redirect()->to('/');
-        }
-        if ($this->request->getPost('back')) {
-            dd('true');
-            # code...
         }
         $idunit = $this->db->query("SELECT * FROM tb_dosen WHERE nip='" . session()->get('ses_id') . "'")->getResult()[0]->idunit;
         $idjurusan = $this->db->query("SELECT c.`idunit` AS idjurusan FROM tb_dosen a LEFT JOIN tb_unit b ON a.`idunit`=b.idunit LEFT JOIN tb_unit c ON b.`parentunit`=c.`idunit` WHERE a.nip='" . session()->get('ses_id') . "'")->getResult()[0]->idjurusan;
