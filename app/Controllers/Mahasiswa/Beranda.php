@@ -22,7 +22,7 @@ class Beranda extends BaseController
             'title' => 'Beranda Mahasiswa',
             'db' => $this->db
         ];
-        // return view('Mahasiswa/beranda_mahasiswa', $data);
-        return view('kosong', $data);
+        return view('Mahasiswa/beranda_mahasiswa', $data);
+        // return view('kosong', $data);
     }
 }
