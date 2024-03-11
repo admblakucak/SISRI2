@@ -5,7 +5,7 @@
 <?php if ($title != "Bimbingan Proposal" && $title != "Bimbingan Skripsi" && $title != "Bimbingan Revisi Proposal" && $title != "Bimbingan Revisi Skripsi") { ?>
 	<div class="main-footer ht-40">
 		<div class="container-fluid pd-t-0-f ht-100p">
-			<span>Copyright © 2022 <a href="http://teknik.trunojoyo.ac.id/">FT-UTM</a>.
+			<span>Copyright © 2022 <a href="http://teknik.trunojoyo.ac.id/">FT-UTM SISRI V.2.0</a>.
 				All rights reserved.</span>
 		</div>
 	</div>

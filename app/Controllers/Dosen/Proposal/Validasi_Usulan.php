@@ -18,6 +18,31 @@ class Validasi_Usulan extends BaseController
         if (session()->get('ses_id') == '' || session()->get('ses_login') == 'mahasiswa') {
             return redirect()->to('/');
         }
+
+        $pengajuan_pembimbing_1 = $this->db->query("SELECT * FROM `tb_pengajuan_pembimbing` WHERE nip = '" . session()->get('ses_id') . "'  AND sebagai = 1 AND status_pengajuan ='diterima' AND pesan IS NULL")->getResult();
+        $pengajuan_pembimbing_2 = $this->db->query("SELECT * FROM `tb_pengajuan_pembimbing` WHERE nip = '" . session()->get('ses_id') . "'  AND sebagai = 2 AND status_pengajuan ='diterima' AND pesan IS NULL")->getResult();
+        $jumlah_p1 = $this->db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 1'")->getResult();
+        $jumlah_p2 = $this->db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 2'")->getResult();
+        if (empty($pengajuan_pembimbing_1)) {
+            $jumlah_pem1 = 0;
+        } else {
+            $jumlah_pem1 = count($pengajuan_pembimbing_1);
+        }
+        if (count($jumlah_p1) > 0) {
+            if ($jumlah_pem1 != $jumlah_p1[0]->jumlah) {
+                $this->db->query("UPDATE tb_jumlah_pembimbing SET jumlah=$jumlah_pem1 WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 1'");
+            }
+        }
+        if (empty($pengajuan_pembimbing_2)) {
+            $jumlah_pem2 = 0;
+        } else {
+            $jumlah_pem2 = count($pengajuan_pembimbing_2);
+        }
+        if (count($jumlah_p2) > 0) {
+            if ($jumlah_pem2 != $jumlah_p2[0]->jumlah) {
+                $this->db->query("UPDATE tb_jumlah_pembimbing SET jumlah=$jumlah_pem2 WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 2'");
+            }
+        }
         $data = [
             'title' => 'Validasi Usulan',
             'db' => $this->db,
