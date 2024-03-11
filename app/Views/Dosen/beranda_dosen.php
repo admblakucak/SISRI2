@@ -20,7 +20,7 @@ use CodeIgniter\Images\Image;
 			<div class="">
 				<div class="panel panel-primary tabs-style-4">
 					<div class="tab-menu-heading">
-						<div class="tabs-menu">
+						<div class="tabs menu">
 							<ul class="nav panel-tabs me-3">
 								<li><a href="#dosen" class="active" data-bs-toggle="tab">Dosen</a></li>
 								<li><a href="#tab22" data-bs-toggle="tab">Koorprodi</a></li>
@@ -216,36 +216,71 @@ use CodeIgniter\Images\Image;
 													<table class="table table-striped mg-b-0 text-md-nowrap">
 														<thead>
 															<tr>
-																<th class="wd-lg-25p">NIP</th>
-																<th class="wd-lg-25p">Nama Dosen</th>
-																<th class="wd-lg-25p">Sebagai Pembimbing</th>
-																<th class="wd-lg-25p">Sebagai Penguji</th>
+																<th class="wd-lg-25p text-center">NIP</th>
+																<th class="wd-lg-25p text-center">Nama Dosen</th>
+																<th class="wd-lg-25p text-center">Sebagai Pembimbing</th>
+																<th class="wd-lg-25p text-center">Sebagai Penguji</th>
 															</tr>
 														</thead>
 														<tbody>
 															<tr>
-																<td>197406102008121002</td>
-																<td>ABDULLAH BASUKI RAHMAT, S.Si., MT.</td>
-																<td>7/10</td>
-																<td>10/10</td>
+																<td class="text-center">197406102008121002</td>
+																<td class="text-center">ABDULLAH BASUKI RAHMAT, S.Si., MT.</td>
+																<td class="text-center">7/10</td>
+																<td class="text-center">10/10</td>
 															</tr>
 															<tr>
-																<td>197406102008121002</td>
-																<td>ABDULLAH BASUKI RAHMAT, S.Si., MT.</td>
-																<td>7/10</td>
-																<td>10/10</td>
+																<td class="text-center">197406102008121002</td>
+																<td class="text-center">ABDULLAH BASUKI RAHMAT, S.Si., MT.</td>
+																<td class="text-center">7/10</td>
+																<td class="text-center">10/10</td>
 															</tr>
 															<tr>
-																<td>197406102008121002</td>
-																<td>ABDULLAH BASUKI RAHMAT, S.Si., MT.</td>
-																<td>7/10</td>
-																<td>10/10</td>
+																<td class="text-center">197406102008121002</td>
+																<td class="text-center">ABDULLAH BASUKI RAHMAT, S.Si., MT.</td>
+																<td class="text-center">7/10</td>
+																<td class="text-center">10/10</td>
 															</tr>
 															<tr>
-																<td>197406102008121002</td>
-																<td>ABDULLAH BASUKI RAHMAT, S.Si., MT.</td>
-																<td>7/10</td>
-																<td>10/10</td>
+																<td class="text-center">197406102008121002</td>
+																<td class="text-center">ABDULLAH BASUKI RAHMAT, S.Si., MT.</td>
+																<td class="text-center">7/10</td>
+																<td class="text-center">10/10</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12 col-lg-8 col-xl-12">
+											<div class="card card-dashboard-eight pb-2">
+												<h6 class="card-title">Jadwal Sidang</h6>
+												<span class="d-block mg-b-10 text-muted tx-12">Informasi jadwal seminar proposal dan sidang skripsi</span>
+												<div class="list-group border-top-0">
+													<table class="table table-striped mg-b-0 text-md-nowrap">
+														<thead>
+															<tr>
+																<th class="wd-lg-25p">Periode Sidang</th>
+																<th class="wd-lg-25p">Dibuka Pada</th>
+																<th class="wd-lg-25p">Ditutup Pada</th>
+																<th class="wd-lg-25p">Jenis Sidang</th>
+																<th class="wd-lg-25p">Status</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>Sidang Sempro Maret 2024</td>
+																<td>2024-03-04 11:27:00</td>
+																<td>2024-03-10 11:27:00</td>
+																<td>Proposal</td>
+																<td class="text-success">Dibuka</td>
+															</tr>
+															<tr>
+																<td>Sidang Sempro Mei 2023</td>
+																<td>2023-05-04 11:27:00</td>
+																<td>2023-05-10 11:27:00</td>
+																<td>Proposal</td>
+																<td class="text-danger">Ditutup</td>
 															</tr>
 														</tbody>
 													</table>
