@@ -79,7 +79,15 @@ use CodeIgniter\Images\Image;
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-3 mb-0">Update</button>
+                            <?php
+                            $validasi_daftar_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang WHERE nim='" . session()->get('ses_id') . "'")->getResult();
+                            if (!empty($validasi_daftar_sidang)) { ?>
+                                <button type="submit" class="btn btn-primary mt-3 mb-0" disabled>Update</button>
+
+                            <?php } else { ?>
+
+                                <button type="submit" class="btn btn-primary mt-3 mb-0">Update</button>
+                            <?php } ?>
                         </form>
                     </div>
                 </div>
@@ -107,8 +115,21 @@ use CodeIgniter\Images\Image;
                                                 <select class="form-control select2" name="nip">
                                                     <option label="Pilih Pembimbing 1" selected disabled>Pilih Pembimbing 1
                                                     </option>
-                                                    <?php foreach ($dosen_p1 as $key1) {
+                                                    <?php
+                                                    foreach ($dosen_p1 as $key1) {
+                                                        $pengajuan_pembimbing = $db->query("SELECT * FROM `tb_pengajuan_pembimbing` WHERE nip = '" . $key1->nip_dos . "'  AND sebagai = 1 AND status_pengajuan ='diterima' AND pesan IS NULL")->getResult();
                                                         $jumlah_p1 = $db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='$key1->nip_dos' AND sebagai='pembimbing 1'")->getResult();
+                                                        if (empty($pengajuan_pembimbing)) {
+                                                            $jumlah_pem1 = 0;
+                                                        } else {
+                                                            $jumlah_pem1 = count($pengajuan_pembimbing);
+                                                        }
+                                                        if (count($jumlah_p1) > 0) {
+                                                            if ($jumlah_pem1 != $jumlah_p1[0]->jumlah) {
+                                                                
+                                                                $db->query("UPDATE tb_jumlah_pembimbing SET jumlah=$jumlah_pem1 WHERE nip='$key1->nip_dos' AND sebagai='pembimbing 1'");
+                                                            }
+                                                        }
                                                     ?>
                                                         <option value="<?= $key1->nip_dos ?>">
                                                             <?= $key1->namaunit . ' - ' . $key1->nip_dos . ' - ' . $key1->gelardepan . ' ' . $key1->nama . ', ' . $key1->gelarbelakang ?>

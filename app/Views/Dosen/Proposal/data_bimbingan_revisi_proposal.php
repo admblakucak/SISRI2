@@ -21,7 +21,7 @@ use CodeIgniter\Images\Image;
                     <div class="table-responsive border-top userlist-table">
                         <div class="row mt-3"></div>
                         <div class="table-responsive userlist-table">
-                            <table class="table card-table table-vcenter text-nowrap mb-0" id="validasitable1">
+                            <table class="table card-table table-vcenter text-nowrap mb-0" id="validasitable2">
                                 <thead>
                                     <tr>
                                         <th><span>&nbsp;</span></th>

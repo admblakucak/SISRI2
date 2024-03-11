@@ -79,13 +79,14 @@ class Revisi extends BaseController
             'data_mhs_bimbingan_baru' => $data_baru,
             'data_mhs_bimbingan' => $data_mhs,
         ];
+
         return view('Dosen/Proposal/data_bimbingan_revisi_proposal', $data);
     }
     public function bimbingan_proposal_dosen($nim)
     {
         if (session()->get('ses_id') == '' || session()->get('ses_login') == 'mahasiswa') {
             return redirect()->to('/');
-        }
+        } 
 
         $id = $nim;
         $pembimbing = $this->db->query("SELECT * FROM tb_pengajuan_pembimbing where nip='" . session()->get('ses_id') . "' AND nim='$nim'")->getResult();

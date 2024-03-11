@@ -62,12 +62,32 @@ use CodeIgniter\Images\Image;
                             <?php if ($sebagai == 'Penguji 1' || $sebagai == 'Penguji 2' || $sebagai == 'Penguji 3') { ?>
                                 <div class="col-auto">
                                     <?php if ($status_acc_revisi == NULL) { ?>
-                                        <form action="<?= base_url() ?>acc_revisi_proposal_dosen" method="POST" enctype="multipart/form-data">
-                                            <?= csrf_field() ?>
-                                            <input type="hidden" value="<?= $nim ?>" name="nim">
-                                            <input type="hidden" value="<?= $sebagai ?>" name="sebagai">
-                                            <button class="btn btn-sm btn-warning" type="submit">ACC REVISI</button>
-                                        </form>
+                                        <!-- Button trigger modal -->
+                                        <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#exampleModal" data-bs-target="#modalConfirm" data-bs-toggle="modal">ACC REVISI</button>
+                                        <div class="modal" id="modalConfirm">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content modal-content-demo">
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title">ACC Revisi</h6><button aria-label="Close" class="close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                                    </div>
+
+
+                                                    <div class="modal-body">
+                                                        Apakah anda yakin ingin ACC Revisi mahasiswa atas nama <b><?= $data_mhs->nama ?></b>?
+                                                        <p class="mt-3"></p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form action="<?= base_url() ?>acc_revisi_proposal_dosen" method="POST" enctype="multipart/form-data">
+                                                            <?= csrf_field() ?>
+                                                            <input type="hidden" value="<?= $nim ?>" name="nim">
+                                                            <input type="hidden" value="<?= $sebagai ?>" name="sebagai">
+                                                            <button class="btn ripple btn-success" type="submit">ACC</button>
+                                                            <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Batal</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     <?php } else { ?>
                                         <span class='text-success ms-3'>Revisi Telah di ACC</span>
                                     <?php } ?>

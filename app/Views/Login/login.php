@@ -103,7 +103,7 @@
                                             <h3 class="text-secondary"><b>SELAMAT DATANG</b><br></h3>
                                             <p class="text-secondary" style="text-align: justify;"><b>SISRI</b> <a class="font-weight-light">merupakan sistem informasi manejemen skripsi fakultas teknik yang bertujuan memudahkan mahasiswa dan dosen pembimbing dalam melaksanakan prosedur skripsi. Sistem ini memungkinkan mahasiswa untuk melakukan pengajuan judul, bimbingan proposal, pendaftaran seminar proposal, bimbingan pasca seminar proposal dan pendaftaran sidang. Sistem ini juga memungkinkan dosen untuk melakukan validasi usulan, proses bimbingan, revisi pasca seminar dan sidang, validasi pendaftaran seminar dan sidang skripsi serta input nilai skripsi.</a></p>
                                             <br>
-                                            <div class="form-group mb-4">
+                                            <!-- <div class="form-group mb-4">
                                                 <label>Username</label>
                                                 <input class="form-control" placeholder="Masukkan NIM / NIP / Email Anda" type="text" name="username">
                                             </div>
@@ -113,28 +113,30 @@
                                             </div>
                                             <div class="text-left text-lg-start pb-3">
                                                 <button type="submit" class="btn btn-modif btn-light btn-outline text-white" style="padding-left: 2.5rem; padding-right: 2.5rem;"><b>Login</b></button>
-                                            </div>
+                                            </div> -->
                                             <?php
-                                            // session()->getFlashdata('message');
+                                            session()->getFlashdata('message');
                                             ?>
-                                            <!-- <div class="row row-xs">
+                                            <div class="row row-xs">
                                                 <div class="col-sm-7 mg-t-10 mg-sm-t-0">
                                                     <a class="btn btn-primary btn-google btn-block btn-outline" href="<?= base_url() ?>redirect"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Sign In with Google</a>
-                                                </div> -->
-                                            <!-- <div class="col-sm-5">
+                                                </div>
+                                                <!-- <div class="col-sm-5">
+                                                </div>
+                                                <div class="col-sm-5">
                                                     <p><a href="/password">Lupa Password?</a></p>
                                                 </div> -->
+                                            </div>
+                                        </form>
                                     </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <br>
-                    <div class="col-auto">
-                        <span>Copyright © 2022 <a href="http://teknik.trunojoyo.ac.id/">FT-UTM</a>.
-                            All rights reserved.</span>
-                    </div>
+                        <br>
+                        <div class="col-auto">
+                            <span>Copyright © 2022 <a href="http://teknik.trunojoyo.ac.id/">FT-UTM</a>.
+                                All rights reserved.</span>
+                        </div>
                 </section>
             </div>
         </div>

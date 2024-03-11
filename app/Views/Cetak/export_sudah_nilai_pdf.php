@@ -72,6 +72,15 @@
                 $penguji1 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 1'")->getResult();
                 $penguji2 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 2'")->getResult();
                 $penguji3 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 3'")->getResult();
+                if ($tipe == 'sudah_dinilai') {
+                    if (empty($pembimbing1[0]->nilai_bimbingan) || empty($pembimbing2[0]->nilai_bimbingan) || empty($penguji1[0]->nilai_ujian) || empty($penguji2[0]->nilai_ujian) || empty($penguji3[0]->nilai_ujian)) {
+                        continue;
+                    }
+                } else {
+                    if (!empty($pembimbing1[0]->nilai_bimbingan) && !empty($pembimbing2[0]->nilai_bimbingan) && !empty($penguji1[0]->nilai_ujian) && !empty($penguji2[0]->nilai_ujian) && !empty($penguji3[0]->nilai_ujian)) {
+                        continue;
+                    }
+                }
                 if (!empty($pembimbing1)) {
                     $nb_pembimbing1 = $pembimbing1[0]->nilai_bimbingan == NULL ? 0 : $pembimbing1[0]->nilai_bimbingan;
                     $ns_pembimbing1 = $pembimbing1[0]->nilai_ujian == NULL ? 0 : $pembimbing1[0]->nilai_ujian;

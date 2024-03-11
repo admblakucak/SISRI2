@@ -44,7 +44,7 @@ use CodeIgniter\Images\Image;
                                                                 <table class="table table-striped mg-b-0 text-md-nowrap" id="validasitable1">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th style="text-align: center; vertical-align: middle;"><span>No. </span></th>
+                                                                            <th style="text-align: center; vertical-align: middle;"> <span> No. </span></th>
                                                                             <th style="text-align: center; vertical-align: middle;"><span>Mahasiswa</span></th>
                                                                             <th style="text-align: center; vertical-align: middle;"><span>Judul</span></th>
                                                                             <th style="text-align: center; vertical-align: middle;"><span>Waktu Sidang</span></th>
@@ -59,19 +59,22 @@ use CodeIgniter\Images\Image;
                                                                         $no = 1;
                                                                         foreach ($data_mhs_bimbingan as $key1) {
                                                                             $judul = $db->query("SELECT * FROM tb_pengajuan_topik WHERE nim='" . $key1->nim . "'")->getResult();
-                                                                            $sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='seminar proposal' AND a.`nim`='" . $key1->nim . "' ORDER BY create_at DESC LIMIT 1")->getResult();
+                                                                            $sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='seminar proposal' AND a.`nim`='" . $key1->nim . "'")->getResult();
                                                                             $berita_acara = $db->query("SELECT * FROM tb_berita_acara WHERE nim='" . $key1->nim . "' AND nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing $key1->sebagai' AND status='ditandatangani' AND jenis_sidang='proposal'")->getResult();
+
                                                                         ?>
+                                                                            <?php if (empty($sidang)) {
+                                                                                continue;
+                                                                            } ?>
                                                                             <tr>
-                                                                                <td><?= $no ?></td>
+                                                                                <td></td>
                                                                                 <td><?= $key1->nim . ' - ' . $key1->nama ?></td>
                                                                                 <td>
                                                                                     <?php
                                                                                     // $judul[0]->judul_topik 
-                                                                                    if(!empty($judul)){
+                                                                                    if (!empty($judul)) {
                                                                                         echo $judul[0]->judul_topik;
-                                                                                    }
-                                                                                    else{
+                                                                                    } else {
                                                                                         echo "";
                                                                                     }
                                                                                     ?>
@@ -97,22 +100,19 @@ use CodeIgniter\Images\Image;
                                                                                 </td>
                                                                                 <td><?= 'Pembimbing ' . $key1->sebagai ?></td>
                                                                                 <td class="text-center">
-                                                                                    <?php if (!empty($sidang)) {
-                                                                                        if (empty($berita_acara)) {
-                                                                                    ?>
-                                                                                            <a class="btn btn-success btn-sm" data-bs-target="#modalpembimbing<?= $no ?>" data-bs-toggle="modal" href=""><i class="las la-check"></i></a>
-                                                                                            <?php } else {
-                                                                                            if ('pembimbing ' . $key1->sebagai == 'pembimbing 1') { ?>
-                                                                                                <a class="btn btn-success btn-sm" data-bs-target="#modalpembimbing<?= $no ?>" data-bs-toggle="modal" href="">Edit Hasil Seminar</a>
-                                                                                        <?php } else {
-                                                                                                echo "<span class='text-success ms-2'>Telah Ditandatangani</span>";
-                                                                                            }
-                                                                                        } ?>
-                                                                                        <a href="<?= base_url() ?>/berita_acara_proposal_download_file/proposal/<?= $sidang[0]->id_pendaftar ?>" class="btn btn-primary btn-sm mt-2 ml-2"><i class="las la-download"> Proposal</i></a>
                                                                                     <?php
-                                                                                    } else {
-                                                                                        echo "<span class='text-danger ms-2'>Belum Mendaftar Seminar Proposal</span>";
+                                                                                    if (empty($berita_acara)) {
+                                                                                    ?>
+                                                                                        <a class="btn btn-success btn-sm" data-bs-target="#modalpembimbing<?= $no ?>" data-bs-toggle="modal" href=""><i class="las la-check"></i></a>
+                                                                                        <?php } else {
+                                                                                        if ('pembimbing ' . $key1->sebagai == 'pembimbing 1') { ?>
+                                                                                            <a class="btn btn-success btn-sm" data-bs-target="#modalpembimbing<?= $no ?>" data-bs-toggle="modal" href="">Edit Hasil Seminar</a>
+                                                                                    <?php } else {
+                                                                                            echo "<span class='text-success ms-2'>Telah Ditandatangani</span>";
+                                                                                        }
                                                                                     } ?>
+                                                                                    <a href="<?= base_url() ?>/berita_acara_proposal_download_file/proposal/<?= $sidang[0]->id_pendaftar ?>" class="btn btn-primary btn-sm mt-2 ml-2"><i class="las la-download"> Proposal</i></a>
+
                                                                                 </td>
                                                                             </tr>
                                                                             <div class="modal" id="modalpembimbing<?= $no ?>">
@@ -157,10 +157,15 @@ use CodeIgniter\Images\Image;
                                                                                                 <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Keluar</button>
                                                                                             </div>
                                                                                         </form>
+                                                                                        <?php
+                                                                                        $no++;
+
+                                                                                        ?>
+
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                        <?php $no++;
+                                                                        <?php
                                                                         } ?>
                                                                     </tbody>
                                                                 </table>
@@ -172,7 +177,7 @@ use CodeIgniter\Images\Image;
                                                     <div class="row">
                                                         <div class="col-xl-12">
                                                             <div class="table-responsive">
-                                                                <table class="table table-striped mg-b-0 text-md-nowrap" id="validasitable2">
+                                                                <table class="table table-striped mg-b-0 text-md-nowrap" id="validasitable10">
                                                                     <thead>
                                                                         <tr>
                                                                             <th style="text-align: center; vertical-align: middle;"><span>No. </span></th>
@@ -193,16 +198,18 @@ use CodeIgniter\Images\Image;
                                                                             $sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='seminar proposal' AND a.`nim`='" . $key2->nim . "' ORDER BY create_at DESC LIMIT 1")->getResult();
                                                                             $berita_acara = $db->query("SELECT * FROM tb_berita_acara WHERE nim='" . $key2->nim . "' AND nip='" . session()->get('ses_id') . "' AND sebagai='penguji $key2->sebagai' AND status='ditandatangani' AND jenis_sidang='proposal'")->getResult();
                                                                         ?>
+                                                                            <?php if (empty($sidang)) {
+                                                                                continue;
+                                                                            } ?>
                                                                             <tr>
-                                                                                <td><?= $no ?></td>
+                                                                                <td></td>
                                                                                 <td><?= $key2->nim . ' - ' . $key2->nama ?></td>
                                                                                 <td>
-                                                                                    <?php 
+                                                                                    <?php
                                                                                     // $judul[0]->judul_topik 
-                                                                                    if(!empty($judul)){
+                                                                                    if (!empty($judul)) {
                                                                                         echo $judul[0]->judul_topik;
-                                                                                    }
-                                                                                    else{
+                                                                                    } else {
                                                                                         echo "";
                                                                                     }
                                                                                     ?>
@@ -228,20 +235,20 @@ use CodeIgniter\Images\Image;
                                                                                 </td>
                                                                                 <td><?= 'Penguji ' . $key2->sebagai ?></td>
                                                                                 <td>
-                                                                                    <?php if (!empty($sidang)) {
-                                                                                        if (empty($berita_acara)) {
-                                                                                    ?>
-                                                                                            <a class="btn btn-success btn-sm" data-bs-target="#modalpenguji<?= $no ?>" data-bs-toggle="modal" href=""><i class="las la-check"></i></a>
-                                                                                        <?php } else {
-                                                                                            echo "<span class='text-success ms-2'>Telah Ditandatangani</span>";
-                                                                                        } ?>
-                                                                                        <a href="<?= base_url() ?>/berita_acara_proposal_download_file/proposal/<?= $sidang[0]->id_pendaftar ?>" class="btn btn-primary btn-sm mt-2 ml-2"><i class="las la-download"> Proposal</i></a>
                                                                                     <?php
-                                                                                    } else {
-                                                                                        echo "<span class='text-danger ms-2'>Belum Mendaftar Seminar Proposal</span>";
+                                                                                    if (empty($berita_acara)) {
+                                                                                    ?>
+                                                                                        <a class="btn btn-success btn-sm" data-bs-target="#modalpenguji<?= $no ?>" data-bs-toggle="modal" href=""><i class="las la-check"></i></a>
+                                                                                    <?php } else {
+                                                                                        echo "<span class='text-success ms-2'>Telah Ditandatangani</span>";
                                                                                     } ?>
+                                                                                    <a href="<?= base_url() ?>/berita_acara_proposal_download_file/proposal/<?= $sidang[0]->id_pendaftar ?>" class="btn btn-primary btn-sm mt-2 ml-2"><i class="las la-download"> Proposal</i></a>
+                                                                                    <?php
+                                                                                    ?>
                                                                                 </td>
                                                                             </tr>
+
+
                                                                             <div class="modal" id="modalpenguji<?= $no ?>">
                                                                                 <div class="modal-dialog" role="document">
                                                                                     <div class="modal-content modal-content-demo">
@@ -275,10 +282,11 @@ use CodeIgniter\Images\Image;
                                                                                                 <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Keluar</button>
                                                                                             </div>
                                                                                         </form>
+                                                                                        <?php $no++; ?>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                        <?php $no++;
+                                                                        <?php
                                                                         } ?>
                                                                     </tbody>
                                                                 </table>

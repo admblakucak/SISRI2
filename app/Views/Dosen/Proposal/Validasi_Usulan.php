@@ -29,7 +29,7 @@ use CodeIgniter\Images\Image;
                                     <div class="panel panel-primary tabs-style-2">
                                         <div class="tab-menu-heading">
                                             <div class="tabs-menu1">
-                                                <ul class="nav panel-tabs me-3 main-nav-line">
+                                                <ul class="nav panel-tabs main-nav-line">
                                                     <li><a href="#menunggu" class="nav-link active" data-bs-toggle="tab">Menunggu</a></li>
                                                     <li><a href="#diterima" class="nav-link" data-bs-toggle="tab">Diterima</a></li>
                                                     <li><a href="#ditolak" class="nav-link" data-bs-toggle="tab">Ditolak</a></li>

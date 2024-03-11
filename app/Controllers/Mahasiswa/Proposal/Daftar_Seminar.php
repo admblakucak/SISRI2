@@ -91,11 +91,11 @@ class Daftar_Seminar extends BaseController
         if (!$this->validate([
             'berkas_proposal' => [
                 // 'rules' => 'uploaded[berkas]|mime_in[berkas,application/pdf]|max_size[berkas,2048]',
-                'rules' => 'uploaded[berkas_proposal]|mime_in[berkas_proposal,application/pdf]',
+                'rules' => 'uploaded[berkas_proposal]|mime_in[berkas_proposal,application/pdf]|max_size[berkas_proposal, 2048]',
                 'errors' => [
                     'uploaded' => 'Harus Ada File yang diupload',
                     'mime_in' => 'File Extention Harus Berupa pdf',
-                    // 'max_size' => 'Ukuran File Maksimal 2 MB'
+                    'max_size' => 'Ukuran File Maksimal 2 MB'
                 ]
 
             ]

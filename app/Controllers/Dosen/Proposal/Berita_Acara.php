@@ -20,11 +20,13 @@ class Berita_Acara extends BaseController
         }
         $data_mhs_bimbingan = $this->db->query("SELECT * FROM tb_pengajuan_pembimbing a LEFT JOIN tb_mahasiswa b ON a.`nim`=b.`nim` WHERE nip='" . session()->get('ses_id') . "' AND status_pengajuan='diterima'")->getResult();
         $data_mhs_uji = $this->db->query("SELECT * FROM tb_penguji a LEFT JOIN tb_mahasiswa b ON a.`nim`=b.`nim` WHERE STATUS='aktif' AND nip='" . session()->get('ses_id') . "'")->getResult();
+        $data_mhs_bimbingan_disetujui = $this->db->query("SELECT status, nim FROM `tb_perizinan_sidang` WHERE nip = '" . session()->get('ses_id') . "' AND jenis_sidang = 'seminar proposal'")->getResult();
+
         $data = [
             'title' => 'Berita Acara Proposal',
             'db' => $this->db,
             'data_mhs_bimbingan' => $data_mhs_bimbingan,
-            'data_mhs_uji' => $data_mhs_uji
+            'data_mhs_uji' => $data_mhs_uji,
         ];
         return view('Dosen/Proposal/berita_acara_proposal', $data);
     }
@@ -53,6 +55,10 @@ class Berita_Acara extends BaseController
         $d_berita_acara = $this->db->query("SELECT * FROM tb_berita_acara WHERE nim='" . $nim . "' AND nip='" . session()->get('ses_id') . "' AND sebagai='" . $sebagai . "' AND status='ditandatangani' AND jenis_sidang='proposal' AND id_pendaftar='$id_pendaftar'")->getResult();
         if ($sebagai == 'pembimbing 1') {
             $status = $this->request->getPost('status');
+            if ($status == 3) {
+                $this->db->query("UPDATE tb_penguji SET `status`='nonaktif' WHERE nim='$nim'");
+                // $cek_pendaftar_sidang = $this->db->query("SELECT * FROM tb_pendaftar_sidang WHERE nim='" . session()->get('ses_id') . "'")->getResult();
+            }
             $id_pendaftar = $this->request->getPost('id_pendaftar');
             $this->db->query("UPDATE tb_pendaftar_sidang SET hasil_sidang='$status' WHERE id_pendaftar='$id_pendaftar'");
             if (empty($d_berita_acara)) {

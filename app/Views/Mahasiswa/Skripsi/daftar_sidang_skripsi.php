@@ -203,6 +203,7 @@ use CodeIgniter\Images\Image;
                                             <?php
                                             date_default_timezone_set("Asia/Jakarta");
                                             $no = 1;
+                                            $sudah_mendaftar = false;
                                             foreach ($data_jadwal as $key) {
                                                 if (time() <= strtotime($key->expire)) {
                                             ?>
@@ -221,19 +222,28 @@ use CodeIgniter\Images\Image;
                                                             $acc_seminar_penguji1 = $db->query("SELECT * from tb_acc_revisi where nim='" . session()->get('ses_id') . "' AND `jenis_sidang`='seminar proposal' AND sebagai='Penguji 1'")->getResult();
                                                             $acc_seminar_penguji2 = $db->query("SELECT * from tb_acc_revisi where nim='" . session()->get('ses_id') . "' AND `jenis_sidang`='seminar proposal' AND sebagai='Penguji 2'")->getResult();
                                                             $acc_seminar_penguji3 = $db->query("SELECT * from tb_acc_revisi where nim='" . session()->get('ses_id') . "' AND `jenis_sidang`='seminar proposal' AND sebagai='Penguji 3'")->getResult();
-                                                            $cek_status_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND a.`nim`='" . session()->get('ses_id') . "' AND (hasil_sidang!=3)")->getResult();
+                                                            $cek_status_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND a.`nim`='" . session()->get('ses_id') . "' AND (a.hasil_sidang <3 or a.hasil_sidang is null)")->getResult();
                                                             if (time() < strtotime($key->open)) {
                                                                 echo "<a class='text-danger'>Belum Dibuka</a>";
                                                             } elseif (time() >= strtotime($key->open)) {
                                                                 if ($acc_seminar_penguji1 > 0 && $acc_seminar_penguji2 > 0 && $acc_seminar_penguji3 > 0) {
                                                                     if (count($acc_pem1) > 0 && count($acc_pem2) > 0) {
                                                                         if (count($cek_pendaftar_sidang) > 0) {
-                                                                            echo "<a class='text-success'>Telah Mendaftar</a>";
+                                                                            if ($cek_pendaftar_sidang[0]->hasil_sidang < 3) { ?>
+                                                                                <a class='text-success'>Anda Sudah terdaftar pada Sidang Skripsi Periode <?= empty($cek_status_sidang[0]->periode) ? "" : $cek_status_sidang[0]->periode ?></a>
+                                                                            <?php } else {?>
+                                                                                <a class='text-danger'> Hasil Sidang Skripsi Tidak Lulus</a>
+                                                                            <?php }
                                                                         } else {
-                                                                            if (count($cek_status_sidang) <= 0) {
-                                                            ?>
+
+                                                                            if (count($cek_status_sidang) > 0) {
+                                                                            ?>
                                                                                 <div class="btn-group">
-                                                                                    <a class="btn btn-primary btn-sm" <?= $ststbl ?> data-bs-target="#modaldaftar<?= $key->id_jadwal ?>" id="revisi" data-bs-toggle="modal" href="#">Daftar Seminar</a>
+                                                                                    <button class="btn btn-primary btn-sm" <?= $ststbl ?> data-bs-target="#modaldaftar<?= $key->id_jadwal ?>" id="revisi" data-bs-toggle="modal" href="#" aria-disabled="true" disabled>Daftar Sidang</button>
+                                                                                </div>
+                                                                            <?php               } else {  ?>
+                                                                                <div class="btn-group">
+                                                                                    <button class="btn btn-primary btn-sm" <?= $ststbl ?> data-bs-target="#modaldaftar<?= $key->id_jadwal ?>" id="revisi" data-bs-toggle="modal" href="#" aria-disabled="true">Daftar Sidang</button>
                                                                                 </div>
                                                             <?php }
                                                                         }

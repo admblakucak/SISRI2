@@ -21,7 +21,7 @@ use CodeIgniter\Images\Image;
                     <div class="col">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped mg-b-0 text-md-nowrap" id="validasitable1">
+                                <table class="table table-striped mg-b-0 text-md-nowrap" id="validasitable2">
                                     <thead>
                                         <tr>
                                             <th style="text-align: center; vertical-align: middle;"><span>No.</span></th>

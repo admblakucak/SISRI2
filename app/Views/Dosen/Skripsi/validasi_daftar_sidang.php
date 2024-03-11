@@ -47,7 +47,11 @@ use CodeIgniter\Images\Image;
                                                         $sts_pem1 = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . $key['nim'] . "' AND jenis_sidang='skripsi' AND izin_sebagai='pembimbing 1'")->getResult();
                                                         $sts_pem2 = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . $key['nim'] . "' AND jenis_sidang='skripsi' AND izin_sebagai='pembimbing 2'")->getResult();
                                                         $sts_koor = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . $key['nim'] . "' AND jenis_sidang='skripsi' AND izin_sebagai='koordinator'")->getResult();
+                                                        $total_acc_dosen_penguji = $db->query("SELECT * FROM `tb_acc_revisi` WHERE `nim` ='" . $key['nim'] . "' AND jenis_sidang = 'seminar proposal'")->getResult();
 
+                                                        if (count($total_acc_dosen_penguji) != 3) {
+                                                            continue;
+                                                        }
                                                     ?>
                                                         <tr>
                                                             <td>

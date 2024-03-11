@@ -19,12 +19,29 @@ class Revisi extends BaseController
             return redirect()->to('/');
         }
         $id = session()->get('ses_id');
+        // $dosen_penguji = $this->db->query("SELECT * FROM tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` WHERE a.nim='" . $id . "' AND a.status='aktif'")->getResult();
+        $penguji1  = $this->db->query("SELECT * FROM tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` WHERE a.nim='" . $id . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=1")->getResult();
+        if (empty($penguji1)) {
+            $penguji1  = $this->db->query("SELECT * FROM tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` WHERE a.nim='" . $id . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=1")->getResult();
+        }
+        $penguji2  = $this->db->query("SELECT * FROM tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` WHERE a.nim='" . $id . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=2")->getResult();
+        if (empty($penguji2)) {
+            $penguji2  = $this->db->query("SELECT * FROM tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` WHERE a.nim='" . $id . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=2")->getResult();
+        }
+        $penguji3  = $this->db->query("SELECT * FROM tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` WHERE a.nim='" . $id . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=3")->getResult();
+        if (empty($penguji3)) {
+            $penguji3  = $this->db->query("SELECT * FROM tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` WHERE a.nim='" . $id . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=3")->getResult();
+        }
+
+        $dosen_penguji = [];
+        array_push($dosen_penguji, $penguji1[0], $penguji2[0], $penguji3[0]);
+
         $data = [
             'title' => 'Bimbingan Revisi Skripsi',
             'how' => $how,
             'db' => $this->db,
             'dosen_pembimbing' => $this->db->query("SELECT * FROM tb_pengajuan_pembimbing a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` WHERE a.nim='" . $id . "' AND a.status_pengajuan='diterima'")->getResult(),
-            'dosen_penguji' => $this->db->query("SELECT * FROM tb_penguji a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` WHERE a.nim='" . $id . "' AND a.status='aktif'")->getResult(),
+            'dosen_penguji' => $dosen_penguji,
             'progress_bimbingan' => $this->db->query("SELECT * FROM tb_bimbingan a LEFT JOIN tb_profil_tambahan b ON a.`from`=b.`id` WHERE (a.`from` = '" . $id . "' OR a.`to` = '" . $id . "') AND (a.`from` = '" . $how . "' OR a.`to` = '" . $how . "') AND kategori_bimbingan=4 ORDER BY create_at ASC")->getResult(),
         ];
         $this->db->query("UPDATE tb_bimbingan SET status_baca='dibaca' WHERE `from`=$how AND status_baca='belum dibaca' AND kategori_bimbingan=4");

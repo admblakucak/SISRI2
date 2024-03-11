@@ -22,7 +22,7 @@ use CodeIgniter\Images\Image;
                 <div class="row mt-3">
                     <div class="col">
                         <div class="card-body">
-                            <form class="form-inline mb-4" action="<?= base_url() ?>export_nilai" method="POST" enctype="multipart/form-data">
+                            <form class="form-inline mb-4" action="<?= base_url() ?>export_nilai_admin_akademik" method="POST" enctype="multipart/form-data">
                                 <?= csrf_field() ?>
                                 <div class="form-group mb-2 ml-4" style="width: 20%;">
                                     <select class="form-control select2" name="id_periode">
