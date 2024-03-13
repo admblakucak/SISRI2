@@ -24,9 +24,10 @@ use CodeIgniter\Images\Image;
                                 <div class="row">
                                     <div class="col-xl-12">
                                         <div class="table-responsive">
-                                            <table class="table table-striped mg-b-0 text-md-nowrap" id="validasitable2">
+                                            <table class="table table-striped mg-b-0 text-md-nowrap" id="validasitable1">
                                                 <thead>
                                                     <tr>
+                                                        <th style="text-align: center; vertical-align: middle;"><span>No </span></th>
                                                         <th style="text-align: center; vertical-align: middle;"><span>&nbsp;</span></th>
 
                                                         <th style="text-align: center; vertical-align: middle;"><span>Nama</span></th>
@@ -66,6 +67,7 @@ use CodeIgniter\Images\Image;
                                                     ?>
 
                                                         <tr>
+                                                            <td></td>
                                                             <td>
                                                                 <img alt="avatar" class="rounded-circle avatar-md me-2" src="<?= base_url() ?>/image/<?= $key['image'] ?>">
                                                             </td>

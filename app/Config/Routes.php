@@ -208,7 +208,7 @@ $routes->add('/add_jadwal_sidang', 'Korprodi\Penjadwalan_Sidang::add');
 $routes->add('/del_jadwal_sidang', 'Korprodi\Penjadwalan_Sidang::del');
 $routes->add('/upd_jadwal_sidang', 'Korprodi\Penjadwalan_Sidang::upd');
 $routes->add('/data_pendaftar', 'Korprodi\Penjadwalan_Sidang::data_pendaftar');
-$routes->post('/edit_data_pendaftar', 'Korprodi\Penjadwalan_Sidang::edit_data_pendaftar/');
+$routes->add('/edit_data_pendaftar/(:any)/(:any)/(:any)/(:any)/(:any)', 'Korprodi\Penjadwalan_Sidang::edit_data_pendaftar/$1/$2/$3/$4/$5');
 
 $routes->add('/direct_cetak_pendaftar', 'Korprodi\Penjadwalan_Sidang::direct_cetak_pendaftar');
 //Route Khusus Controller Korprodi-Validasi Daftar Seminar

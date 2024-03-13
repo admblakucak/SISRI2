@@ -14,14 +14,48 @@ use CodeIgniter\Images\Image;
       <div class="card">
         <div class="card-header pb-0">
           <div class="d-flex justify-content-between">
-            <div class="card-title mg-b-0">Informasi Nilai</div>
+            <div class="card-title mg-b-0">Informasi <?= $tipe == 'sudah_dinilai'?'sudah dinilai': 'belum dinilai'?></div>
             <i class="mdi mdi-dots-horizontal text-gray"></i>
           </div>
           <!-- <p class="tx-12 tx-gray-500 mb-2">Daftar Nilai</p> -->
         </div>
+
+
         <div class="row mt-3">
           <div class="col">
             <div class="card-body">
+              <form class="form-inline mb-4" action="<?= base_url() ?>export_nilai" method="POST" enctype="multipart/form-data">
+                <?= csrf_field() ?>
+                <div class="form-group mb-2 ml-4" style="width: 20%;">
+                  <select class="form-control select2" name="id_periode">
+                    <option selected disabled>Semua Angkatan</option>
+                    <?php
+                    foreach ($data_periode as $key) {
+                      if (substr($key->idperiode, 4) == 1) {
+                        echo "<option value='$key->idperiode'>" . substr($key->idperiode, 0, -1) . "</option>";
+                      }
+                    }
+                    ?>
+                  </select>
+                </div>
+                <div class="form-group mb-2 mx-2" style="width: 30%;">
+                  <select class="form-control  select2" name="id_jadwal">
+                    <option selected disabled>Semua Periode Sidang</option>
+                    <?php
+                    foreach ($data_jadwal as $key) {
+                      echo "<option value='$key->id_jadwal'>" . $key->periode . "</option>";
+                    }
+                    ?>
+                  </select>
+                </div>
+                <div class="form-group mb-2 mx-2" style="width: 30%;">
+                  <select class="form-control  select2" name="jenis_file">
+                    <option selected value="pdf">PDF</option>
+                    <option value="excel">EXCEL</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2"><i class="fa fa-print"></i></button>
+              </form>
               <hr>
               <div class="table-responsive">
 
@@ -51,7 +85,7 @@ use CodeIgniter\Images\Image;
                       $penguji1 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 1'")->getResult();
                       $penguji2 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 2'")->getResult();
                       $penguji3 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 3'")->getResult();
-                      if (empty($judul[0]->judul_topik)) {
+                      if (empty($judul[0]->judul_topik) || empty($nama_mahasiswa[0]->nama)) {
                         continue;
                       }
 

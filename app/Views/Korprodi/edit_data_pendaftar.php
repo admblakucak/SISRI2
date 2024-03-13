@@ -9,6 +9,7 @@ use CodeIgniter\Images\Image;
 <div class="" id="modalupdate<?= $id_pendaftar ?>">
   <div class="modal-dialog" role="document">
     <div class="modal-content modal-content-demo">
+      <?= session()->getFlashdata('message') . "<br>"; ?>
       <div class="modal-header">
         <h3>Edit data pendaftar sidang</h3>
         <!-- <h6 class="modal-title">Edit Jadwal Sidang</h6><button aria-label="Close" class="close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> -->
@@ -39,7 +40,7 @@ use CodeIgniter\Images\Image;
             <input type="teks" class="form-control" id="exampleInput" value="<?= $ruang_sidang ?>" name="ruang_sidang">
           </div>
           <?php if ($data_jadwal == 'seminar proposal' || $data_jadwal == 'sidang skripsi') { ?>
-
+            
             <div class="form-group">
               <label for="exampleInputJenis Sidang">Penguji 1</label>
               <div class="row row-sm">

@@ -145,7 +145,7 @@ class Cetak extends BaseController
         $dompdf->stream($filename, array('Attachment' => false));
         exit();
     }
-    public function berita_acara_proposal($id)
+    public function berita_acara_proposal($id = '', $id_pendaftar = 0)
     {
         // if (session()->get('ses_id') == '') {
         //     return redirect()->to('/');
@@ -153,8 +153,12 @@ class Cetak extends BaseController
         if ($id == '') {
             $id = session()->get('ses_id');
         }
+
+        if ($id_pendaftar == '') {
+            $id_pendaftar = 0;
+        }
         // --------------------------------------------------------------------
-        $bc_pembimbing_1 = $this->db->query("SELECT * FROM tb_berita_acara WHERE jenis_sidang='proposal' and nim='$id' and sebagai='pembimbing 1'")->getResult();
+        $bc_pembimbing_1 = $this->db->query("SELECT * FROM tb_berita_acara WHERE jenis_sidang='proposal' and nim='$id' and sebagai='pembimbing 1' AND id_pendaftar='" . $id_pendaftar . "' ")->getResult();
         if (!empty($bc_pembimbing_1)) {
             $bc_pembimbing_1nip = $bc_pembimbing_1[0]->nip;
             $data_pembimbing_1 = $this->db->query("SELECT * FROM tb_dosen WHERE nip='" . $bc_pembimbing_1nip . "'")->getResult()[0];
@@ -168,7 +172,7 @@ class Cetak extends BaseController
             $qr_pembimbing_1 = '<br>(BELUM DITANDA TANGANI)<br>';
         }
 
-        $bc_pembimbing_2 = $this->db->query("SELECT * FROM tb_berita_acara WHERE jenis_sidang='proposal' and nim='$id' and sebagai='pembimbing 2'")->getResult();
+        $bc_pembimbing_2 = $this->db->query("SELECT * FROM tb_berita_acara WHERE jenis_sidang='proposal' and nim='$id' and sebagai='pembimbing 2' AND id_pendaftar='" . $id_pendaftar . "'")->getResult();
         if (!empty($bc_pembimbing_2)) {
             $bc_pembimbing_2nip = $bc_pembimbing_2[0]->nip;
             $data_pembimbing_2 = $this->db->query("SELECT * FROM tb_dosen WHERE nip='" . $bc_pembimbing_2nip . "'")->getResult()[0];
@@ -182,7 +186,7 @@ class Cetak extends BaseController
             $qr_pembimbing_2 = '<br>(BELUM DITANDA TANGANI)<br>';
         }
 
-        $bc_penguji_1 = $this->db->query("SELECT * FROM tb_berita_acara WHERE jenis_sidang='proposal' and nim='$id' and sebagai='penguji 1'")->getResult();
+        $bc_penguji_1 = $this->db->query("SELECT * FROM tb_berita_acara WHERE jenis_sidang='proposal' and nim='$id' and sebagai='penguji 1' AND id_pendaftar='" . $id_pendaftar . "'")->getResult();
         if (!empty($bc_penguji_1)) {
             $bc_penguji_1nip = $bc_penguji_1[0]->nip;
             $data_penguji_1 = $this->db->query("SELECT * FROM tb_dosen WHERE nip='" . $bc_penguji_1nip . "'")->getResult()[0];
@@ -196,7 +200,7 @@ class Cetak extends BaseController
             $qr_penguji_1 = '<br>(BELUM DITANDA TANGANI)<br>';
         }
 
-        $bc_penguji_2 = $this->db->query("SELECT * FROM tb_berita_acara WHERE jenis_sidang='proposal' and nim='$id' and sebagai='penguji 2'")->getResult();
+        $bc_penguji_2 = $this->db->query("SELECT * FROM tb_berita_acara WHERE jenis_sidang='proposal' and nim='$id' and sebagai='penguji 2' AND id_pendaftar='" . $id_pendaftar . "'")->getResult();
         if (!empty($bc_penguji_2)) {
             $bc_penguji_2nip = $bc_penguji_2[0]->nip;
             $data_penguji_2 = $this->db->query("SELECT * FROM tb_dosen WHERE nip='" . $bc_penguji_2nip . "'")->getResult()[0];
@@ -210,7 +214,7 @@ class Cetak extends BaseController
             $qr_penguji_2 = '<br>(BELUM DITANDA TANGANI)<br>';
         }
 
-        $bc_penguji_3 = $this->db->query("SELECT * FROM tb_berita_acara WHERE jenis_sidang='proposal' and nim='$id' and sebagai='penguji 3'")->getResult();
+        $bc_penguji_3 = $this->db->query("SELECT * FROM tb_berita_acara WHERE jenis_sidang='proposal' and nim='$id' and sebagai='penguji 3' AND id_pendaftar='" . $id_pendaftar . "'")->getResult();
         if (!empty($bc_penguji_3)) {
             $bc_penguji_3nip = $bc_penguji_3[0]->nip;
             $data_penguji_3 = $this->db->query("SELECT * FROM tb_dosen WHERE nip='" . $bc_penguji_3nip . "'")->getResult()[0];
@@ -225,7 +229,7 @@ class Cetak extends BaseController
         }
         // ------------------------------------------------------------------
 
-        $link = base_url() . "berita_acara_proposal/$id";
+        $link = base_url() . "berita_acara_proposal/$id/$id_pendaftar";
         $qr_link = $this->qr->cetakqr($link);
         $prodi = $this->db->query("SELECT * FROM tb_unit WHERE idunit='" . session()->get('ses_idunit') . "'")->getResult();
         $jurusan = $this->db->query("SELECT * FROM tb_unit WHERE idunit='" . $prodi[0]->parentunit . "'")->getResult();

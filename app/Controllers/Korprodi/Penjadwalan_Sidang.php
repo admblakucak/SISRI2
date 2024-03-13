@@ -5,6 +5,7 @@ namespace App\Controllers\Korprodi;
 use App\Controllers\BaseController;
 
 use App\Libraries\Access_API; // Import library
+use DateTime;
 
 class Penjadwalan_sidang extends BaseController
 {
@@ -148,6 +149,80 @@ class Penjadwalan_sidang extends BaseController
             $nip_p1 = $this->request->getPost('nip_p1');
             $nip_p2 = $this->request->getPost('nip_p2');
             $nip_p3 = $this->request->getPost('nip_p3');
+            if ($nip_p1 == $nip_p2 || $nip_p2 == $nip_p3) {
+                session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+                <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Dosen Penguji Tidak Boleh Sama' . '</span>
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>');
+                return redirect()->back()->withInput();
+            }
+
+            $tb_penguji_1 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p1 . "' AND a.nim !='" . $nim . "' ")->getResult();
+            if (!empty($tb_penguji_1)) {
+                foreach ($tb_penguji_1 as $key) {
+                    $d_sidang = new DateTime($waktu_sidang);
+                    $d_sidang_2 = new DateTime($key->waktu_sidang);
+                    $interval = date_diff($d_sidang_2, $d_sidang);
+                    $min = $interval->days * 24 * 60;
+                    $min += $interval->h * 60;
+                    $min += $interval->i;
+                    if ($min <= 90) {
+                        session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                        <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+                        <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 1 bentrok' . '</span>
+                        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>');
+                        return redirect()->back()->withInput();
+                    }
+                }
+            }
+            $tb_penguji_2 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p2 . "' AND a.nim !='" . $nim . "' ")->getResult();
+            if (!empty($tb_penguji_2)) {
+                foreach ($tb_penguji_2 as $key) {
+                    $d_sidang = new DateTime($waktu_sidang);
+                    $d_sidang_2 = new DateTime($key->waktu_sidang);
+                    $interval = date_diff($d_sidang_2, $d_sidang);
+                    $min = $interval->days * 24 * 60;
+                    $min += $interval->h * 60;
+                    $min += $interval->i;
+                    if ($min <= 90) {
+                        session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                        <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+                        <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 2 bentrok' . '</span>
+                        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>');
+                        return redirect()->back()->withInput();
+                    }
+                }
+            }
+            $tb_penguji_3 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p3 . "' AND a.nim !='" . $nim . "' ")->getResult();
+            if (!empty($tb_penguji_3)) {
+                foreach ($tb_penguji_3 as $key) {
+                    $d_sidang = new DateTime($waktu_sidang);
+                    $d_sidang_2 = new DateTime($key->waktu_sidang);
+                    $interval = date_diff($d_sidang_2, $d_sidang);
+                    $min = $interval->days * 24 * 60;
+                    $min += $interval->h * 60;
+                    $min += $interval->i;
+                    if ($min <= 90) {
+                        session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                        <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+                        <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 3 bentrok' . '</span>
+                        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>');
+                        return redirect()->back()->withInput();
+                    }
+                }
+            }
             $jenis_sidang = $this->request->getPost('jenis_sidang');
             $cek_p1 = $this->db->query("SELECT * FROM tb_penguji WHERE id_pendaftar='$id_pendaftar' AND sebagai='1'")->getResult();
             $cek_p2 = $this->db->query("SELECT * FROM tb_penguji WHERE id_pendaftar='$id_pendaftar' AND sebagai='2'")->getResult();
@@ -219,11 +294,48 @@ class Penjadwalan_sidang extends BaseController
         }
     }
 
-    public function edit_data_pendaftar()
+    public function edit_data_pendaftar($nim, $id_pendaftar, $jenis_sidang, $waktu_sidang, $ruang_sidang)
     {
         if (session()->get('ses_id') == '' || session()->get('ses_login') != 'korprodi') {
             return redirect()->to('/');
         }
+
+        $judul = $this->db->query("SELECT * FROM tb_pengajuan_topik WHERE nim='$nim'")->getResult();
+        $penguji1 = $this->db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$nim' AND a.sebagai='1' AND a.id_pendaftar='$id_pendaftar'")->getResult();
+        $penguji2 = $this->db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$nim' AND a.sebagai='2' AND a.id_pendaftar='$id_pendaftar'")->getResult();
+        $penguji3 = $this->db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$nim' AND a.sebagai='3' AND a.id_pendaftar='$id_pendaftar'")->getResult();
+        $penguji_1 = '';
+        $penguji_2 = '';
+        $penguji_3 = '';
+        if ($jenis_sidang == 'sidang skripsi') {
+            $penguji1 = $this->db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$nim' AND a.sebagai='1' AND a.`status`='aktif' AND jenis_sidang='sidang skripsi'")->getResult();
+            $penguji2 = $this->db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$nim' AND a.sebagai='2' AND a.`status`='aktif' AND jenis_sidang='sidang skripsi'")->getResult();
+            $penguji3 = $this->db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$nim' AND a.sebagai='3' AND a.`status`='aktif' AND jenis_sidang='sidang skripsi'")->getResult();
+            if (empty($penguji1[0]->jenis_sidang)) {
+                $penguji1 = $this->db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$nim' AND a.sebagai='1' AND a.`status`='aktif'")->getResult();
+            }
+            if (empty($penguji2[0]->jenis_sidang)) {
+                $penguji2 = $this->db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$nim' AND a.sebagai='2' AND a.`status`='aktif'")->getResult();
+            }
+            if (empty($penguji3[0]->jenis_sidang)) {
+                $penguji3 = $this->db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$nim' AND a.sebagai='3' AND a.`status`='aktif'")->getResult();
+            }
+        }
+        if ($penguji1 != NULL) {
+            $penguji_1 = $penguji1[0]->nip;
+        }
+        if ($penguji2 != NULL) {
+            $penguji_2 = $penguji2[0]->nip;
+        }
+        if ($penguji3 != NULL) {
+            $penguji_3 = $penguji3[0]->nip;
+        }
+
+
+
+        $pem1 = $this->db->query("SELECT * FROM tb_pengajuan_pembimbing a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$nim' AND a.sebagai='1' AND a.status_pengajuan='diterima'")->getResult();
+        $pem2 = $this->db->query("SELECT * FROM tb_pengajuan_pembimbing a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$nim' AND a.sebagai='2' AND a.status_pengajuan='diterima'")->getResult();
+
         $idunit = $this->db->query("SELECT * FROM tb_dosen WHERE nip='" . session()->get('ses_id') . "'")->getResult()[0]->idunit;
         $idjurusan = $this->db->query("SELECT c.`idunit` AS idjurusan FROM tb_dosen a LEFT JOIN tb_unit b ON a.`idunit`=b.idunit LEFT JOIN tb_unit c ON b.`parentunit`=c.`idunit` WHERE a.nip='" . session()->get('ses_id') . "'")->getResult()[0]->idjurusan;
         $idFakultas = $this->db->query("SELECT parentunit FROM tb_unit WHERE idunit='" . $idjurusan . "'")->getResult()[0]->parentunit;
@@ -232,19 +344,19 @@ class Penjadwalan_sidang extends BaseController
             'data_dosen_fakultas' => $this->db->query("SELECT a.*, b.parentunit as 'jurusan', c.parentunit as fakultas FROM tb_dosen a join tb_unit b on a.idunit = b.idunit join tb_unit c on b.parentunit=c.idunit WHERE c.parentunit = '" . $idFakultas . "'")->getResult(),
             'data_dosen_f' => $this->db->query("SELECT * FROM tb_dosen a LEFT JOIN tb_unit b ON a.`idunit`=b.`idunit` LEFT JOIN tb_unit c ON b.`parentunit`=c.`idunit` WHERE c.`idunit`='$idjurusan'")->getResult(),
             'data_dosen_prodi' => $this->db->query("SELECT * from tb_dosen WHERE idunit = '" . $idunit . "'")->getResult(),
-            'id_pendaftar' => $this->request->getPost('id_pendaftar'),
-            'id_jadwal' => $this->request->getPost('id_jadwal'),
-            'data_jadwal' => $this->request->getPost('data_jadwal[0]->jenis_sidang'),
-            'idunit' => $this->request->getPost('idunit'),
-            'nim' => $this->request->getPost('nim'),
-            'pem1' => $this->request->getPost('pem1'),
-            'pem2' => $this->request->getPost('pem2'),
-            'penguji_1' => $this->request->getPost('penguji_1'),
-            'penguji_2' => $this->request->getPost('penguji_2'),
-            'penguji_3' => $this->request->getPost('penguji_3'),
-            'waktu_sidang' => $this->request->getPost('waktu_sidang'),
-            'ruang_sidang' => $this->request->getPost('ruang_sidang'),
-            'jenis_sidang' => $this->request->getPost('jenis_sidang'),
+            'id_pendaftar' => $id_pendaftar,
+            'id_jadwal' => session()->get('ses_id_jadwal'),
+            'data_jadwal' => $jenis_sidang,
+            'idunit' => $idunit,
+            'nim' => $nim,
+            'pem1' => $pem1[0]->nip,
+            'pem2' => $pem2[0]->nip,
+            'penguji_1' => $penguji_1,
+            'penguji_2' => $penguji_2,
+            'penguji_3' => $penguji_3,
+            'waktu_sidang' => $waktu_sidang,
+            'ruang_sidang' => $ruang_sidang,
+            'jenis_sidang' => $jenis_sidang,
             'db' => $this->db
         ];
 

@@ -81,7 +81,7 @@ use CodeIgniter\Images\Image;
                                             <?php } ?>
                                             <th style="text-align: center; vertical-align: middle;"><span>Aksi</span></th>
                                         </tr>
-                                    </thead>
+                                    </thead> 
                                     <tbody>
                                         <?php
                                         date_default_timezone_set("Asia/Jakarta");
@@ -158,7 +158,8 @@ use CodeIgniter\Images\Image;
                                                 }
                                                 ?>
                                                 <td>
-                                                    <form action="<?= base_url() ?>edit_data_pendaftar" method="POST" enctype="multipart/form-data">
+                                                    <a class="btn btn-warning btn-sm setting_jadwal" href="<?= base_url() ?>edit_data_pendaftar/<?=$key->nim.'/'.$key->id_pendaftar.'/'.$data_jadwal[0]->jenis_sidang.'/'.$key->waktu_sidang.'/'.$key->ruang_sidang  ?>"><i class="las la-pen">Setting</i></a>
+                                                    <!-- <form action="<?= base_url() ?>edit_data_pendaftar" method="POST" enctype="multipart/form-data">
                                                         <?= csrf_field() ?>
 
                                                         <input type="hidden" name='id_pendaftar' value="<?= $key->id_pendaftar ?>">
@@ -175,8 +176,8 @@ use CodeIgniter\Images\Image;
                                                         <input type="hidden" name='data_jadwal[0]->jenis_sidang' value="<?= $data_jadwal[0]->jenis_sidang ?>">
                                                         <input type="hidden" name='update' value="update">
                                                         <button class="btn btn-warning btn-sm setting_jadwal" type="submit"><i class="las la-pen">Setting</i></button>
-                                                        <!-- <a class="btn btn-warning btn-sm setting_jadwal" id="btn<?= $key->id_pendaftar ?>" href="#"><i class="las la-pen">Setting</i></a> -->
-                                                    </form>
+                                                        <a class="btn btn-warning btn-sm setting_jadwal" id="btn<?= $key->id_pendaftar ?>" href="#"><i class="las la-pen">Setting</i></a>
+                                                    </form> -->
                                                 </td>
 
                                             </tr>

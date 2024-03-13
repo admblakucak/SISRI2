@@ -39,7 +39,8 @@ class Bimbingan extends BaseController
                 'jk' => $key->jk,
                 'namaunit' => $key->namaunit,
                 'image' => $image,
-                'sum_pemberitahuan' => $sum_pemberitahuan
+                'sum_pemberitahuan' => $sum_pemberitahuan,
+                'pesan' => $key->pesan
             ];
             array_push($data_mhs, $data);
         }

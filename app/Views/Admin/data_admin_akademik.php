@@ -77,21 +77,24 @@ use CodeIgniter\Images\Image;
                                         foreach ($data as $key) {
                                         ?>
                                             <tr>
-                                                <td><?= $no ?></td>
-                                                <td><?= $key->fakultas ?></td>
-                                                <td><?= $key->jurusan ?></td>
-                                                <td><?= $key->prodi ?></td>
-                                                <td><?= $key->gelardepan . " " . $key->nama . ", " . $key->gelarbelakang ?></td>
-                                                <td style="text-align: center; vertical-align: middle;">
+                                                <td style="text-align: center; vertical-align: middle;"><span><?= $no ?></span></td>
+                                                <td style="text-align: center; vertical-align: middle;"><span><?= $key->fakultas ?></span> </td>
+                                                <td style="text-align: center; vertical-align: middle;"><span><?= $key->jurusan ?></span></td>
+                                                <td style="text-align: center; vertical-align: middle;"><span><?= $key->prodi ?></span></td>
+                                                <td style="text-align: center; vertical-align: middle;"><span><?= $key->gelar_depan . " " . $key->nama . ", " . $key->gelar_belakang ?></td>
+                                                <td style="text-align: center; vertical-align: middle; vertical-align: middle;">
                                                     <input type="hidden" name="id_bimbingan" value="" />
                                                     <div class="btn-group">
                                                         <a class="btn btn-danger btn-sm" data-bs-target="#modaldelete<?= $key->id_admin_akademik ?>" id="" data-bs-toggle="modal" href="#">Hapus</a>
                                                     </div>
                                                 </td>
                                             </tr>
+
+
                                             <div class="modal" id="modaldelete<?= $key->id_admin_akademik ?>">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content modal-content-demo">
+
                                                         <form action="<?= base_url() ?>delete_admin_akademik" method="POST" enctype="multipart/form-data">
                                                             <?= csrf_field() ?>
                                                             <input type="hidden" name="id_admin_akademik" value="<?= $key->id_admin_akademik ?>">
@@ -99,7 +102,7 @@ use CodeIgniter\Images\Image;
                                                                 <h6 class="modal-title">Hapus Data Admin Akademik</h6><button aria-label="Close" class="close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                Apakah Anda Yakin Ingin Menghapus <b><?= $key->gelardepan . " " . $key->nama . ", " . $key->gelarbelakang ?></b> Sebagai Admin Akademik <b><?= $key->prodi ?></b> ?
+                                                                Apakah Anda Yakin Ingin Menghapus <b><?= $key->gelar_depan . " " . $key->nama . ", " . $key->gelar_belakang ?></b> Sebagai Admin Akademik <b><?= $key->prodi ?></b> ?
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button class="btn ripple btn-danger" type="submit">Hapus</button>

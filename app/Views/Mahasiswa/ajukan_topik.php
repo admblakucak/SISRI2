@@ -117,7 +117,18 @@ use CodeIgniter\Images\Image;
                                                     </option>
                                                     <?php
                                                     foreach ($dosen_p1 as $key1) {
-        
+                                                        $pengajuan_pembimbing_1 = $db->query("SELECT * FROM `tb_pengajuan_pembimbing` WHERE nip = '" . $key1->nip_dos . "'  AND sebagai = 1 AND status_pengajuan ='diterima' AND pesan IS NULL")->getResult();
+                                                        $jumlah_p1 = $db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . $key1->nip_dos . "' AND sebagai='pembimbing 1'")->getResult();
+                                                        if (empty($pengajuan_pembimbing_1)) {
+                                                            $jumlah_pem1 = 0;
+                                                        } else {
+                                                            $jumlah_pem1 = count($pengajuan_pembimbing_1);
+                                                        }
+                                                        if (count($jumlah_p1) > 0) {
+                                                            if ($jumlah_pem1 != $jumlah_p1[0]->jumlah) {
+                                                                $db->query("UPDATE tb_jumlah_pembimbing SET jumlah=$jumlah_pem1 WHERE nip='" . $key1->nip_dos . "' AND sebagai='pembimbing 1'");
+                                                            }
+                                                        }
                                                     ?>
                                                         <option value="<?= $key1->nip_dos ?>">
                                                             <?= $key1->namaunit . ' - ' . $key1->nip_dos . ' - ' . $key1->gelardepan . ' ' . $key1->nama . ', ' . $key1->gelarbelakang ?>
@@ -202,6 +213,17 @@ use CodeIgniter\Images\Image;
                                                     </option>
                                                     <?php foreach ($dosen_p2 as $key2) {
                                                         $jumlah_p2 = $db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='$key2->nip_dos' AND sebagai='pembimbing 2'")->getResult();
+                                                        $pengajuan_pembimbing_2 = $db->query("SELECT * FROM `tb_pengajuan_pembimbing` WHERE nip = '" . $key2->nip_dos . "'  AND sebagai = 2 AND status_pengajuan ='diterima' AND pesan IS NULL")->getResult();
+                                                        if (empty($pengajuan_pembimbing_2)) {
+                                                            $jumlah_pem2 = 0;
+                                                        } else {
+                                                            $jumlah_pem2 = count($pengajuan_pembimbing_2);
+                                                        }
+                                                        if (count($jumlah_p2) > 0) {
+                                                            if ($jumlah_pem2 != $jumlah_p2[0]->jumlah) {
+                                                                $db->query("UPDATE tb_jumlah_pembimbing SET jumlah=$jumlah_pem2 WHERE nip='" . $key2->nip_dos . "' AND sebagai='pembimbing 2'");
+                                                            }
+                                                        }
                                                     ?>
                                                         <option value="<?= $key2->nip_dos ?>">
                                                             <?= $key2->namaunit . ' - ' . $key2->nip_dos . ' - ' . $key2->gelardepan . ' ' . $key2->nama . ', ' . $key2->gelarbelakang ?>

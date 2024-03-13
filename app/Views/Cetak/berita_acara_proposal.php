@@ -42,7 +42,7 @@
                 <img src="<?= base_url('image/Logo_UTM.png') ?>" style="width: 100px;">
             </td>
             <td style="text-align:center;font-size: 18px;border: 1px solid black;"><b>FORM</b></td>
-            <td style="border: 1px solid black;text-align:center;padding: 5px;" colspan="2">No. Dokumen : <b>F.S.JMF.07</b></td>
+            <td style="border: 1px solid black;text-align:center;padding: 5px;" colspan="2">No. Dokumen : <b>BASM.PS.01</b></td>
         </tr>
         <tr>
             <td colspan="2" style="text-align:center;font-size: 18px;border: 1px solid black;"><b>BERITA ACARA SEMINAR PROPOSAL SKRIPSI</b></td>
@@ -156,9 +156,9 @@
     </table>
     <br>
     <p><b>Status Seminar :</b></p>
-    <input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 1 ? 'checked' : '' : '' ?>> Disetuji tanpa perbaikan
-    <br><input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 2 ? 'checked' : '' : '' ?>> Disetuji dengan perbaikan
-    <br><input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 3 ? 'checked' : '' : '' ?>> Tidak disetujui/mengulang
+    <input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 1 ? 'checked' : '' : '' ?>> Lulus tanpa perbaikan
+    <br><input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 2 ? 'checked' : '' : '' ?>> Lulus dengan perbaikan
+    <br><input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 3 ? 'checked' : '' : '' ?>> Tidak lulus/mengulang
     <br>
     <br>
     <p>
@@ -168,7 +168,7 @@
                 Diketahui oleh<br>Pembimbing <?= $dosen_pembimbing_1[0]->sebagai ?><br><?= $qr_pembimbing_1 ?><br><u><?= $dosen_pembimbing_1[0]->gelardepan . ' ' . ucwords(strtolower($dosen_pembimbing_1[0]->nama)) . ', ' . $dosen_pembimbing_1[0]->gelarbelakang ?></u><br>NIP. <?= $dosen_pembimbing_1[0]->nip ?>
             </td>
             <td align="center" width="50%" style="border: 1px solid black;text-align:center;">
-                Diketahui oleh<br>Pembimbing <?= $dosen_pembimbing_2[0]->sebagai ?><br><?= $qr_pembimbing_1 ?><br><u><?= $dosen_pembimbing_2[0]->gelardepan . ' ' . ucwords(strtolower($dosen_pembimbing_2[0]->nama)) . ', ' . $dosen_pembimbing_2[0]->gelarbelakang ?></u><br>NIP. <?= $dosen_pembimbing_2[0]->nip ?>
+                Diketahui oleh<br>Pembimbing <?= $dosen_pembimbing_2[0]->sebagai ?><br><?= $qr_pembimbing_2 ?><br><u><?= $dosen_pembimbing_2[0]->gelardepan . ' ' . ucwords(strtolower($dosen_pembimbing_2[0]->nama)) . ', ' . $dosen_pembimbing_2[0]->gelarbelakang ?></u><br>NIP. <?= $dosen_pembimbing_2[0]->nip ?>
             </td>
         </tr>
     </table>

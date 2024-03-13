@@ -70,7 +70,12 @@ use CodeIgniter\Images\Image;
                                         </tr>
                                     <?php } ?>
                                     <?php
-                                    foreach ($data_mhs_bimbingan as $key) { ?>
+                                    foreach ($data_mhs_bimbingan as $key) {
+                                        
+                                        if ($key['pesan'] == 'Sudah Lulus') {
+                                            continue;
+                                        }
+                                        ?>
                                         <tr>
                                             <td>
                                                 <img alt="avatar" class="rounded-circle avatar-md me-2" src="<?= base_url() ?>/image/<?= $key['image'] ?>">

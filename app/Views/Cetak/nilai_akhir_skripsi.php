@@ -42,7 +42,7 @@
         <img src="<?= base_url('image/Logo_UTM.png') ?>" style="width: 100px;">
       </td>
       <td style="text-align:center;font-size: 18px;border: 1px solid black;"><b>FORM</b></td>
-      <td style="border: 1px solid black;text-align:center;padding: 5px;" colspan="2">No. Dokumen : <b>F.S.JMF.12</b></td>
+      <td style="border: 1px solid black;text-align:center;padding: 5px;" colspan="2">No. Dokumen : <b>NAS.SS.03</b></td>
     </tr>
     <tr>
       <td colspan="2" style="text-align:center;font-size: 18px;border: 1px solid black;"><b>NILAI AKHIR SKRIPSI</b></td>
@@ -161,33 +161,33 @@
   <table width="100%" style="border: 1px solid black; margin-top: 5px;">
     <thead>
       <tr style="border: 1px solid black;">
-        <th style="text-align: center; vertical-align: middle;"><span>Pembimbing 1</span></th>
-        <th style="text-align: center; vertical-align: middle;"><span>Pembimbing 2</span></th>
-        <th style="text-align: center; vertical-align: middle;"><span>Penguji 1</span></th>
-        <th style="text-align: center; vertical-align: middle;"><span>Penguji 2</span></th>
-        <th style="text-align: center; vertical-align: middle;"><span>Penguji 3</span></th>
-        <th style="text-align: center; vertical-align: middle;"><span>Nilai Akhir Angka</span></th>
-        <th style="text-align: center; vertical-align: middle;"><span>Nilai Akhir Huruf</span></th>
+        <th style="text-align: center; vertical-align: middle; border: 1px solid black; "><span>Pembimbing 1</span></th>
+        <th style="text-align: center; vertical-align: middle; border: 1px solid black; "><span>Pembimbing 2</span></th>
+        <th style="text-align: center; vertical-align: middle; border: 1px solid black; "><span>Penguji 1</span></th>
+        <th style="text-align: center; vertical-align: middle; border: 1px solid black; "><span>Penguji 2</span></th>
+        <th style="text-align: center; vertical-align: middle; border: 1px solid black; "><span>Penguji 3</span></th>
+        <th style="text-align: center; vertical-align: middle; border: 1px solid black; "><span>Nilai Akhir Angka</span></th>
+        <th style="text-align: center; vertical-align: middle; border: 1px solid black; "><span>Nilai Akhir Huruf</span></th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <?php
         foreach ($data_nilai as $key) { ?>
-          <td style="vertical-align: middle;" class=" <?= empty($key->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($key->nilai_ujian) ? "Belum <br> Dinilai" : $key->nilai_ujian ?></td>
+          <td style="vertical-align: middle; border: 1px solid black;" class=" <?= empty($key->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($key->nilai_ujian) ? "Belum <br> Dinilai" : $key->nilai_ujian ?></td>
         <?php } ?>
 
-        <td style="font-weight: bold vertical-align: middle;" class=" text-center"><?= $total_nilai ?></td>
-        <td style="font-weight: bold; vertical-align: middle;" class=" text-center"><?= $grade ?></td>
+        <td style="font-weight: bold vertical-align: middle; border: 1px solid black; " class=" text-center"><?= $total_nilai ?></td>
+        <td style="font-weight: bold; vertical-align: middle; border: 1px solid black; " class=" text-center"><?= $grade ?></td>
 
       </tr>
     </tbody>
   </table>
   <br>
   <p><b>Status Ujian :</b></p>
-  <input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 1 ? 'checked' : '' : '' ?>> Disetuji tanpa perbaikan
-  <br><input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 2 ? 'checked' : '' : '' ?>> Disetuji dengan perbaikan
-  <br><input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 3 ? 'checked' : '' : '' ?>> Tidak disetujui/mengulang
+  <input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 1 ? 'checked' : '' : '' ?>> Lulus tanpa perbaikan
+  <br><input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 2 ? 'checked' : '' : '' ?>> Lulus dengan perbaikan
+  <br><input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 3 ? 'checked' : '' : '' ?>> Tidak lulus/mengulang
   <br>
   <br>
   <p>

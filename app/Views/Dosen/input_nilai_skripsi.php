@@ -50,11 +50,11 @@ use CodeIgniter\Images\Image;
                                                     <?php
                                                     if (!empty($sidang)) {
                                                         if ($sidang[0]->hasil_sidang == '1') {
-                                                            echo "Disetuji tanpa perbaikan";
+                                                            echo "Lulus tanpa perbaikan";
                                                         } elseif ($sidang[0]->hasil_sidang == '2') {
-                                                            echo "Disetuji dengan perbaikan";
+                                                            echo "Lulus dengan perbaikan";
                                                         } else {
-                                                            echo "Tidak disetujui/mengulang";
+                                                            echo "Tidak Lulus/mengulang";
                                                         }
                                                     } else {
                                                         echo '-';

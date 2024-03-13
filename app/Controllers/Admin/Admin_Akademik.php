@@ -22,19 +22,13 @@ class Admin_Akademik extends BaseController
       'tab' => 'Data Dosen',
       'title' => 'Data Admin Akademik',
       'db' => $this->db,
-      'data' => $this->db->query("SELECT a.*,b.`nama`,b.`gelardepan`,b.`gelarbelakang` FROM (SELECT a.*,b.`namaunit` AS fakultas FROM
-            (SELECT a.*,b.`namaunit` AS jurusan, b.`parentunit` AS idunitfakultas
-            FROM (SELECT a.*,b.`namaunit` AS prodi,b.`parentunit` AS idunitjurusan FROM tb_admin_akademik a  LEFT JOIN tb_unit b ON a.`idunit`=b.`idunit`) AS a 
-            LEFT JOIN tb_unit b ON a.idunitjurusan = b.`idunit`) AS a
-            LEFT JOIN tb_unit b ON a.idunitfakultas = b.`idunit`) AS a
-            LEFT JOIN tb_dosen b ON a.nip=b.`nip`")->getResult(),
+      'data' => $this->db->query("SELECT * FROM tb_admin_akademik")->getResult(),
       'prodi' => $this->db->query("SELECT a.*,b.`namaunit` AS fakultas FROM
             (SELECT a.*,b.`namaunit` AS jurusan, b.`parentunit` AS idunitfakultas
             FROM (SELECT *,parentunit AS idunitjurusan FROM tb_unit ) AS a 
             LEFT JOIN tb_unit b ON a.idunitjurusan = b.`idunit`) AS a
             LEFT JOIN tb_unit b ON a.idunitfakultas = b.`idunit` WHERE a.jenisunit='P'")->getResult(),
       'dosen' => $this->db->query("SELECT * FROM tb_dosen")->getResult()
-
     ];
 
     return view('Admin/data_admin_akademik', $data);

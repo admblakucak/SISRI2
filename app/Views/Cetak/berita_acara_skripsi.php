@@ -42,7 +42,7 @@
                 <img src="<?= base_url('image/Logo_UTM.png') ?>" style="width: 100px;">
             </td>
             <td style="text-align:center;font-size: 18px;border: 1px solid black;"><b>FORM</b></td>
-            <td style="border: 1px solid black;text-align:center;padding: 5px;" colspan="2">No. Dokumen : <b>F.S.JMF.12</b></td>
+            <td style="border: 1px solid black;text-align:center;padding: 5px;" colspan="2">No. Dokumen : <b>BASD.SS.02</b></td>
         </tr>
         <tr>
             <td colspan="2" style="text-align:center;font-size: 18px;border: 1px solid black;"><b>BERITA ACARA SIDANG SKRIPSI</b></td>
@@ -156,9 +156,9 @@
     </table>
     <br>
     <p><b>Status Ujian :</b></p>
-    <input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 1 ? 'checked' : '' : '' ?>> Disetuji tanpa perbaikan
-    <br><input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 2 ? 'checked' : '' : '' ?>> Disetuji dengan perbaikan
-    <br><input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 3 ? 'checked' : '' : '' ?>> Tidak disetujui/mengulang
+    <input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 1 ? 'checked' : '' : '' ?>> Lulus tanpa perbaikan
+    <br><input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 2 ? 'checked' : '' : '' ?>> Lulus dengan perbaikan
+    <br><input type="checkbox" onclick="return false;" <?= $id_pendaftar != NULL ? $jadwal_sidang[0]->hasil_sidang == 3 ? 'checked' : '' : '' ?>> Tidak lulus/mengulang
     <br>
     <br>
     <p>

@@ -23,7 +23,7 @@ use CodeIgniter\Images\Image;
 						<div class="tabs menu">
 							<ul class="nav panel-tabs me-3">
 								<li><a href="#dosen" class="active" data-bs-toggle="tab">Dosen</a></li>
-								<li><a href="#tab22" data-bs-toggle="tab">Koorprodi</a></li>
+								<li><a href="#korprodi" data-bs-toggle="tab">Koorprodi</a></li>
 							</ul>
 						</div>
 					</div>
@@ -48,12 +48,14 @@ use CodeIgniter\Images\Image;
 														</tr>
 													</thead>
 													<tbody>
-														<tr>
-															<td class="tx-medium tx-inverse">Adam</td>
-															<td class="tx-medium tx-inverse">Pembimbing 1</td>
-															<td class="tx-medium tx-inverse">Lulus</td>
-														</tr>
-														<tr>
+														<?php foreach ($data_mhs_bimbingan as $key) { ?>
+															<tr>
+																<td class="tx-medium tx-inverse"><?= $key->nama ?></td>
+																<td class="tx-medium tx-inverse">Pembimbing <?= $key->sebagai ?></td>
+																<td class="tx-medium tx-inverse"><?= empty($key->pesan) ? 'Progress' : 'Sudah Lulus' ?></td>
+															</tr>
+														<?php }  ?>
+														<!-- <tr>
 															<td class="tx-medium tx-inverse">Nofal</td>
 															<td class="tx-medium tx-inverse">Pembimbing 2</td>
 															<td class="tx-medium tx-inverse">Progres</td>
@@ -61,16 +63,16 @@ use CodeIgniter\Images\Image;
 														<tr>
 															<td class="tx-medium tx-inverse">Wasil</td>
 															<td class="tx-medium tx-inverse">Pembimbing 1</td>
-															<td class="tx-medium tx-inverse">Progres</td>
+															<td class="tx-medium tx-inverse">Progres</td> -->
 														</tr>
 													</tbody>
 												</table>
 											</div>
 										</div>
 										<div class="row row-md row-deck">
-											<div class="col-md-12 col-lg-8 col-xl-7">
+											<div class="col-md-12 col-lg-6 col-xl-6">
 												<div class="card card-dashboard-eight pb-2">
-													<h6 class="card-title">Data Penguji</h6><span class="d-block mg-b-10 text-muted tx-12">Informasi data ujian mahasiswa</span>
+													<h6 class="card-title">Data Penguji Seminar Proposal</h6><span class="d-block mg-b-10 text-muted tx-12">Informasi data ujian mahasiswa</span>
 													<div class="list-group border-top-0">
 														<table class="table table-striped mg-b-0 text-md-nowrap">
 															<thead>
@@ -78,93 +80,67 @@ use CodeIgniter\Images\Image;
 																	<th class="wd-lg-25p">Nama Mahasiswa</th>
 																	<th class="wd-lg-25p">Sebagai</th>
 																	<th class="wd-lg-25p">Tanggal Ujian Seminar Proposal</th>
-																	<th class="wd-lg-25p">Tanggal Ujian Sidang Skripsi</th>
 																</tr>
 															</thead>
 															<tbody>
-																<tr>
-																	<td>Irwan</td>
-																	<td>Pembimbing 1</td>
-																	<td>20/08/2023</td>
-																	<td>18/02/2024</td>
-																</tr>
-																<tr>
-																	<td>Dandi</td>
-																	<td>Pembimbing 1</td>
-																	<td>20/08/2023</td>
-																	<td>18/02/2024</td>
-																</tr>
-																<tr>
-																	<td>Nurul</td>
-																	<td>Pembimbing 1</td>
-																	<td>20/08/2023</td>
-																	<td>18/02/2024</td>
-																</tr>
-																<tr>
-																	<td>Fatim</td>
-																	<td>Pembimbing 1</td>
-																	<td>20/08/2023</td>
-																	<td>18/02/2024</td>
-																</tr>
+
+																<?php foreach ($data_mhs_uji as $key_2) {
+																	if ($key_2['jenis_sidang'] == 'sidang skripsi') {
+																		continue;
+																	}
+
+																	$jadwal_sidang = $db->query("SELECT waktu_sidang FROM `tb_pendaftar_sidang` WHERE id_pendaftar=" . $key_2['id_pendaftar'])->getResult();
+																?>
+																	<tr>
+																		<td><?= $key_2['nama_mhs'] ?></td>
+																		<td>Penguji <?= $key_2['sebagai'] ?></td>
+																		<td class="text-left"><?= empty($jadwal_sidang) ? 'belum mendaftar' : $jadwal_sidang[0]->waktu_sidang ?></td>
+																	</tr>
+																<?php } ?>
+
 															</tbody>
 														</table>
 													</div>
 												</div>
 											</div>
-											<div class="col-xl-5 col-md-12 col-lg-6">
-												<div class="card">
-													<div class="card-header pb-1">
-														<h3 class="card-title mb-2">Data Mahasiswa</h3>
-														<p class="tx-12 mb-0 text-muted">Informasi data mahasiswa yang sudah divalidasi dan tidak divalidasi</p>
-													</div>
-													<div class="card-body p-0 customers mt-">
-														<div class="list-group list-lg-group list-group-flush">
-															<div class="list-group-item list-group-item-action" href="#">
-																<div class="media mt-0">
-																	<div class="media-body">
-																		<div class="d-flex align-items-center">
-																			<table class="table mg-b-0 text-md-nowrap">
-																				<thead>
-																					<tr>
-																						<th></th>
-																						<th class="wd-lg-25p">Nama</th>
-																						<th class="wd-lg-25p">Sebagai</th>
-																						<th class="wd-lg-25p">Status</th>
-																					</tr>
-																				</thead>
-																				<tbody>
-																					<tr>
-																						<td class="avatar avatar-lg cover-image" data-bs-image-src="assets/img/faces/3.jpg"></td>
-																						<td>Rizki Irwan Pratama</td>
-																						<td>Pembimbing 1</td>
-																						<td>Diterima</td>
-																					</tr>
-																					<tr>
-																						<td class="avatar avatar-lg cover-image" data-bs-image-src="assets/img/faces/3.jpg"></td>
-																						<td>wasil</td>
-																						<td>Pembimbing 2</td>
-																						<td>Ditolak</td>
-																					</tr>
-																					<tr>
-																						<td class="avatar avatar-lg cover-image" data-bs-image-src="assets/img/faces/3.jpg"></td>
-																						<td>Irwan</td>
-																						<td>Pembimbing 1</td>
-																						<td>Menunggu</td>
-																					</tr>
-																				</tbody>
-																			</table>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
+											<div class="col-md-12 col-lg-6 col-xl-6">
+												<div class="card card-dashboard-eight pb-2">
+													<h6 class="card-title">Data Penguji Sidang Skripsi</h6><span class="d-block mg-b-10 text-muted tx-12">Informasi data ujian mahasiswa</span>
+													<div class="list-group border-top-0">
+														<table class="table table-striped mg-b-0 text-md-nowrap">
+															<thead>
+																<tr>
+																	<th class="wd-lg-25p">Nama Mahasiswa</th>
+																	<th class="wd-lg-25p">Sebagai</th>
+																	<th class="wd-lg-25p">Tanggal Ujian Sidang Skripsi</th>
+																</tr>
+															</thead>
+															<tbody>
+
+																<?php foreach ($data_mhs_uji as $key_2) {
+																	if ($key_2['jenis_sidang'] == '') {
+																		continue;
+																	}
+
+																	$jadwal_sidang = $db->query("SELECT waktu_sidang FROM `tb_pendaftar_sidang` WHERE id_pendaftar=" . $key_2['id_pendaftar'])->getResult();
+																?>
+																	<tr>
+																		<td><?= $key_2['nama_mhs'] ?></td>
+																		<td>Penguji <?= $key_2['sebagai'] ?></td>
+																		<td class="text-left"><?= empty($jadwal_sidang) ? 'belum mendaftar' : $jadwal_sidang[0]->waktu_sidang ?></td>
+																	</tr>
+																<?php } ?>
+
+															</tbody>
+														</table>
 													</div>
 												</div>
 											</div>
+								
 										</div>
 									</div>
 								</div>
-								<div class="tab-pane" id="tab22">
+								<div class="tab-pane" id="korprodi">
 									<div class="row row-md row-deck">
 										<div class="col-md-12 col-lg-12 col-xl-5">
 											<div class="card card-table-two">

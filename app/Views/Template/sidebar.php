@@ -97,7 +97,6 @@
 							} else {
 								$total_acc_dosen_penguji = 0;
 							}
-							// dd(count($total_acc_dosen_penguji));
 
 							if ($total_acc_dosen_penguji >= 3) {
 							?>
@@ -129,9 +128,6 @@
 							<?php
 							$cek_status_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND a.`nim`='" . session()->get('ses_id') . "'")->getResult();
 							if (count($cek_status_sidang) > 0 && $total_acc_dosen_penguji == 3) {
-								// 	dd('benar');
-								// }
-								// dd("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND a.`nim`='" . session()->get('ses_id') . "'");
 							?>
 								<li class="slide">
 									<a class="side-menu__item" data-bs-toggle="slide" href="<?= base_url() ?>informasi_nilai"><svg style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -198,7 +194,7 @@
 							<a class="side-menu__item" href="<?= base_url() ?>riwayat_bimbingan">
 								<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 									<path fill="currentColor" d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z" />
-								</svg> &nbsp;
+								</svg> &nbsp;&nbsp;
 								<span class="side-menu__label">Riwayat Bimbingan</span>
 							</a>
 						</li>
@@ -291,7 +287,7 @@
 											<path d="M0 0h24v24H0V0z" fill="none" />
 											<path d="M5 5h4v6H5zm10 8h4v6h-4zM5 17h4v2H5zM15 5h4v2h-4z" opacity=".3" />
 											<path d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z" />
-										</svg><span class="side-menu__label">Daftar Nilai</span><i class="angle fe fe-chevron-down"></i></a>
+										</svg> <span class="side-menu__label"> &nbsp; &nbsp; Daftar Nilai</span><i class="angle fe fe-chevron-down"></i></a>
 								<ul class="slide-menu">
 									<li><a class="slide-item" href="<?= base_url() ?>daftar_nilai">Daftar Nilai</a></li>
 									<li><a class="slide-item" href="<?= base_url() ?>daftar_sudah_dinilai">Sudah Dinilai</a></li>

@@ -40,7 +40,7 @@
             <td style="border: 1px solid black;text-align:center;padding: 10px;" rowspan="2">
                 <img src="<?= base_url('image/Logo_UTM.png') ?>" style="width: 100px;">
             </td>
-            <td style="text-align:center;font-size: 18px;border: 1px solid black;" colspan="3"><b><?= strtoupper($data_jadwal[0]->jenis_sidang) ?></b></td>
+            <td style="text-align:center;font-size: 18px;border: 1px solid black;" colspan="3"><b> JADWAL <?= strtoupper($data_jadwal[0]->jenis_sidang) ?></b></td>
         </tr>
         <tr>
             <td colspan="2" style="text-align:center;font-size: 18px;border: 1px solid black;"><b>DATA MAHASISWA <?= strtoupper($namaunit) ?></b></td>
