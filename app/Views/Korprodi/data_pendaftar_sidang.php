@@ -161,7 +161,7 @@ use CodeIgniter\Images\Image;
                                                     $ruangan_sidang = empty($key->ruang_sidang) ? 'kosong' : $key->ruang_sidang;
 
                                                     ?>
-                                                    <a class="btn btn-warning btn-sm setting_jadwal" href="<?= base_url() ?>edit_data_pendaftar/<?= $key->nim . '/' . $key->id_pendaftar . '/' . $data_jadwal[0]->jenis_sidang . '/' . $waktuSidang . '/' . $ruangan_sidang ?>"><i class="las la-pen">Sedsfdstting</i></a>
+                                                    <a class="btn btn-warning btn-sm setting_jadwal" href="<?= base_url() ?>edit_data_pendaftar/<?= $key->nim . '/' . $key->id_pendaftar . '/' . $data_jadwal[0]->jenis_sidang . '/' . $waktuSidang . '/' . $ruangan_sidang ?>"><i class="las la-pen">Setting</i></a>
                                                     <!-- <form action="<?= base_url() ?>edit_data_pendaftar" method="POST" enctype="multipart/form-data">
                                                         <?= csrf_field() ?>
 
