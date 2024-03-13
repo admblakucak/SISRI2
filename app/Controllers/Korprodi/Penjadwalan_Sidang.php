@@ -294,11 +294,14 @@ class Penjadwalan_sidang extends BaseController
         }
     }
 
-    public function edit_data_pendaftar($nim, $id_pendaftar, $jenis_sidang, $waktu_sidang, $ruang_sidang)
+    public function edit_data_pendaftar($nim, $id_pendaftar, $jenis_sidang, $waktu_sidang = null, $ruang_sidang = null)
     {
         if (session()->get('ses_id') == '' || session()->get('ses_login') != 'korprodi') {
             return redirect()->to('/');
         }
+
+        $waktu_sidang = $waktu_sidang == 'kosong' ? '' : $waktu_sidang;
+        $ruang_sidang = $ruang_sidang == 'kosong' ? '' : $ruang_sidang;
 
         $judul = $this->db->query("SELECT * FROM tb_pengajuan_topik WHERE nim='$nim'")->getResult();
         $penguji1 = $this->db->query("SELECT * FROM tb_penguji a left join tb_dosen b on a.nip=b.nip WHERE a.nim='$nim' AND a.sebagai='1' AND a.id_pendaftar='$id_pendaftar'")->getResult();

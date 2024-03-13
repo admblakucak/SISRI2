@@ -23,7 +23,9 @@ use CodeIgniter\Images\Image;
 						<div class="tabs menu">
 							<ul class="nav panel-tabs me-3">
 								<li><a href="#dosen" class="active" data-bs-toggle="tab">Dosen</a></li>
-								<li><a href="#korprodi" data-bs-toggle="tab">Koorprodi</a></li>
+								<?php if (session()->get('ses_login') != 'dosen') { ?>
+									<li><a href="#korprodi" data-bs-toggle="tab">Koorprodi</a></li>
+								<?php } ?>
 							</ul>
 						</div>
 					</div>
@@ -136,7 +138,7 @@ use CodeIgniter\Images\Image;
 													</div>
 												</div>
 											</div>
-								
+
 										</div>
 									</div>
 								</div>

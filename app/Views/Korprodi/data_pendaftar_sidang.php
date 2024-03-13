@@ -81,7 +81,7 @@ use CodeIgniter\Images\Image;
                                             <?php } ?>
                                             <th style="text-align: center; vertical-align: middle;"><span>Aksi</span></th>
                                         </tr>
-                                    </thead> 
+                                    </thead>
                                     <tbody>
                                         <?php
                                         date_default_timezone_set("Asia/Jakarta");
@@ -157,8 +157,11 @@ use CodeIgniter\Images\Image;
                                                     }
                                                 }
                                                 ?>
-                                                <td>
-                                                    <a class="btn btn-warning btn-sm setting_jadwal" href="<?= base_url() ?>edit_data_pendaftar/<?=$key->nim.'/'.$key->id_pendaftar.'/'.$data_jadwal[0]->jenis_sidang.'/'.$key->waktu_sidang.'/'.$key->ruang_sidang  ?>"><i class="las la-pen">Setting</i></a>
+                                                <td><?php $waktuSidang =  empty($key->waktu_sidang) ? 'kosong' : $key->waktu_sidang;
+                                                    $ruangan_sidang = empty($key->ruang_sidang) ? 'kosong' : $key->ruang_sidang;
+
+                                                    ?>
+                                                    <a class="btn btn-warning btn-sm setting_jadwal" href="<?= base_url() ?>edit_data_pendaftar/<?= $key->nim . '/' . $key->id_pendaftar . '/' . $data_jadwal[0]->jenis_sidang . '/' . $waktuSidang . '/' . $ruangan_sidang ?>"><i class="las la-pen">Sedsfdstting</i></a>
                                                     <!-- <form action="<?= base_url() ?>edit_data_pendaftar" method="POST" enctype="multipart/form-data">
                                                         <?= csrf_field() ?>
 
