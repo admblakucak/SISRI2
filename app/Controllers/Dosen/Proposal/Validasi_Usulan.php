@@ -60,8 +60,45 @@ class Validasi_Usulan extends BaseController
         if (session()->get('ses_id') == '' || session()->get('ses_login') == 'mahasiswa') {
             return redirect()->to('/');
         }
-        $this->db->query("UPDATE tb_pengajuan_pembimbing SET status_pengajuan='diterima',agree_at=now() WHERE id_pengajuan_pembimbing=$id");
+        // dd($jumlah_pembimbing_p1[0]->jumlah);
+
         $data = $this->db->query("SELECT * FROM tb_pengajuan_pembimbing WHERE id_pengajuan_pembimbing=$id")->getResult();
+        if ($data[0]->sebagai == 1) {
+            $jumlah_pembimbing_p1 = $this->db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 1'")->getResult();
+            $pengajuan_pembimbing_1 = $this->db->query("SELECT * FROM tb_pengajuan_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='1' AND status_pengajuan='diterima'")->getResult();
+            // if (count($pengajuan_pembimbing_1) != $jumlah_pembimbing_p1[0]->jumlah) {
+            //     $this->db->query("UPDATE tb_jumlah_pembimbing SET jumlah='" . count($pengajuan_pembimbing_1) . "' WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 1'");
+            // }
+            if ($jumlah_pembimbing_p1[0]->jumlah >= $jumlah_pembimbing_p1[0]->kuota) {
+                session()->setFlashdata('message_pem1', '
+                <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+            <span class="alert-inner--text"><strong>Gagal!</strong> Kuota Dosen Pembimbing 1 Anda penuh</span>
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            </div>');
+                return redirect()->to('/validasi_usulan');
+            }
+        } else {
+            $jumlah_pembimbing_p2 = $this->db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 2'")->getResult();
+            $pengajuan_pembimbing_2 = $this->db->query("SELECT * FROM tb_pengajuan_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='2' AND status_pengajuan='diterima'")->getResult();
+            if (count($pengajuan_pembimbing_2) != $jumlah_pembimbing_p2[0]->jumlah) {
+                $this->db->query("UPDATE tb_jumlah_pembimbing SET jumlah='" . count($pengajuan_pembimbing_2) . "' WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 2'");
+            }
+            if ($jumlah_pembimbing_p2[0]->jumlah >= $jumlah_pembimbing_p2[0]->kuota) {
+                session()->setFlashdata('message_pem1', '
+                <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+            <span class="alert-inner--text"><strong>Gagal!</strong> Kuota Dosen Pembimbing 2 Anda penuh</span>
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            </div>');
+                return redirect()->to('/validasi_usulan');
+            }
+        }
+        $this->db->query("UPDATE tb_pengajuan_pembimbing SET status_pengajuan='diterima',agree_at=now() WHERE id_pengajuan_pembimbing=$id");
         if ($data[0]->sebagai == '1') {
             $jumlah_pembimbing_p1 = $this->db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 1'")->getResult();
             $jumlah = $jumlah_pembimbing_p1[0]->jumlah + 1;

@@ -21,6 +21,8 @@ use CodeIgniter\Images\Image;
                         <p class="tx-12 tx-gray-500 mb-2">Daftar Usulan Topik dari Mahasiswa</a></p>
                     </div>
                 </div>
+                <?= session()->getFlashdata('message_pem1'); ?>
+
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="card-body">
