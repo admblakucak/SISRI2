@@ -55,7 +55,7 @@ use CodeIgniter\Images\Image;
                                                         $nilai = $db->query("SELECT * FROM tb_nilai WHERE nim='" . $key['nim'] . "' AND nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing " . $key['sebagai'] . "'")->getResult();
                                                         $sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE a.`nim`='" . $key['nim'] . "' AND b.`jenis_sidang`='sidang skripsi' ORDER BY create_at DESC LIMIT 1")->getResult();
                                                         $berita_acara = $db->query("SELECT * FROM tb_berita_acara WHERE `nim`='" . $key['nim'] . "' AND nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing " . $key['sebagai'] . "' AND status='ditandatangani' AND jenis_sidang='skripsi'")->getResult();
-                                                        if (!empty($nilai) || !empty($nilai[0]->nilai_bimbingan) || !empty($nilai[0]->nilai_ujian)) {
+                                                        if (!empty($nilai) && !empty($nilai[0]->nilai_bimbingan) && !empty($nilai[0]->nilai_ujian)) {
                                                             continue;
                                                         }
                                                     ?>
