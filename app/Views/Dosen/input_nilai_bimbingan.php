@@ -134,7 +134,7 @@ use CodeIgniter\Images\Image;
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane active" id="sudah_dinilai">
+                            <div class="tab-pane" id="sudah_dinilai">
                                 <div class="row">
                                     <div class="col-xl-12">
                                         <div class="table-responsive">

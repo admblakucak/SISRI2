@@ -50,7 +50,11 @@ use CodeIgniter\Images\Image;
 														</tr>
 													</thead>
 													<tbody>
-														<?php foreach ($data_mhs_bimbingan as $key) { ?>
+														<?php foreach ($data_mhs_bimbingan as $key) {
+															if (empty($key->nama)) {
+																continue;
+															}
+														?>
 															<tr>
 																<td class="tx-medium tx-inverse"><?= $key->nama ?></td>
 																<td class="tx-medium tx-inverse">Pembimbing <?= $key->sebagai ?></td>

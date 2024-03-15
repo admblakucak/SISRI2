@@ -23,7 +23,7 @@ use CodeIgniter\Images\Image;
                     </div>
                     <p class="tx-12 tx-gray-500 mb-2">Tahap Mahasiswa dalam Melakukan Skripsi</p>
                 </div>
-                <div class="row mt-3">
+                <!-- <div class="row mt-3">
                     <div class="vtimeline">
                         <div class="timeline-wrapper timeline-wrapper-primary">
                             <div class="timeline-badge success"><i class="las la-folder-open"></i> </div>
@@ -321,7 +321,7 @@ use CodeIgniter\Images\Image;
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
