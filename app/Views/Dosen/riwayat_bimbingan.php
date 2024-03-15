@@ -201,15 +201,25 @@ use CodeIgniter\Images\Image;
 
                                       $pem1 = $db->query("SELECT a.nip,b.nama,b.gelardepan,b.gelarbelakang from tb_pengajuan_pembimbing a left join tb_dosen b on a.nip=b.nip where a.nim = '" . $key['nim'] . "' AND a.status_pengajuan = 'diterima' AND sebagai = 1")->getResult();
                                       $pem2 = $db->query("SELECT a.nip,b.nama,b.gelardepan,b.gelarbelakang from tb_pengajuan_pembimbing a left join tb_dosen b on a.nip=b.nip where a.nim = '" . $key['nim'] . "' AND a.status_pengajuan = 'diterima' AND sebagai = 2")->getResult();
-                                      $penguji1 = $db->query("SELECT a.nip,b.nama,b.gelardepan,b.gelarbelakang from tb_penguji a left join tb_dosen b on a.nip=b.nip where a.nim = '" . $key['nim'] . "' AND a.status = 'aktif' AND sebagai = 1")->getResult();
-                                      $penguji2 = $db->query("SELECT a.nip,b.nama,b.gelardepan,b.gelarbelakang from tb_penguji a left join tb_dosen b on a.nip=b.nip where a.nim = '" . $key['nim'] . "' AND a.status = 'aktif' AND sebagai = 2")->getResult();
-                                      $penguji3 = $db->query("SELECT a.nip,b.nama,b.gelardepan,b.gelarbelakang from tb_penguji a left join tb_dosen b on a.nip=b.nip where a.nim = '" . $key['nim'] . "' AND a.status = 'aktif' AND sebagai = 3")->getResult();
+                                      $penguji1 = $db->query("SELECT a.nip,b.nama,b.gelardepan,b.gelarbelakang from tb_penguji a left join tb_dosen b on a.nip=b.nip where a.nim = '" . $key['nim'] . "' AND a.status = 'aktif' AND sebagai = 1 AND a.jenis_sidang = 'sidang skripsi'")->getResult();
+                                      if (empty($penguji1)) {
+                                        $penguji1 = $db->query("SELECT a.nip,b.nama,b.gelardepan,b.gelarbelakang from tb_penguji a left join tb_dosen b on a.nip=b.nip where a.nim = '" . $key['nim'] . "' AND a.status = 'aktif' AND sebagai = 1 AND a.jenis_sidang = ''")->getResult();
+                                      }
+                                      $penguji2 = $db->query("SELECT a.nip,b.nama,b.gelardepan,b.gelarbelakang from tb_penguji a left join tb_dosen b on a.nip=b.nip where a.nim = '" . $key['nim'] . "' AND a.status = 'aktif' AND sebagai = 2 AND a.jenis_sidang = 'sidang skripsi'")->getResult();
+                                      if (empty($penguji2)) {
+                                        $penguji2 = $db->query("SELECT a.nip,b.nama,b.gelardepan,b.gelarbelakang from tb_penguji a left join tb_dosen b on a.nip=b.nip where a.nim = '" . $key['nim'] . "' AND a.status = 'aktif' AND sebagai = 2 AND a.jenis_sidang = ''")->getResult();
+                                      }
+                                      $penguji3 = $db->query("SELECT a.nip,b.nama,b.gelardepan,b.gelarbelakang from tb_penguji a left join tb_dosen b on a.nip=b.nip where a.nim = '" . $key['nim'] . "' AND a.status = 'aktif' AND sebagai = 3 AND a.jenis_sidang = 'sidang skripsi'")->getResult();
+                                      if (empty($penguji3)) {
+                                        $penguji3 = $db->query("SELECT a.nip,b.nama,b.gelardepan,b.gelarbelakang from tb_penguji a left join tb_dosen b on a.nip=b.nip where a.nim = '" . $key['nim'] . "' AND a.status = 'aktif' AND sebagai = 3 AND a.jenis_sidang = ''")->getResult();
+                                      }
+
 
                                       $nilai_pem1 = $db->query("SELECT * FROM `tb_nilai`  WHERE nim = '" . $key['nim'] . "' AND sebagai = 'pembimbing 1'")->getResult();
                                       $nilai_pem2 = $db->query("SELECT * FROM `tb_nilai`  WHERE nim = '" . $key['nim'] . "' AND sebagai = 'pembimbing 2'")->getResult();
-                                      $nilai_penguji1 = $db->query("SELECT * FROM `tb_nilai`  WHERE nim = '" . $key['nim'] . "' AND sebagai = 'penguji 1'")->getResult();
-                                      $nilai_penguji2 = $db->query("SELECT * FROM `tb_nilai`  WHERE nim = '" . $key['nim'] . "' AND sebagai = 'penguji 2'")->getResult();
-                                      $nilai_penguji3 = $db->query("SELECT * FROM `tb_nilai`  WHERE nim = '" . $key['nim'] . "' AND sebagai = 'penguji 3'")->getResult();
+                                      $nilai_penguji1 = $db->query("SELECT * FROM `tb_nilai`  WHERE nim = '" . $key['nim'] . "' AND sebagai = 'penguji 1' AND nip='" . $penguji1[0]->nip . "'")->getResult();
+                                      $nilai_penguji2 = $db->query("SELECT * FROM `tb_nilai`  WHERE nim = '" . $key['nim'] . "' AND sebagai = 'penguji 2' AND nip='" . $penguji2[0]->nip . "'")->getResult();
+                                      $nilai_penguji3 = $db->query("SELECT * FROM `tb_nilai`  WHERE nim = '" . $key['nim'] . "' AND sebagai = 'penguji 3' AND nip='" . $penguji3[0]->nip . "'")->getResult();
 
                                       $judul = $db->query("SELECT * FROM tb_pengajuan_topik WHERE nim='" . $key['nim'] . "'")->getResult();
                                       $acc_dosen_penguji_1 = $db->query("SELECT * FROM `tb_acc_revisi` WHERE `nim` ='" . $key['nim'] . "' AND jenis_sidang = 'seminar proposal' AND sebagai ='penguji 1'")->getResult();
@@ -230,6 +240,9 @@ use CodeIgniter\Images\Image;
                                       if (!empty($nilai_pem1[0]->nilai_bimbingan) && !empty($nilai_pem2[0]->nilai_bimbingan) && !empty($nilai_penguji1[0]->nilai_ujian) && !empty($nilai_penguji2[0]->nilai_ujian) && !empty($nilai_penguji3[0]->nilai_ujian)) {
                                         $keterangan_lulus = 'Sudah Lulus';
                                         $db->query("UPDATE tb_pengajuan_pembimbing SET pesan = 'Sudah Lulus' WHERE nim='" . $key['nim'] . "'");
+                                      } else {
+                                        $keterangan_lulus = 'belum lulus';
+                                        $db->query("UPDATE tb_pengajuan_pembimbing SET pesan = NULL WHERE nim='" . $key['nim'] . "'");
                                       }
                                       // if (count($total_acc_dosen_penguji) != 3) {
                                       //   continue;
