@@ -110,6 +110,9 @@ use CodeIgniter\Images\Image;
                                       if (!empty($nilai_pem1[0]->nilai_bimbingan) && !empty($nilai_pem2[0]->nilai_bimbingan) && !empty($nilai_penguji1[0]->nilai_ujian) && !empty($nilai_penguji2[0]->nilai_ujian) && !empty($nilai_penguji3[0]->nilai_ujian)) {
                                         $keterangan_lulus = 'Sudah Lulus';
                                         $db->query("UPDATE tb_pengajuan_pembimbing SET pesan = 'Sudah Lulus' WHERE nim='" . $key['nim'] . "'");
+                                      } else {
+                                        $keterangan_lulus = 'belum lulus';
+                                        $db->query("UPDATE tb_pengajuan_pembimbing SET pesan = NULL WHERE nim='" . $key['nim'] . "'");
                                       }
                                       // if (count($total_acc_dosen_penguji) != 3) {
                                       //   continue;
