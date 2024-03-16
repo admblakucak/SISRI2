@@ -72,6 +72,9 @@
                 $penguji1 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 1'")->getResult();
                 $penguji2 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 2'")->getResult();
                 $penguji3 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 3'")->getResult();
+                if (empty($mhs) || empty($judul[0]->judul_topik)) {
+                    continue;
+                }
                 if (!empty($pembimbing1)) {
                     $nb_pembimbing1 = $pembimbing1[0]->nilai_bimbingan == NULL ? 0 : $pembimbing1[0]->nilai_bimbingan;
                     $ns_pembimbing1 = $pembimbing1[0]->nilai_ujian == NULL ? 0 : $pembimbing1[0]->nilai_ujian;
@@ -130,9 +133,9 @@
                 // }
             ?>
                 <tr>
-                    <th scope="row"><?= $no ?></th>
+                    <td style="text-align: center; vertical-align: middle; border: 1px solid black;" scope="row"><?= $no ?></td>
                     <td style="text-align: center; vertical-align: middle; border: 1px solid black;"><?= $key->id ?></td>
-                    <td style="text-align: left; vertical-align: middle; border: 1px solid black;">
+                    <td style="text-align: left; vertical-align: middle; border: 1px solid black; padding-left: 2px; padding-right: 2px; ">
                         <?php
                         // $mhs[0]->nama 
                         if (!empty($mhs)) {
@@ -146,7 +149,7 @@
                         <?php
                         // $judul[0]->judul_topik
                         if (!empty($judul)) {
-                            echo $judul[0]->judul_topik;
+                            echo  strtoupper($judul[0]->judul_topik);
                         } else {
                             echo "";
                         }

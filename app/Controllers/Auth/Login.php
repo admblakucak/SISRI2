@@ -174,8 +174,7 @@ class Login extends BaseController
                     $ciphertext = password_hash($data_master_admin_akademik[0]->nip, PASSWORD_DEFAULT);
                     $this->db->query("INSERT INTO tb_users (id,email,password,role,idunit) VALUES ('" . $data_master_admin_akademik[0]->nip . "','" . $data_master_admin_akademik[0]->email . "','" . $ciphertext . "','admin_akademik','" . $data_master_admin_akademik[0]->idunit . "')");
                     $this->db->query("INSERT INTO tb_profil_tambahan (id,`image`) VALUES ('" . $data_master_admin_akademik[0]->nip . "','Profile_Default.png')");
-                    $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
-                    session()->set('ses_image', $image);
+                    session()->set('ses_image', 'Profile_Default.png');
                     session()->set('ses_login', 'admin_akademik');
                     session()->set('ses_id', $data_master_admin_akademik[0]->nip);
                     session()->set('ses_nama', $data_master_admin_akademik[0]->nama);

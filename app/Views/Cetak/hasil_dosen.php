@@ -73,6 +73,7 @@
 
                 <?php
                 $no2 = 1;
+                $no_jumlah_mhs = 1;
                 foreach ($data_mhs as $key2) {
                     $mhs = $db->query("SELECT * FROM tb_mahasiswa WHERE nim = '" . $key2->nim . "'")->getResult();
                     $judul = $db->query("SELECT * FROM tb_pengajuan_topik WHERE nim = '" . $key2->nim . "'")->getResult();
@@ -138,13 +139,13 @@
                     }
                     if ($no2 == 1) { ?>
                         <tr>
-                            <td style="text-align: center; vertical-align: middle;border: 1px solid black;" rowspan="<?= count($data_mhs) ?>"><?= $no ?></td>
-                            <td style="text-align: left; vertical-align: middle;border: 1px solid black;" rowspan="<?= count($data_mhs) ?>"><?= $key->nip ?></td>
-                            <td style="text-align: left; vertical-align: middle;border: 1px solid black;" rowspan="<?= count($data_mhs) ?>"><?= $key->gelardepan . ' ' . $key->nama . ', ' . $key->gelarbelakang; ?></td>
-                            <td style="text-align: center; vertical-align: middle;border: 1px solid black;"><?= $key2->sebagai ?></td>
-                            <td style="text-align: center; vertical-align: middle;border: 1px solid black;"><?= $key2->nama ?></td>
-                            <td style="text-align: center; vertical-align: middle;border: 1px solid black;"><?= $judul[0]->judul_topik ?></td>
-                            <td style="text-align: center; vertical-align: middle;border: 1px solid black;">
+                            <td style="text-align: center; vertical-align: middle;border: 1px solid black; border-bottom: none; "><?= $no ?></td>
+                            <td style="text-align: left; vertical-align: middle;border: 1px solid black; border-bottom: none; "><?= $key->nip ?></td>
+                            <td style="text-align: center; vertical-align: middle;border: 1px solid black; border-bottom: none; "><?= $key->gelardepan . ' ' . $key->nama . ', ' . $key->gelarbelakang; ?></td>
+                            <td style="text-align: center; vertical-align: middle;border: 1px solid black; border-bottom: none; "><?= $key2->sebagai ?></td>
+                            <td style="text-align: center; vertical-align: middle;border: 1px solid black; border-bottom: none; "><?= $key2->nama ?></td>
+                            <td style="text-align: center; vertical-align: middle;border: 1px solid black; border-bottom: none; "><?= strtoupper($judul[0]->judul_topik) ?></td>
+                            <td style="text-align: center; vertical-align: middle;border: 1px solid black; border-bottom: none; ">
                                 <?php
                                 if ($key2->sebagai == 'pembimbing 1') {
                                     echo $nb_pembimbing1;
@@ -175,9 +176,12 @@
                     } else {
                     ?>
                         <tr>
+                            <td style="border-right: 1px solid black; page-break-after: always; page-break-before: always; page-break-inside: avoid;"></td>
+                            <td style="border-right: 1px solid black; page-break-after: always; page-break-before: always; page-break-inside: avoid; "></td>
+                            <td style="border-right: 1px solid black; page-break-after: always; page-break-before: always; page-break-inside: avoid; "></td>
                             <td style="text-align: center; vertical-align: middle;border: 1px solid black;"><?= $key2->sebagai ?></td>
                             <td style="text-align: center; vertical-align: middle;border: 1px solid black;"><?= $key2->nama ?></td>
-                            <td style="text-align: center; vertical-align: middle;border: 1px solid black;"><?= $judul[0]->judul_topik ?></td>
+                            <td style="text-align: center; vertical-align: middle;border: 1px solid black;"><?= strtoupper($judul[0]->judul_topik) ?></td>
                             <td style="text-align: center; vertical-align: middle;border: 1px solid black;">
                                 <?php
                                 if ($key2->sebagai == 'pembimbing 1') {
@@ -208,6 +212,7 @@
             <?php
                     }
                     $no2++;
+                    $no_jumlah_mhs++;
                 }
                 $no++;
             }
@@ -226,6 +231,11 @@
         </tr>
     </table>
     </p>
+    <script>
+        function print() {
+            window.print();
+        }
+    </script>
 </body>
 
 </html>

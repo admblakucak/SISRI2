@@ -25,7 +25,7 @@ class Beranda extends BaseController
     }
 
     $data = [
-      'title' => 'Daftar Nilai Ujian Skripsi',
+      'title' => 'Beranda Admin akademik',
       'db' => $this->db,
       'data_mhs' => $this->db->query("SELECT * FROM tb_users WHERE idunit='" . session()->get('ses_idunit') . "' AND role='mahasiswa' ORDER BY id ASC")->getResult(),
       'data_periode' => $this->db->query("SELECT * FROM tb_periode")->getResult(),
