@@ -229,6 +229,7 @@ $routes->add('/update_kuota_dosen', 'Korprodi\Data_Dosen::update');
 $routes->add('/admin_akademik_data_nilai', 'Admin_akademik\Data_Nilai::index');
 $routes->add('/admin_akademik_data_skripsi', 'Admin_akademik\Data_Skripsi::index');
 $routes->add('/export_nilai_admin_akademik', 'Admin_akademik\Data_Nilai::export');
+$routes->add('/beranda_admin_akademik', 'Admin_akademik\Beranda::index');
 
 
 
