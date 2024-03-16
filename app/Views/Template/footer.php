@@ -120,108 +120,136 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-				var t = $('#validasitable1').DataTable({
-					"language": {
-						"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
-						"sEmptyTable": "Data Kosong"
-					},
-					"columnDefs": [{
-						"searchable": false,
-						"orderable": false,
-						"targets": 0
-					}],
-					"order": [
-						[7, 'asc']
-					],
-				});
+		var t = $('#validasitable1').DataTable({
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
+				"sEmptyTable": "Data Kosong"
+			},
+			"columnDefs": [{
+				"searchable": false,
+				"orderable": false,
+				"targets": 0
+			}],
+			"order": [
+				[7, 'asc']
+			],
+		});
 
-				t.on('order.dt search.dt', function() {
-						t.column(0, {
-							search: 'applied',
-							order: 'applied'
-						}).nodes().each(function(cell, i) {
-							cell.innerHTML = i + 1
-						})
-					})
-					.draw();
-
-				var table2 = $('#validasitable10').DataTable({
-					"language": {
-						"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
-						"sEmptyTable": "Data Kosong"
-					},
-					"columnDefs": [{
-						"searchable": false,
-						"orderable": false,
-						"targets": 0
-					}],
-					"order": [
-						[7, 'asc']
-					],
-				});
-
-				table2.on('order.dt search.dt', function() {
-						t.column(0, {
-							search: 'applied',
-							order: 'applied'
-						}).nodes().each(function(cell, i) {
-							cell.innerHTML = i + 1
-						})
-					})
-					.draw();
-
-
-					var table3 = $('#validasitable_daftar_seminar').DataTable({
-					"language": {
-						"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
-						"sEmptyTable": "Data Kosong"
-					},
-					"columnDefs": [{
-						"searchable": false,
-						"orderable": false,
-						"targets": 0
-					}],
-					"order": [
-						[7, 'asc']
-					],
-				});
-
-				table3.on('order.dt search.dt', function() {
-						t.column(0, {
-							search: 'applied',
-							order: 'applied'
-						}).nodes().each(function(cell, i) {
-							cell.innerHTML = i + 1
-						})
-					})
-					.draw();
-
-					
-				$('#validasitable2').DataTable({
-					"language": {
-						"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
-						"sEmptyTable": "Data Kosong"
-					}
-				});
-				$('#validasitable3').DataTable({
-					"language": {
-						"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
-						"sEmptyTable": "Data Kosong"
-					}
-				});
-				$('#validasitable4').DataTable({
-					"language": {
-						"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
-						"sEmptyTable": "Data Kosong"
-					}
-				});
-				$('#validasitable5').DataTable({
-					"language": {
-						"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
-						"sEmptyTable": "Data Kosong"
-					}
-				});
+		t.on('order.dt search.dt', function() {
+				t.column(0, {
+					search: 'applied',
+					order: 'applied'
+				}).nodes().each(function(cell, i) {
+					cell.innerHTML = i + 1
+				})
 			})
+			.draw();
+
+		var table2 = $('#validasitable10').DataTable({
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
+				"sEmptyTable": "Data Kosong"
+			},
+			"columnDefs": [{
+				"searchable": false,
+				"orderable": false,
+				"targets": 0
+			}],
+			"order": [
+				[7, 'asc']
+			],
+		});
+
+		table2.on('order.dt search.dt', function() {
+				t.column(0, {
+					search: 'applied',
+					order: 'applied'
+				}).nodes().each(function(cell, i) {
+					cell.innerHTML = i + 1
+				})
+			})
+			.draw();
+
+
+		var table3 = $('#validasitable_daftar_seminar').DataTable({
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
+				"sEmptyTable": "Data Kosong"
+			},
+			"columnDefs": [{
+				"searchable": false,
+				"orderable": false,
+				"targets": 0
+			}],
+			"order": [
+				[7, 'asc']
+			],
+		});
+
+		table3.on('order.dt search.dt', function() {
+				t.column(0, {
+					search: 'applied',
+					order: 'applied'
+				}).nodes().each(function(cell, i) {
+					cell.innerHTML = i + 1
+				})
+			})
+			.draw();
+
+
+		$('#validasitable2').DataTable({
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
+				"sEmptyTable": "Data Kosong"
+			}
+		});
+		$('#validasitable3').DataTable({
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
+				"sEmptyTable": "Data Kosong"
+			}
+		});
+		$('#validasitable4').DataTable({
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
+				"sEmptyTable": "Data Kosong"
+			}
+		});
+		$('#validasitable5').DataTable({
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
+				"sEmptyTable": "Data Kosong"
+			},
+			"lengthMenu": [
+				[5, 10, 20],
+				[5, 10, 20]
+			]
+		});
+		$('#validasitable6').DataTable({
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
+				"sEmptyTable": "Data Kosong"
+			},
+			"lengthMenu": [
+				[5, 10, 20],
+				[5, 10, 20]
+			]
+		});
+		$('#validasitable7').DataTable({
+			"language": {
+				'paginate': {
+					'previous': '<span class="prev-icon">heelo</span>',
+					'next': '<span class="next-icon"></span>'
+				},
+				"url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Indonesian.json",
+				"sEmptyTable": "Data Kosong",
+			},
+			"lengthMenu": [
+				[5, 10, 20],
+				[5, 10, 20]
+			]
+		});
+	})
 </script>
 
 </body>

@@ -35,7 +35,12 @@ use CodeIgniter\Images\Image;
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($data_mhs_bimbingan_baru as $key) { ?>
+                                    foreach ($data_mhs_bimbingan_baru as $key) {
+                                        if (empty($key['nim']) || empty($key['nama_mhs']) || empty($key['namaunit'])) {
+                                            continue;
+                                        }
+
+                                    ?>
                                         <tr>
                                             <td>
                                                 <img alt="avatar" class="rounded-circle avatar-md me-2" src="<?= base_url() ?>/image/<?= $key['image'] ?>">
@@ -71,11 +76,15 @@ use CodeIgniter\Images\Image;
                                     <?php } ?>
                                     <?php
                                     foreach ($data_mhs_bimbingan as $key) {
-                                        
+
                                         if ($key['pesan'] == 'Sudah Lulus') {
                                             continue;
                                         }
-                                        ?>
+
+                                        if (empty($key['nim']) || empty($key['nama_mhs']) || empty($key['namaunit'])) {
+                                            continue;
+                                        }
+                                    ?>
                                         <tr>
                                             <td>
                                                 <img alt="avatar" class="rounded-circle avatar-md me-2" src="<?= base_url() ?>/image/<?= $key['image'] ?>">

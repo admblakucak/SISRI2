@@ -99,7 +99,6 @@ use CodeIgniter\Images\Image;
                                       $jadwal_sidang = $db->query("SELECT a.*,b.jenis_sidang FROM `tb_pendaftar_sidang` a LEFT JOIN tb_jadwal_sidang b ON a.id_jadwal=b.id_jadwal WHERE nim ='" . $key['nim'] . "' AND (hasil_sidang <3 or hasil_sidang IS NULL)  AND b.jenis_sidang = 'sidang skripsi'")->getResult();
 
                                       if (empty($acc_dosen_penguji_1) || empty($acc_dosen_penguji_2) || empty($acc_dosen_penguji_3)) {
-
                                         continue;
                                       }
 

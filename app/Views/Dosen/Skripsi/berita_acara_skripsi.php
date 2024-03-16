@@ -61,21 +61,24 @@ use CodeIgniter\Images\Image;
                                                                             $judul = $db->query("SELECT * FROM tb_pengajuan_topik WHERE nim='" . $key1->nim . "'")->getResult();
                                                                             $sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND a.`nim`='" . $key1->nim . "' ORDER BY create_at DESC LIMIT 1")->getResult();
                                                                             $berita_acara = $db->query("SELECT * FROM tb_berita_acara WHERE nim='" . $key1->nim . "' AND nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing $key1->sebagai' AND status='ditandatangani' AND jenis_sidang='skripsi'")->getResult();
+
                                                                         ?>
+                                                                            <?php if (empty($sidang)) {
+                                                                                continue;
+                                                                            } ?>
                                                                             <tr>
                                                                                 <td><?= $no ?></td>
-                                                                                <td><?= $key1->nim . ' - ' . $key1->nama ?></td> 
+                                                                                <td><?= $key1->nim . ' - ' . $key1->nama ?></td>
                                                                                 <td>
-                                                                                    <?php 
+                                                                                    <?php
                                                                                     // $judul[0]->judul_topik
-                                                                                    if(!empty($judul)){
+                                                                                    if (!empty($judul)) {
                                                                                         echo $judul[0]->judul_topik;
-                                                                                    }
-                                                                                    else{
+                                                                                    } else {
                                                                                         echo "";
                                                                                     }
                                                                                     ?>
-                                                                                    </td>
+                                                                                </td>
                                                                                 <td><?= !empty($sidang) ? $sidang[0]->waktu_sidang : "" ?></td>
                                                                                 <td><?= !empty($sidang) ? $sidang[0]->ruang_sidang : "" ?></td>
                                                                                 <td>
@@ -201,10 +204,9 @@ use CodeIgniter\Images\Image;
                                                                                 <td>
                                                                                     <?php
                                                                                     // $judul[0]->judul_topik
-                                                                                    if(!empty($judul)){
+                                                                                    if (!empty($judul)) {
                                                                                         echo $judul[0]->judul_topik;
-                                                                                    }
-                                                                                    else{
+                                                                                    } else {
                                                                                         echo "";
                                                                                     }
                                                                                     ?>

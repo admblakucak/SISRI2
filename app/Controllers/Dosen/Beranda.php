@@ -73,15 +73,28 @@ class Beranda extends BaseController
 
         if (session()->get('ses_login') == 'dosen') {
             $title = 'Beranda Dosen';
-        } else {
+            $data = [
+                'title' => $title,
+                'db' => $this->db,
+                'data_mhs_bimbingan' => $data_mhs_bimbingan,
+                'data_mhs_uji' => $data_mhs
+            ];
+        } elseif (session()->get('ses_login') == 'korprodi') {
+            $jumlah_sempro = $this->db->query("SELECT COUNT(*) AS jumlah FROM `tb_jadwal_sidang` WHERE idunit = '" . session()->get('ses_idunit') . "' AND jenis_sidang='seminar proposal'")->getResult();
+            $jumlah_sidang_skripsi = $this->db->query("SELECT COUNT(*) AS jumlah FROM `tb_jadwal_sidang` WHERE idunit = '" . session()->get('ses_idunit') . "' AND jenis_sidang='sidang skripsi'")->getResult();
+
             $title = 'Beranda Koorprodi';
+            $data = [
+                'title' => $title,
+                'data_dosen' => $this->db->query("SELECT a.* FROM tb_dosen a WHERE a.`idunit`='" . session()->get('ses_idunit') . "'")->getResult(),
+                'db' => $this->db,
+                'data_periode' => $this->db->query("SELECT * FROM tb_periode WHERE idperiode IN (SELECT DISTINCT idperiode FROM tb_mahasiswa WHERE idunit='" . session()->get('ses_idunit') . "')")->getResult(),
+                'data_mhs_bimbingan' => $data_mhs_bimbingan,
+                'data_mhs_uji' => $data_mhs,
+                'data_jadwal' => $this->db->query("SELECT * FROM tb_jadwal_sidang WHERE idunit='" . session()->get('ses_idunit') . "' AND expire > NOW()")->getResult(),
+            ];
         }
-        $data = [
-            'title' => $title,
-            'db' => $this->db,
-            'data_mhs_bimbingan' => $data_mhs_bimbingan,
-            'data_mhs_uji' => $data_mhs
-        ];
+
         return view('Dosen/beranda_dosen', $data);
         // return view('kosong', $data);
     }

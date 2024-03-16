@@ -104,6 +104,7 @@ use CodeIgniter\Images\Image;
                                                         <form action="<?= base_url() ?>delete_admin_akademik" method="POST" enctype="multipart/form-data">
                                                             <?= csrf_field() ?>
                                                             <input type="hidden" name="id_admin_akademik" value="<?= $key->id_admin_akademik ?>">
+                                                            <input type="hidden" name="email" value="<?= $key->email ?>">
                                                             <div class="modal-header">
                                                                 <h6 class="modal-title">Hapus Data Admin Akademik</h6><button aria-label="Close" class="close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                                                             </div>

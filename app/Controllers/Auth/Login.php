@@ -60,10 +60,13 @@ class Login extends BaseController
         {
             $data_master_mhs = $a->query("SELECT * FROM tb_mahasiswa WHERE nim='" . $id . "'")->getResult();
             $data_master_dosen = $a->query("SELECT * FROM tb_dosen where nip='" . $id . "'")->getResult();
+            $data_master_admin_akademik = $a->query("SELECT * FROM tb_admin_akademik where nip='" . $id . "'")->getResult();
             if (count($data_master_mhs) > 0) {
                 return $data_master_mhs[0]->nama;
             } elseif (count($data_master_dosen) > 0) {
                 return $data_master_dosen[0]->nama;
+            } elseif (count($data_master_admin_akademik) > 0) {
+                return $data_master_admin_akademik[0]->nama;
             } else {
             }
         }
@@ -120,7 +123,6 @@ class Login extends BaseController
                     $this->db->query("UPDATE tb_jumlah_pembimbing SET jumlah='" . (count($jumlah_bimbingan1) - count($jumlah_bimbinganselesai1)) . "' WHERE nip='" . $data[0]->id . "' AND sebagai='pembimbing 1' ");
                     $this->db->query("UPDATE tb_jumlah_pembimbing SET jumlah='" . (count($jumlah_bimbingan2) - count($jumlah_bimbinganselesai2)) . "' WHERE nip='" . $data[0]->id . "' AND sebagai='pembimbing 2' ");
                     $cek_kor = $this->db->query("SELECT * FROM tb_korprodi where nip='" . $data[0]->id . "'")->getResult();
-                    $cek_admin_akademik = $this->db->query("SELECT * FROM tb_admin_akademik where nip='" . $data[0]->id . "'")->getResult();
                     if (count($cek_kor) > 0) {
                         $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
                         session()->set('ses_image', $image);
@@ -129,15 +131,6 @@ class Login extends BaseController
                         session()->set('ses_idunit', $data[0]->idunit);
                         session()->set('ses_nama', name($this->db, $data[0]->id));
                         $this->db->query("INSERT INTO tb_log (user,`action`,`log`,date_time) VALUES ('" . session()->get('ses_id') . "','login','Login Korprodi',now())");
-                        return redirect()->to('/beranda_dosen');
-                    } elseif (count($cek_admin_akademik) > 0) {
-                        $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
-                        session()->set('ses_image', $image);
-                        session()->set('ses_login', 'admin_akademik');
-                        session()->set('ses_id', $data[0]->id);
-                        session()->set('ses_idunit', $data[0]->idunit);
-                        session()->set('ses_nama', name($this->db, $data[0]->id));
-                        $this->db->query("INSERT INTO tb_log (user,`action`,`log`,date_time) VALUES ('" . session()->get('ses_id') . "','login','Login Admin Akademik',now())");
                         return redirect()->to('/beranda_dosen');
                     } else {
                         $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
@@ -149,6 +142,15 @@ class Login extends BaseController
                         $this->db->query("INSERT INTO tb_log (user,`action`,`log`,date_time) VALUES ('" . session()->get('ses_id') . "','login','Login Dosen',now())");
                         return redirect()->to('/beranda_dosen');
                     }
+                } elseif ($data[0]->role == 'admin_akademik') {
+                    $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
+                    session()->set('ses_image', $image);
+                    session()->set('ses_login', 'admin_akademik');
+                    session()->set('ses_id', $data[0]->id);
+                    session()->set('ses_idunit', $data[0]->idunit);
+                    session()->set('ses_nama', name($this->db, $data[0]->id));
+                    $this->db->query("INSERT INTO tb_log (user,`action`,`log`,date_time) VALUES ('" . session()->get('ses_id') . "','login','Login Admin Akademik',now())");
+                    return redirect()->to('/beranda_admin_akademik');
                 } else {
                     $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
                     session()->set('ses_image', $image);
@@ -166,6 +168,22 @@ class Login extends BaseController
         } else {
             $data_master_mhs = $this->db->query("SELECT * FROM tb_mahasiswa where nim='$username' or email='$username'")->getResult();
             $data_master_dosen = $this->db->query("SELECT *,LENGTH(nip) AS jum FROM tb_dosen where (nip='$username' or email='$username') AND (email != NULL OR email != '') ORDER BY jum DESC LIMIT 1")->getResult();
+            $data_master_admin_akademik = $this->db->query("SELECT * FROM tb_admin_akademik where email='$username' or nip='$username'")->getResult();
+            if (count($data_master_admin_akademik) > 0) {
+                if ($data_master_admin_akademik[0]->nip == $username || $data_master_admin_akademik[0]->email == $username) {
+                    $ciphertext = password_hash($data_master_admin_akademik[0]->nip, PASSWORD_DEFAULT);
+                    $this->db->query("INSERT INTO tb_users (id,email,password,role,idunit) VALUES ('" . $data_master_admin_akademik[0]->nip . "','" . $data_master_admin_akademik[0]->email . "','" . $ciphertext . "','admin_akademik','" . $data_master_admin_akademik[0]->idunit . "')");
+                    $this->db->query("INSERT INTO tb_profil_tambahan (id,`image`) VALUES ('" . $data_master_admin_akademik[0]->nip . "','Profile_Default.png')");
+                    $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
+                    session()->set('ses_image', $image);
+                    session()->set('ses_login', 'admin_akademik');
+                    session()->set('ses_id', $data_master_admin_akademik[0]->nip);
+                    session()->set('ses_nama', $data_master_admin_akademik[0]->nama);
+                    session()->set('ses_idunit', $data[0]->idunit);
+                    $this->db->query("INSERT INTO tb_log (user,`action`,`log`,date_time) VALUES ('" . session()->get('ses_id') . "','login','Login Admin Akademik',now())");
+                    return redirect()->to('/beranda_admin_akademik');
+                }
+            }
             if (count($data_master_mhs) > 0) {
                 $dataperwalian = $this->api->get_data_api("https://api.trunojoyo.ac.id:8212/siakad/v1/perwalian?page=1&take=100&nim=" . $data_master_mhs[0]->nim);
                 $sks = $dataperwalian[count($dataperwalian) - 1]->skstempuh;
@@ -352,6 +370,15 @@ class Login extends BaseController
                         $this->db->query("INSERT INTO tb_log (user,`action`,`log`,date_time) VALUES ('" . session()->get('ses_id') . "','login','Login Dosen',now())");
                         return redirect()->to('/beranda_dosen');
                     }
+                } elseif ($data[0]->role == 'admin_akademik') {
+                    $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
+                    session()->set('ses_image', $image);
+                    session()->set('ses_login', 'admin_akademik');
+                    session()->set('ses_id', $data[0]->id);
+                    session()->set('ses_idunit', $data[0]->idunit);
+                    session()->set('ses_nama', name($this->db, $data[0]->id));
+                    $this->db->query("INSERT INTO tb_log (user,`action`,`log`,date_time) VALUES ('" . session()->get('ses_id') . "','login','Login Admin Akademik',now())");
+                    return redirect()->to('/beranda_admin_akademik');
                 } else {
                     $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
                     session()->set('ses_image', $image);
@@ -365,6 +392,23 @@ class Login extends BaseController
             } else {
                 $data_master_mhs = $this->db->query("SELECT * FROM tb_mahasiswa where email='$username'")->getResult();
                 $data_master_dosen = $this->db->query("SELECT *,LENGTH(nip) AS jum FROM tb_dosen where email='$username' ORDER BY jum DESC LIMIT 1")->getResult();
+                $data_master_admin_akademik = $this->db->query("SELECT * FROM tb_admin_akademik where email='$username' or nip='$username'")->getResult();
+                if (count($data_master_admin_akademik) > 0) {
+                    if ($data_master_admin_akademik[0]->nip == $username || $data_master_admin_akademik[0]->email == $username) {
+                        $ciphertext = password_hash($data_master_admin_akademik[0]->nip, PASSWORD_DEFAULT);
+                        $this->db->query("INSERT INTO tb_users (id,email,password,role,idunit) VALUES ('" . $data_master_admin_akademik[0]->nip . "','" . $data_master_admin_akademik[0]->email . "','" . $ciphertext . "','admin_akademik','" . $data_master_admin_akademik[0]->idunit . "')");
+                        $this->db->query("INSERT INTO tb_profil_tambahan (id,`image`) VALUES ('" . $data_master_admin_akademik[0]->nip . "','Profile_Default.png')");
+                        $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
+                        session()->set('ses_image', $image);
+                        session()->set('ses_login', 'admin_akademik');
+                        session()->set('ses_id', $data_master_admin_akademik[0]->nip);
+                        session()->set('ses_nama', $data_master_admin_akademik[0]->nama);
+                        session()->set('ses_idunit', $data[0]->idunit);
+                        $this->db->query("INSERT INTO tb_log (user,`action`,`log`,date_time) VALUES ('" . session()->get('ses_id') . "','login','Login Admin Akademik',now())");
+                        return redirect()->to('/beranda_admin_akademik');
+                    }
+                }
+
                 if (count($data_master_mhs) > 0) {
                     if ($username == $data_master_mhs[0]->email) {
                         $dataperwalian = $this->api->get_data_api("https://api.trunojoyo.ac.id:8212/siakad/v1/perwalian?page=1&take=100&nim=" . $data_master_mhs[0]->nim);
@@ -419,7 +463,31 @@ class Login extends BaseController
             }
         } else {
             $data = $this->db->query("SELECT * FROM tb_users where email='$username'")->getResult();
-            if (count($data) > 0 && $data[0]->role == 'admin') {
+            $data_master_admin_akademik = $this->db->query("SELECT * FROM tb_admin_akademik where email='$username' OR nip='$username'")->getResult();
+            if (count($data) > 0 && count($data_master_admin_akademik) > 0) {
+                if ($data_master_admin_akademik[0]->nip == $username || $data_master_admin_akademik[0]->email == $username) {
+                    $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
+                    session()->set('ses_image', $image);
+                    session()->set('ses_login', 'admin_akademik');
+                    session()->set('ses_id', $data_master_admin_akademik[0]->nip);
+                    session()->set('ses_nama', $data_master_admin_akademik[0]->nama);
+                    session()->set('ses_idunit', $data[0]->idunit);
+                    $this->db->query("INSERT INTO tb_log (user,`action`,`log`,date_time) VALUES ('" . session()->get('ses_id') . "','login','Login Admin Akademik',now())");
+                    return redirect()->to('/beranda_admin_akademik');
+                }
+            } elseif (count($data_master_admin_akademik) > 0) {
+                $ciphertext = password_hash($data_master_admin_akademik[0]->nip, PASSWORD_DEFAULT);
+                $this->db->query("INSERT INTO tb_users (id,email,password,role,idunit) VALUES ('" . $data_master_admin_akademik[0]->nip . "','" . $data_master_admin_akademik[0]->email . "','" . $ciphertext . "','admin_akademik','" . $data_master_admin_akademik[0]->idunit . "')");
+                $this->db->query("INSERT INTO tb_profil_tambahan (id,`image`) VALUES ('" . $data_master_admin_akademik[0]->nip . "','Profile_Default.png')");
+                $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
+                session()->set('ses_image', $image);
+                session()->set('ses_login', 'admin_akademik');
+                session()->set('ses_id', $data_master_admin_akademik[0]->nip);
+                session()->set('ses_nama', $data_master_admin_akademik[0]->nama);
+                session()->set('ses_idunit', $data[0]->idunit);
+                $this->db->query("INSERT INTO tb_log (user,`action`,`log`,date_time) VALUES ('" . session()->get('ses_id') . "','login','Login Admin Akademik',now())");
+                return redirect()->to('/beranda_admin_akademik');
+            } elseif (count($data) > 0 && $data[0]->role == 'admin') {
                 $image = $this->db->query("SELECT `image` FROM tb_profil_tambahan where id='" . $data[0]->id . "'")->getResult()[0]->image;
                 session()->set('ses_image', $image);
                 session()->set('ses_login', 'admin');

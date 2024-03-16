@@ -103,7 +103,10 @@ class Admin_Akademik extends BaseController
       return redirect()->to('/');
     }
     $id_admin_akademik = $this->request->getPost("id_admin_akademik");
+    $email = $this->request->getPost("email");
     $this->db->query("DELETE FROM tb_admin_akademik WHERE id_admin_akademik = $id_admin_akademik");
+    $this->db->query("DELETE FROM tb_users WHERE email = '" . $email . "'");
+
     session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
             <span class="alert-inner--icon"><i class="fe fe-thumbs-up"></i></span>
             <span class="alert-inner--text"><strong>Sukses!</strong> Menghapus Admin Akademik</span>
