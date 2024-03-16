@@ -160,7 +160,7 @@
 
   <table width="100%" style="border: 1px solid black; margin-top: 5px;">
     <thead>
-      <tr style="border: 1px solid black;">
+      <tr>
         <th style="text-align: center; vertical-align: middle; border: 1px solid black; "><span>Pembimbing 1</span></th>
         <th style="text-align: center; vertical-align: middle; border: 1px solid black; "><span>Pembimbing 2</span></th>
         <th style="text-align: center; vertical-align: middle; border: 1px solid black; "><span>Penguji 1</span></th>
