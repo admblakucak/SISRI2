@@ -185,13 +185,12 @@ use CodeIgniter\Images\Image;
                                     <?php
                                     $no = 1;
                                     foreach ($data_mhs_bimbingan as $key) {
-                                      if ($key['jenis_sidang'] == 'seminar proposal') {
                                         $pem1 = $db->query("SELECT * FROM tb_pengajuan_pembimbing a left join tb_dosen b on a.nip=b.nip WHERE a.nim='" . $key['nim'] . "' AND a.sebagai='1' AND a.status_pengajuan='diterima'")->getResult();
                                         $pem2 = $db->query("SELECT * FROM tb_pengajuan_pembimbing a left join tb_dosen b on a.nip=b.nip WHERE a.nim='" . $key['nim'] . "' AND a.sebagai='2' AND a.status_pengajuan='diterima'")->getResult();
                                         $judul = $db->query("SELECT * FROM tb_pengajuan_topik WHERE nim='" . $key['nim'] . "'")->getResult();
                                         $sts_pem1 = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . $key['nim'] . "' AND jenis_sidang='seminar proposal' AND izin_sebagai='pembimbing 1'")->getResult();
                                         $sts_pem2 = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . $key['nim'] . "' AND jenis_sidang='seminar proposal' AND izin_sebagai='pembimbing 2'")->getResult();
-                                        $sts_koor = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . $key['nim'] . "' AND jenis_sidang='seminar proposal' AND izin_sebagai='koordinator'")->getResult();
+                                        $sts_koor = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . $key['nim'] . "' AND jenis_sidang='sidang skripsi' AND izin_sebagai='admin_akademik'")->getResult();
                                         if ($sts_koor[0]->status != 'disetujui') {
                                           continue;
                                         }
@@ -257,7 +256,7 @@ use CodeIgniter\Images\Image;
                                             if ($cek != NULL) {
                                             ?>
                                               <div class="btn-group">
-                                                <form action="<?= base_url() ?>proses_validasi_daftar_seminar_koor" method="POST" enctype="multipart/form-data">
+                                                <form action="<?= base_url() ?>validasi_admin_akademik" method="POST" enctype="multipart/form-data">
                                                   <?= csrf_field() ?>
                                                   <input type="hidden" name="id_perizinan_sidang" value="<?= $key['id_perizinan_sidang'] ?>">
                                                   <input type="hidden" name="nim" value="<?= $key['nim'] ?>">
@@ -265,7 +264,7 @@ use CodeIgniter\Images\Image;
                                                   <input type="hidden" name="jenis_sidang" value="seminar proposal">
                                                   <button class="btn btn-success btn-sm" type="submit"><i class="las la-check"></i></button>
                                                 </form>
-                                                <form action="<?= base_url() ?>proses_validasi_daftar_seminar_koor" method="POST" enctype="multipart/form-data">
+                                                <form action="<?= base_url() ?>validasi_admin_akademik" method="POST" enctype="multipart/form-data">
                                                   <?= csrf_field() ?>
                                                   <input type="hidden" name="id_perizinan_sidang" value="<?= $key['id_perizinan_sidang'] ?>">
                                                   <input type="hidden" name="nim" value="<?= $key['nim'] ?>">
@@ -273,7 +272,7 @@ use CodeIgniter\Images\Image;
                                                   <input type="hidden" name="jenis_sidang" value="seminar proposal">
                                                   <button class="btn btn-warning btn-sm" type="submit"><i class="las la-hourglass-half"></i></i></button>
                                                 </form>
-                                                <form action="<?= base_url() ?>proses_validasi_daftar_seminar_koor" method="POST" enctype="multipart/form-data">
+                                                <form action="<?= base_url() ?>validasi_admin_akademik" method="POST" enctype="multipart/form-data">
                                                   <?= csrf_field() ?>
                                                   <input type="hidden" name="id_perizinan_sidang" value="<?= $key['id_perizinan_sidang'] ?>">
                                                   <input type="hidden" name="nim" value="<?= $key['nim'] ?>">
@@ -286,7 +285,6 @@ use CodeIgniter\Images\Image;
                                           </td>
                                         </tr>
                                     <?php $no++;
-                                      }
                                     }
                                     ?>
                                   </tbody>

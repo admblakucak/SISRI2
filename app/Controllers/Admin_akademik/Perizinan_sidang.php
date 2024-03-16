@@ -45,10 +45,28 @@ class Perizinan_sidang extends BaseController
       array_push($data_mhs, $data);
     }
     $data = [
-      'title' => 'Validasi Pendaftar Seminar Proposal',
+      'title' => 'Validasi Pendaftar Sidang Skripsi',
       'db' => $this->db,
       'data_mhs_bimbingan' => $data_mhs,
     ];
     return view('Admin_akademik/validasi_daftar_sidang', $data);
+  }
+  public function validasi()
+  {
+    if (session()->get('ses_id') == '' || session()->get('ses_login') == 'mahasiswa') {
+      return redirect()->to('/');
+    }
+    $jenis_sidang = $this->request->getPost('jenis_sidang');
+    $nim = $this->request->getPost('nim');
+    $status = $this->request->getPost('status');
+    if ($status == 'disetujui') {
+      $this->db->query("UPDATE tb_perizinan_sidang SET `status`='disetujui' WHERE nim='$nim' AND nip='" . session()->get('ses_id') . "' AND jenis_sidang='$jenis_sidang'");
+    } elseif ($status == 'ditolak') {
+      $this->db->query("UPDATE tb_perizinan_sidang SET `status`='ditolak' WHERE nim='$nim' AND nip='" . session()->get('ses_id') . "' AND jenis_sidang='$jenis_sidang'");
+    } else {
+      $this->db->query("UPDATE tb_perizinan_sidang SET `status`='menunggu' WHERE nim='$nim' AND nip='" . session()->get('ses_id') . "' AND jenis_sidang='$jenis_sidang'");
+    }
+    // echo "UPDATE tb_perizinan_sidang SET `status`='ditolak' WHERE nim='$nim' AND nip='" . session()->get('ses_id') . "' AND jenis_sidang='seminar_proposal'";
+    return redirect()->to('/validasi_daftar_sidang_admin_akademik');
   }
 }

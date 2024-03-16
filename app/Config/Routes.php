@@ -231,6 +231,7 @@ $routes->add('/admin_akademik_data_skripsi', 'Admin_akademik\Data_Skripsi::index
 $routes->add('/export_nilai_admin_akademik', 'Admin_akademik\Data_Nilai::export');
 $routes->add('/beranda_admin_akademik', 'Admin_akademik\Beranda::index');
 $routes->add('/validasi_daftar_sidang_admin_akademik', 'Admin_akademik\Perizinan_sidang::index');
+$routes->add('/validasi_admin_akademik', 'Admin_akademik\Perizinan_sidang::validasi');
 $routes->add('/jadwal_sidang_akademik', 'Admin_akademik\Penjadwalan_Sidang::index');
 $routes->add('/data_pendaftar_akademik', 'Admin_akademik\Penjadwalan_Sidang::data_pendaftar');
 
