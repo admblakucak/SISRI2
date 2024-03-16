@@ -174,11 +174,11 @@
       <tr>
         <?php
         foreach ($data_nilai as $key) { ?>
-          <td style="vertical-align: middle; border: 1px solid black;" class=" <?= empty($key->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($key->nilai_ujian) ? "Belum <br> Dinilai" : $key->nilai_ujian ?></td>
+          <td style="vertical-align: middle; border: 1px solid black; text-align:center;"><?= empty($key->nilai_ujian) ? "Belum <br> Dinilai" : $key->nilai_ujian ?></td>
         <?php } ?>
 
-        <td style="font-weight: bold vertical-align: middle; border: 1px solid black; " class=" text-center"><?= $total_nilai ?></td>
-        <td style="font-weight: bold; vertical-align: middle; border: 1px solid black; " class=" text-center"><?= $grade ?></td>
+        <td style="font-weight: bold vertical-align: middle; border: 1px solid black; text-align:center; "><?= $total_nilai ?></td>
+        <td style="font-weight: bold; vertical-align: middle; border: 1px solid black; text-align:center; "><?= $grade ?></td>
 
       </tr>
     </tbody>
