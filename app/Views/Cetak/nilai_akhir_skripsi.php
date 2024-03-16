@@ -158,7 +158,7 @@
     </tr>
   </table>
 
-  <table width="100%" style="margin-top: 5px;">
+  <table width="100%" style="margin-top: 5px;" cellspacing="0">
     <thead>
       <tr>
         <th style="text-align: center; vertical-align: middle; border: 1px solid black; "><span>Pembimbing 1</span></th>
