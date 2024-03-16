@@ -17,9 +17,27 @@ use CodeIgniter\Images\Image;
           </div>
           <p class="tx-12 tx-gray-500 mb-2">Daftar Riwayat Bimbingan Mahasiswa</a></p>
         </div>
+
         <div class="row">
           <div class="col-xl-12">
             <div class="card-body">
+              <form class="form-inline mb-4" action="<?= base_url() ?>" method="POST" enctype="multipart/form-data">
+                <?= csrf_field() ?>
+                <div class="form-group mb-2 ml-4" style="width: 20%;">
+                  <select class="form-control select2" name="id_periode" onchange="this.form.submit()">
+                    <option selected disabled>Semua Angkatan</option>
+                    <option selected>Semua Angkatan</option>
+                    <option selected>Semua Angkatan</option>
+                    <?php
+                    // foreach ($data_periode as $key) {
+                    //   if (substr($key->idperiode, 4) == 1) {
+                    //     echo "<option value='$key->idperiode'>" . substr($key->idperiode, 0, -1) . "</option>";
+                    //   }
+                    // }
+                    ?>
+                  </select>
+                </div>
+              </form>
               <div class="text-wrap">
                 <div class="example">
                   <div class="panel panel-primary tabs-style-2">

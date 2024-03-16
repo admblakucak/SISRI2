@@ -63,6 +63,7 @@ class Daftar_Sidang extends BaseController
             'pem1' => $this->db->query("SELECT a.*,b.`nama`,b.`gelardepan`,b.`gelarbelakang`,c.* FROM tb_pengajuan_pembimbing a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip` = c.`id` WHERE a.nim='$id' AND a.sebagai='1' AND a.status_pengajuan='diterima'")->getResult()[0],
             'pem2' => $this->db->query("SELECT a.*,b.`nama`,b.`gelardepan`,b.`gelarbelakang`,c.* FROM tb_pengajuan_pembimbing a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip` = c.`id` WHERE a.nim='$id' AND a.sebagai='2' AND a.status_pengajuan='diterima'")->getResult()[0],
             'kor' => $this->db->query("SELECT a.*,b.`nama`,b.`gelardepan`,b.`gelarbelakang`,c.* FROM tb_korprodi a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` LEFT JOIN tb_profil_tambahan c ON a.`nip` = c.`id` WHERE a.idunit='$idunit_mhs'")->getResult()[0],
+            'admin_akademik' => $this->db->query("SELECT a.*,c.* FROM tb_admin_akademik a LEFT JOIN tb_profil_tambahan c ON a.`nip`=c.`id` WHERE a.idunit='$idunit_mhs'")->getResult()[0],
             'data_jadwal' => $this->db->query("SELECT * FROM tb_jadwal_sidang where jenis_sidang='sidang skripsi' AND idunit='$idunit_mhs'")->getResult(),
             // 'mkerror' => $mkerror,
         ];
@@ -79,6 +80,7 @@ class Daftar_Sidang extends BaseController
         $idunit = $this->request->getPost('idunit');
         $status = $this->db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . session()->get('ses_id') . "' AND nip='" . $nip . "' AND `izin_sebagai`='$sebagai' AND jenis_sidang='skripsi'")->getResult();
         $cek_koor = $this->db->query("SELECT * FROM tb_korprodi WHERE nip='$nip' AND idunit='$idunit'")->getResult();
+        $cek_admin_akademik = $this->db->query("SELECT * FROM tb_admin_akademik WHERE nip='$nip' AND idunit='$idunit'")->getResult();
         $cek_pembimbing = $this->db->query("SELECT * FROM tb_pengajuan_pembimbing WHERE nip='$nip' AND nim='$nim' AND status_pengajuan='diterima'")->getResult();
 
         if (count($status) == NULL) {
@@ -89,6 +91,8 @@ class Daftar_Sidang extends BaseController
                 } else {
                     $this->db->query("INSERT INTO tb_perizinan_sidang (nim,nip,jenis_sidang,izin_sebagai,`status`,idunit) VALUES ('$nim','$nip','skripsi','$sebagai','menunggu','$idunit')");
                 }
+            } elseif ($sebagai == 'admin_akademik') {
+                $this->db->query("INSERT INTO tb_perizinan_sidang (nim,nip,jenis_sidang,izin_sebagai,`status`,idunit) VALUES ('$nim','$nip','skripsi','$sebagai','menunggu','$idunit')");
             } else {
                 if (count($cek_koor) != NULL) {
                     $this->db->query("INSERT INTO tb_perizinan_sidang (nim,nip,jenis_sidang,izin_sebagai,`status`,idunit) VALUES ('$nim','$nip','skripsi','koordinator','menunggu','$idunit')");
@@ -106,6 +110,8 @@ class Daftar_Sidang extends BaseController
                     } else {
                         $this->db->query("UPDATE tb_perizinan_sidang SET `status`='menunggu' WHERE id_perizinan_sidang='" . $status[0]->id_perizinan_sidang . "'");
                     }
+                } elseif ($sebagai == 'admin_akademik') {
+                    $this->db->query("INSERT INTO tb_perizinan_sidang (nim,nip,jenis_sidang,izin_sebagai,`status`,idunit) VALUES ('$nim','$nip','skripsi','$sebagai','menunggu','$idunit')");
                 } else {
                     if (count($cek_koor) != NULL) {
                         $this->db->query("UPDATE tb_perizinan_sidang SET `status`='menunggu' WHERE nip='$nip' AND nim='$nim' AND izin_sebagai='koordinator' AND jenis_sidang='skripsi'");

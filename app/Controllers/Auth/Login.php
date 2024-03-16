@@ -178,7 +178,7 @@ class Login extends BaseController
                     session()->set('ses_login', 'admin_akademik');
                     session()->set('ses_id', $data_master_admin_akademik[0]->nip);
                     session()->set('ses_nama', $data_master_admin_akademik[0]->nama);
-                    session()->set('ses_idunit', $data[0]->idunit);
+                    session()->set('ses_idunit', $data_master_admin_akademik[0]->idunit);
                     $this->db->query("INSERT INTO tb_log (user,`action`,`log`,date_time) VALUES ('" . session()->get('ses_id') . "','login','Login Admin Akademik',now())");
                     return redirect()->to('/beranda_admin_akademik');
                 }

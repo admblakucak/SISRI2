@@ -30,6 +30,14 @@
             height: 40px;
             margin-top: -40px;
         }
+
+        @media print {
+            .table_footer {
+                display: table-footer-group;
+                position: fixed;
+                bottom: 0;
+            }
+        }
     </style>
     <link href="<?= base_url() ?>/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -51,7 +59,7 @@
     <table style="border: 1px solid black;border-collapse: collapse;font-size: 11px" rules="cols" width="100%">
         <thead>
             <tr>
-                <th style="text-align: center; vertical-align: middle;border: 1px solid black;" rowspan="2"><span>No.</span></th>
+                <th style="text-align: center; vertical-align: middle;border: 1px solid black;" rowspan="2"><span>Noiss.</span></th>
                 <th style="text-align: center; vertical-align: middle;border: 1px solid black;" rowspan="2"><span>NIP</span></th>
                 <th style="text-align: center; vertical-align: middle;border: 1px solid black;" rowspan="2"><span>Nama Dosen</span></th>
                 <th style="text-align: center; vertical-align: middle;border: 1px solid black;" rowspan="2"><span>Sebagai</span></th>

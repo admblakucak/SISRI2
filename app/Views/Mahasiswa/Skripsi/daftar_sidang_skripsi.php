@@ -177,6 +177,59 @@ use CodeIgniter\Images\Image;
                                 </div>
                             </div>
                         </div>
+                        <div class="list-group-item list-group-item-action br-t-1" href="#">
+                            <div class="media mt-0">
+                                <img class="avatar-lg rounded-circle my-auto me-3" src="<?= base_url() ?>image/<?= $admin_akademik->image ?>" alt="Image description">
+                                <div class="media-body">
+                                    <div class="d-flex align-items-center">
+                                        <form action="<?= base_url() ?>izin_sidang" method="POST" enctype="multipart/form-data">
+                                            <?= csrf_field() ?>
+                                            <input type="hidden" name="nip" value="<?= $admin_akademik->nip ?>">
+                                            <input type="hidden" name="nim" value="<?= session()->get('ses_id') ?>">
+                                            <input type="hidden" name="idunit" value="<?= $idunit_mhs ?>">
+                                            <input type="hidden" name="sebagai" value="admin_akademik">
+                                            <div class="mt-1">
+                                                <h5 class="mb-1 tx-15">Admin Akademik Prodi (<?= $admin_akademik->gelar_depan . ' ' . $admin_akademik->nama . ', ' . $admin_akademik->gelar_belakang ?>)</h5>
+                                                <p class="mb-0 tx-11 text-muted">NIP: <?= $admin_akademik->nip; ?>
+                                                    <?php $cek = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . session()->get('ses_id') . "' AND nip='" . $admin_akademik->nip . "' AND izin_sebagai='admin_akademik'  AND jenis_sidang='skripsi'")->getResult();
+                                                    $cek_status_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND a.`nim`='" . session()->get('ses_id') . "' AND (a.hasil_sidang <3 or a.hasil_sidang is null)")->getResult();
+                                                    if (count($cek_status_sidang) > 0) {
+                                                        echo "<span class='text-success ms-2'>Izin disetujui</span>";
+                                                    } else {
+                                                        if (count($cek) == 0) {
+                                                            echo "<span class='text-danger ms-2'>Belum Melakukan Perizinan</span>";
+                                                        } elseif ($cek[0]->status == 'ditolak') {
+                                                            echo "<span class='text-danger ms-2'>Izin ditolak</span>";
+                                                        } elseif ($cek[0]->status == 'menunggu') {
+                                                            echo "<span class='text-warning ms-2'>Menunggu</span>";
+                                                        } else {
+                                                            echo "<span class='text-success ms-2'>Izin disetujui</span>";
+                                                        }
+                                                    }
+                                                    ?>
+                                                </p>
+                                            </div>
+                                            <?php
+                                            if (count($cek_status_sidang) <= 0) {
+                                                if (count($cek) > 0) {
+                                                    if ($cek[0]->status == 'ditolak') { ?>
+                                                        <div class="offset-1">
+                                                            <Button class="btn btn-primary btn-sm" <?= $ststbl ?> type='submit'>Meminta Izin</Button>
+                                                        </div>
+                                                    <?php }
+                                                } else { ?>
+                                                    <div class="offset-1">
+                                                        <Button class="btn btn-primary btn-sm" <?= $ststbl ?> type='submit'>Meminta Izin</Button>
+                                                    </div>
+                                            <?php
+                                                }
+                                            } ?>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- <div class="list-group-item list-group-item-action br-t-1" href="#">
                             <div class="media mt-0">
                                 <img class="avatar-lg rounded-circle my-auto me-3" src="<?= base_url() ?>image/<?= $kor->image ?>" alt="Image description">
