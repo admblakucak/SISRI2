@@ -195,6 +195,8 @@ $routes->add('/input_nilai_skripsi', 'Dosen\Nilai::nilai_skripsi');
 $routes->add('/save_nilai_skripsi', 'Dosen\Nilai::save_nilai_skripsi');
 // Routes riwayat bimbingan
 $routes->add('/riwayat_bimbingan', 'Dosen\Riwayat_bimbingan::index');
+$routes->add('/direct_riwayat_bimbingan', 'Dosen\Riwayat_bimbingan::direct_cetak');
+$routes->add('/riwayat_bimbingan_cetak/(:any)/(:any)', 'Dosen\Riwayat_bimbingan::cetak/$1/$2');
 
 // --------------------------------------KORPRODI-------------------------------------------
 //Route Khusus Controller Korprodi-Penjadwalan Sidang
@@ -253,6 +255,7 @@ $routes->get('/cetak_pendaftar/(:any)/(:any)/(:any)', 'Cetak::pendaftar/$1/$2/$3
 $routes->add('/direct_hasil_dosen', 'Cetak::direct_hasil_dosen');
 $routes->get('/hasil_dosen/(:any)/(:any)', 'Cetak::hasil_dosen/$1/$2');
 $routes->get('/hasil_dosen_excel/(:any)/(:any)', 'Cetak::hasil_dosen_excel/$1/$2');
+
 // ============================================================================================
 
 /*

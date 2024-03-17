@@ -21,19 +21,19 @@ use CodeIgniter\Images\Image;
         <div class="row">
           <div class="col-xl-12">
             <div class="card-body">
-              <form class="form-inline mb-4" action="<?= base_url() ?>" method="POST" enctype="multipart/form-data">
+              <form class="form-inline mb-4" action="<?= base_url() ?>riwayat_bimbingan" method="POST" enctype="multipart/form-data">
                 <?= csrf_field() ?>
                 <div class="form-group mb-2 ml-4" style="width: 20%;">
                   <select class="form-control select2" name="id_periode" onchange="this.form.submit()">
-                    <option selected disabled>Semua Angkatan</option>
-                    <option selected>Semua Angkatan</option>
-                    <option selected>Semua Angkatan</option>
+                    <option selected disabled>Pilih Angkatan</option>
                     <?php
-                    // foreach ($data_periode as $key) {
-                    //   if (substr($key->idperiode, 4) == 1) {
-                    //     echo "<option value='$key->idperiode'>" . substr($key->idperiode, 0, -1) . "</option>";
-                    //   }
-                    // }
+                    foreach ($data_periode as $key) {
+                      if (!empty($id_periode) && $key->idperiode == $id_periode) {
+                        echo "<option value='$key->idperiode' selected>" . substr($key->idperiode, 0, -1) . "</option>";
+                      } elseif (substr($key->idperiode, 4) == 1) {
+                        echo "<option value='$key->idperiode'>" . substr($key->idperiode, 0, -1) . "</option>";
+                      }
+                    }
                     ?>
                   </select>
                 </div>
@@ -361,6 +361,56 @@ use CodeIgniter\Images\Image;
                         </div>
                       </div>
                     </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-md-9 col-lg-9 col-xl-9">
+                        <label class="form-label"><b>Cetak Data Dosen</b></label>
+                        <p class="tx-12 tx-gray-500 pt-0">Data mahasiswa yang akan dicetak adalah yang telah melakukan sidang skripsi menurut periode tertentu.</p>
+                      </div>
+                      <div class="col-md-3 col-lg-3 col-xl-3">
+                        <div class="btn-list">
+                          <a aria-controls="multiCollapseExample" aria-expanded="false" class="btn ripple btn-light plus float-right" href=".multi-collapse" data-bs-toggle="collapse" role="button">OPEN</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="collapse <?= session()->getFlashdata('message') != NULL ? 'show' : ''  ?> multi-collapse" id="multiCollapseExample">
+                          <form action="<?= base_url() ?>direct_riwayat_bimbingan" method="POST" enctype="multipart/form-data">
+                            <?= csrf_field() ?>
+                            <div class="row row-sm">
+                              <input class="form-control" name="idunit" type="hidden">
+                              <div class="col-3">
+                                <div class="form-group">
+                                  <label class="form-label">Tanggal Mulai</label>
+                                  <input class="form-control" name="start" type="date">
+                                </div>
+                              </div>
+                              <div class="col-3">
+                                <div class="form-group">
+                                  <label class="form-label">Tanggal Akhir</label>
+                                  <input class="form-control" name="end" type="date">
+                                </div>
+                              </div>
+                              <div class="col-3">
+                                <div class="form-group">
+                                  <label class="form-label">Sebagai</label>
+                                  <select class="form-control select2" name="sebagai">
+                                    <option value="pembimbing" selected>PEMBIMBING</option>
+                                    <option value="penguji" selected>PENGUJI</option>
+                                  </select>
+                                </div>
+                              </div>
+
+                              <div class="col-3"><button class="btn btn-success pd-x-20 mt-4" type="submit"><i class="fa fa-print"></i></button>
+                                <a aria-controls="multiCollapseExample" aria-expanded="false" class="btn ripple btn-light pd-x-20 mt-4" href=".multi-collapse" data-bs-toggle="collapse" role="button" class="col-md-10 col-lg-9 col-xl-2 offset-xl-10 pt-4">Tutup</a>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
                   </div>
                 </div>
               </div>
@@ -370,5 +420,6 @@ use CodeIgniter\Images\Image;
       </div>
     </div>
   </div>
+</div>
 
-  <?= $this->endSection(); ?>
+<?= $this->endSection(); ?>
