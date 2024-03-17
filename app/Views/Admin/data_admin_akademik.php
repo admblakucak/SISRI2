@@ -92,6 +92,7 @@ use CodeIgniter\Images\Image;
                                                     <input type="hidden" name="id_bimbingan" value="" />
                                                     <div class="btn-group">
                                                         <a class="btn btn-danger btn-sm" data-bs-target="#modaldelete<?= $key->id_admin_akademik ?>" id="" data-bs-toggle="modal" href="#">Hapus</a>
+                                                        <a class="btn btn-warning btn-sm" data-bs-target="#modaledit<?= $key->id_admin_akademik ?>" data-bs-toggle="modal" href="#">Edit<i class="las la-pen"></i></a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -119,9 +120,61 @@ use CodeIgniter\Images\Image;
                                                     </div>
                                                 </div>
                                             </div>
-                                        <?php
-                                            $no++;
-                                        }
+                                            <?php
+                                            $no++; ?>
+
+                                            <div class="modal" id="modaledit<?= $key->id_admin_akademik ?>">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content modal-content-demo">
+                                                        <form action="<?= base_url() ?>edit_admin_akademik" method="POST" enctype="multipart/form-data">
+                                                            <?= csrf_field() ?>
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title">Tambah Admin Akademik</h6><button aria-label="Close" class="close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <input type="hidden" name="id" value="<?= $key->id_admin_akademik ?>">
+                                                                <label for="">NIP</label>
+                                                                <input class="form-control" id="inputFirstName" type="text" name="nip" required value="<?= $key->nip ?>">
+                                                                <small class="text-danger">*</small>
+                                                                <label for="" class="mt-2">Gelar Depan</label>
+                                                                <small class="text-danger">( Contoh : Dr. )</small>
+                                                                <input class="form-control" id="inputFirstName" type="text" name="gelar_depan" value="<?= $key->gelar_depan ?>">
+                                                                <label for="" class="mt-2">Nama</label>
+                                                                <input class="form-control" id="inputFirstName" type="text" name="nama" required value="<?= $key->nama ?>">
+                                                                <label for="" class="mt-2">Gelar Bekalang</label>
+                                                                <small class="text-danger">( Contoh : S.H., M.H.)</small>
+                                                                <input class="form-control" id="inputFirstName" type="text" name="gelar_belakang" value="<?= $key->gelar_belakang ?>">
+                                                                <label for="" class="mt-2">Jenis Kelamin</label>
+                                                                <select class="form-control select" name="jenis_kelamin" value="<?= $key->jenis_kelamin ?>">
+                                                                    <option value='L'>Laki-Laki</option>
+                                                                    <option value='P'>Perempuan</option>
+                                                                </select>
+                                                                <label for="" class="mt-2">Program Studi</label>
+                                                                <select class="form-control select" name="idunit" value="<?= $key->idunit ?>">
+                                                                    <?php
+                                                                    foreach ($data_prodi as $keyp) {
+                                                                        if ($keyp->idunit == $key->idunit) { ?>
+                                                                            <option value='<?= $keyp->idunit ?>' selected><?= $keyp->namaunit ?></option>
+                                                                        <?php } else {
+                                                                        ?>
+                                                                            <option value='<?= $keyp->idunit ?>'><?= $keyp->namaunit ?></option>
+                                                                    <?php }
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                                <label for="" class="mt-2">E-mail</label>
+                                                                <small class="text-danger">( Wajib menggunakan email universitas dan terlah terdaftar )</small>
+                                                                <input class="form-control" id="inputFirstName" type="text" name="email"" required value=" <?= $key->email ?>">
+                                                            </div>
+                                                            <div class=" modal-footer">
+                                                                <button class="btn ripple btn-primary" type="submit">Update</button>
+                                                                <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Keluar</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php    }
                                         ?>
                                     </tbody>
                                 </table>

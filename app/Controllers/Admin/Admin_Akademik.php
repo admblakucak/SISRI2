@@ -97,6 +97,91 @@ class Admin_Akademik extends BaseController
         </div>');
     return redirect()->to('/data_admin_akademik');
   }
+  public function edit()
+  {
+    if (session()->get('ses_id') == '' || session()->get('ses_login') != 'admin') {
+      return redirect()->to('/');
+    }
+    $id = $this->request->getPost("id");
+    $nip = $this->request->getPost("nip");
+    $gelar_depan = $this->request->getPost("gelar_depan");
+    $nama = $this->request->getPost("nama");
+    $gelar_belakang = $this->request->getPost("gelar_belakang");
+    $jenis_kelamin = $this->request->getPost("jenis_kelamin");
+    $idunit = $this->request->getPost("idunit");
+    $email = $this->request->getPost("email");
+    if (!$this->validate([
+      'idunit' => [
+        'rules' => 'required',
+        'errors' => [
+          'required' => 'Pilih Program Studi'
+        ]
+      ],
+      'nip' => [
+        'rules' => 'required',
+        'errors' => [
+          'required' => 'Pilih Dosen sebagai Admin Akademik'
+        ]
+      ],
+    ])) {
+      session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+            <span class="alert-inner--text"><strong>Gagal!</strong> ' . $this->validator->listErrors() . '</span>
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>');
+      return redirect()->to('/data_admin_akademik');
+    }
+
+    $cek_idunit = $this->db->query("SELECT * FROM tb_admin_akademik WHERE idunit='$idunit' AND id_admin_akademik != '$id'")->getResult();
+    $cek_nip = $this->db->query("SELECT * FROM tb_admin_akademik WHERE nip='$nip' AND id_admin_akademik != '$id'")->getResult();
+    $cek_email = $this->db->query("SELECT * FROM tb_admin_akademik WHERE email='$email' AND id_admin_akademik != '$id'")->getResult();
+    if (count($cek_idunit) != NULL) {
+      session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+      <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+      <span class="alert-inner--text"><strong>Gagal!</strong> Program studi sudah ada.</span>
+      <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">×</span>
+      </button>
+      </div>');
+      return redirect()->to('/data_admin_akademik');
+    } else {
+      $cek_email_change = $this->db->query("SELECT email FROM tb_admin_akademik WHERE id_admin_akademik = '$id'")->getResult();
+      if ($email != $cek_email_change[0]->email) {
+        $this->db->query("DELETE FROM tb_users WHERE email='" . $cek_email_change[0]->email . "' ");
+      }
+    }
+    if (count($cek_nip) != NULL) {
+      session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+            <span class="alert-inner--text"><strong>Gagal!</strong> NIP Sudah Terdaftar Sebagai Admin Akademik.</span>
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>');
+      return redirect()->to('/data_admin_akademik');
+    }
+    if (count($cek_email) != NULL) {
+      session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+            <span class="alert-inner--text"><strong>Gagal!</strong> Email Sudah Terdaftar Sebagai Admin Akademik</span>
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>');
+      return redirect()->to('/data_admin_akademik');
+    }
+    $this->db->query("UPDATE tb_admin_akademik set idunit='$idunit',nip='$nip',nama='$nama',email='$email',gelar_depan='$gelar_depan',gelar_belakang='$gelar_belakang',jenis_kelamin='$jenis_kelamin' WHERE id_admin_akademik='$id'");
+    session()->setFlashdata('message', '<div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+            <span class="alert-inner--icon"><i class="fe fe-thumbs-up"></i></span>
+            <span class="alert-inner--text"><strong>Sukses!</strong> Berhasil Update Admin Akademik</span>
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>');
+    return redirect()->to('/data_admin_akademik');
+  }
   public function delete()
   {
     if (session()->get('ses_id') == '' || session()->get('ses_login') != 'admin') {

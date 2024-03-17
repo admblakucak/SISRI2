@@ -99,6 +99,8 @@ $routes->add('/delete_akun_khusus', 'Admin\Akun_Khusus::delete');
 //ROute Khusus Controller Admin-Akademik
 $routes->add('/data_admin_akademik', 'Admin\Admin_Akademik::index');
 $routes->add('/add_admin_akademik', 'Admin\Admin_Akademik::add');
+// $routes->add('/edits_admin_akademik', 'Admin\Admin_Akademik::edit');
+$routes->add('/edit_admin_akademik', 'Admin\Admin_Akademik::edit');
 $routes->add('/delete_admin_akademik', 'Admin\Admin_Akademik::delete');
 
 // -------------------------------------MAHASISWA-----------------------------------------
