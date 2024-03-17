@@ -31,6 +31,6 @@ class Beranda extends BaseController
       'data_periode' => $this->db->query("SELECT * FROM tb_periode")->getResult(),
       'data_jadwal' => $this->db->query("SELECT * FROM tb_jadwal_sidang WHERE idunit='" . session()->get('ses_idunit') . "' AND jenis_sidang='sidang skripsi'")->getResult(),
     ];
-    return view('Admin_akademik/Beranda', $data);
+    return view('Admin_akademik/beranda', $data);
   }
 }
