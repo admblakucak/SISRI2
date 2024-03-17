@@ -133,7 +133,24 @@ use CodeIgniter\Images\Image;
                                                 </select>
                                             </div>
                                         </div>
-
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label class="form-label">Pilih Dosen</label>
+                                                <select class="form-control select2" name="sebagai">
+                                                    <option value="pembimbing" selected>Pembimbing</option>
+                                                    <option value="penguji">Penguji</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label class="form-label">Jenis Sidang</label>
+                                                <select class="form-control select2" name="sidang">
+                                                    <option value="sempro" selected>Sempro</option>
+                                                    <option value="skripsi">Skripsi</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div class="col-3"><button class="btn btn-success pd-x-20 mt-4" type="submit"><i class="fa fa-print"></i></button>
                                             <a aria-controls="multiCollapseExample" aria-expanded="false" class="btn ripple btn-light pd-x-20 mt-4" href=".multi-collapse" data-bs-toggle="collapse" role="button" class="col-md-10 col-lg-9 col-xl-2 offset-xl-10 pt-4">Tutup</a>
                                         </div>

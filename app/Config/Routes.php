@@ -254,7 +254,9 @@ $routes->get('/cetak_pendaftar/(:any)/(:any)/(:any)', 'Cetak::pendaftar/$1/$2/$3
 
 $routes->add('/direct_hasil_dosen', 'Cetak::direct_hasil_dosen');
 $routes->get('/hasil_dosen/(:any)/(:any)', 'Cetak::hasil_dosen/$1/$2');
+$routes->get('/hasil_dosen_pdf/(:any)/(:any)', 'Cetak::hasil_dosen_new/$1/$2');
 $routes->get('/hasil_dosen_excel/(:any)/(:any)', 'Cetak::hasil_dosen_excel/$1/$2');
+$routes->get('/hasil_dosen_excels/(:any)/(:any)', 'Cetak::hasil_dosen_excel_new/$1/$2');
 
 // ============================================================================================
 
