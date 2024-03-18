@@ -14,7 +14,7 @@ use CodeIgniter\Images\Image;
       <div class="card">
         <div class="card-header pb-0">
           <div class="d-flex justify-content-between">
-            <div class="card-title mg-b-0">Informasi <?= $tipe == 'sudah_dinilai'?'sudah dinilai': 'belum dinilai'?></div>
+            <div class="card-title mg-b-0">Informasi <?= $tipe == 'sudah_dinilai' ? 'sudah dinilai' : 'belum dinilai' ?></div>
             <i class="mdi mdi-dots-horizontal text-gray"></i>
           </div>
           <!-- <p class="tx-12 tx-gray-500 mb-2">Daftar Nilai</p> -->
@@ -59,7 +59,6 @@ use CodeIgniter\Images\Image;
               <hr>
               <div class="table-responsive">
 
-                <a href="<?= base_url() ?>export_sudah_nilai_pdf/<?= $tipe ?>/<?= session()->get('ses_idunit') ?>"><button class="btn btn-primary mb-3" type="button">Cetak</button></a>
                 <table class="table table-striped mg-b-0 text-md-nowrap" id="validasitable3">
                   <thead>
                     <tr>
