@@ -160,7 +160,7 @@ use CodeIgniter\Images\Image;
                         <td style="font-size: 16px; vertical-align: middle;" class=" <?= empty($penguji1[0]->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($penguji1[0]->nilai_ujian) ? "Belum <br> Dinilai" : $penguji1[0]->nilai_ujian ?></td>
                         <td style="font-size: 16px; vertical-align: middle;" class=" <?= empty($penguji2[0]->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($penguji2[0]->nilai_ujian) ? "Belum <br> Dinilai" : $penguji2[0]->nilai_ujian ?></td>
                         <td style="font-size: 16px; vertical-align: middle;" class=" <?= empty($penguji3[0]->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($penguji3[0]->nilai_ujian) ? "Belum <br> Dinilai" : $penguji3[0]->nilai_ujian ?></td>
-                        <td><?= $grade ?></td>
+                        <td style="font-size: 16px; vertical-align: middle;"><?= $grade ?></td>
                       </tr>
                     <?php
                       $no++;
