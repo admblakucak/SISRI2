@@ -67,6 +67,7 @@ class Admin_Akademik extends BaseController
 
     $cek_idunit = $this->db->query("SELECT * FROM tb_admin_akademik WHERE idunit='$idunit'")->getResult();
     $cek_nip = $this->db->query("SELECT * FROM tb_admin_akademik WHERE nip='$nip'")->getResult();
+    $cek_email = $this->db->query("SELECT * FROM tb_admin_akademik WHERE email='$email'")->getResult();
     if (count($cek_idunit) != NULL) {
       session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
             <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
@@ -76,6 +77,28 @@ class Admin_Akademik extends BaseController
             </button>
         </div>');
       return redirect()->to('/data_admin_akademik');
+    }
+    if (count($cek_email) != NULL) {
+      session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+            <span class="alert-inner--text"><strong>Gagal!</strong> Email sudah ada.</span>
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>');
+      return redirect()->to('/data_admin_akademik');
+    } else {
+      $cek_email_users = $this->db->query("SELECT email FROM tb_users WHERE email='$email'")->getResult();
+      if (count($cek_email_users) > 0) {
+        session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+        <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+        <span class="alert-inner--text"><strong>Gagal!</strong> Email Sudah Terdaftar di Tabel Users</span>
+        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+        </button>
+        </div>');
+        return redirect()->to('/data_admin_akademik');
+      }
     }
     if (count($cek_nip) != NULL) {
       session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
@@ -97,6 +120,7 @@ class Admin_Akademik extends BaseController
         </div>');
     return redirect()->to('/data_admin_akademik');
   }
+
   public function edit()
   {
     if (session()->get('ses_id') == '' || session()->get('ses_login') != 'admin') {
@@ -146,11 +170,6 @@ class Admin_Akademik extends BaseController
       </button>
       </div>');
       return redirect()->to('/data_admin_akademik');
-    } else {
-      $cek_email_change = $this->db->query("SELECT email FROM tb_admin_akademik WHERE id_admin_akademik = '$id'")->getResult();
-      if ($email != $cek_email_change[0]->email) {
-        $this->db->query("DELETE FROM tb_users WHERE email='" . $cek_email_change[0]->email . "' ");
-      }
     }
     if (count($cek_nip) != NULL) {
       session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
@@ -171,17 +190,47 @@ class Admin_Akademik extends BaseController
             </button>
         </div>');
       return redirect()->to('/data_admin_akademik');
-    }
-    $this->db->query("UPDATE tb_admin_akademik set idunit='$idunit',nip='$nip',nama='$nama',email='$email',gelar_depan='$gelar_depan',gelar_belakang='$gelar_belakang',jenis_kelamin='$jenis_kelamin' WHERE id_admin_akademik='$id'");
-    session()->setFlashdata('message', '<div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+    } else {
+      $cek_email_change = $this->db->query("SELECT email FROM tb_admin_akademik WHERE id_admin_akademik = '$id'")->getResult();
+      $set_nip = $this->db->query("SELECT nip FROM tb_admin_akademik WHERE id_admin_akademik = '$id'")->getResult()[0]->nip;
+      $cek_email_users = $this->db->query("SELECT email FROM tb_users WHERE id != '$set_nip' AND email='$email'")->getResult();
+      if (count($cek_email_users) > 0) {
+        session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+        <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+        <span class="alert-inner--text"><strong>Gagal!</strong> Email Sudah Terdaftar di Tabel Users</span>
+        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+        </button>
+        </div>');
+        return redirect()->to('/data_admin_akademik');
+      } else {
+        $cek_email_change = $this->db->query("SELECT email FROM tb_admin_akademik WHERE id_admin_akademik = '$id'")->getResult();
+        if ($email != $cek_email_change[0]->email) {
+          $this->db->query("DELETE FROM tb_users WHERE email='" . $cek_email_change[0]->email . "' ");
+        }
+      }
+
+      // $cek_users = $this->db->query("SELECT * FROM tb_users WHERE id = '$set_nip'")->getResult();
+      // if (!empty($cek_users)) {
+      //   $id_user = $cek_users[0]->id_user;
+      // } else {
+      //   $id_user = 0;
+      // }
+
+      // $ciphertext = password_hash($nip, PASSWORD_DEFAULT);
+      // $this->db->query("UPDATE tb_users SET email='$email',id='$nip',password='$ciphertext' WHERE id_user = '$id_user'");
+      $this->db->query("UPDATE tb_admin_akademik set idunit='$idunit',nip='$nip',nama='$nama',email='$email',gelar_depan='$gelar_depan',gelar_belakang='$gelar_belakang',jenis_kelamin='$jenis_kelamin' WHERE id_admin_akademik='$id'");
+      session()->setFlashdata('message', '<div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
             <span class="alert-inner--icon"><i class="fe fe-thumbs-up"></i></span>
             <span class="alert-inner--text"><strong>Sukses!</strong> Berhasil Update Admin Akademik</span>
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
         </div>');
-    return redirect()->to('/data_admin_akademik');
+      return redirect()->to('/data_admin_akademik');
+    }
   }
+  
   public function delete()
   {
     if (session()->get('ses_id') == '' || session()->get('ses_login') != 'admin') {

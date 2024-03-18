@@ -164,7 +164,7 @@ use CodeIgniter\Images\Image;
                                                                 </select>
                                                                 <label for="" class="mt-2">E-mail</label>
                                                                 <small class="text-danger">( Wajib menggunakan email universitas dan terlah terdaftar )</small>
-                                                                <input class="form-control" id="inputFirstName" type="text" name="email"" required value=" <?= $key->email ?>">
+                                                                <input class="form-control" id="inputFirstName" type="text" name="email" value="<?= $key->email ?>" required>
                                                             </div>
                                                             <div class=" modal-footer">
                                                                 <button class="btn ripple btn-primary" type="submit">Update</button>
