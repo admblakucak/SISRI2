@@ -49,7 +49,12 @@ class UpdateNilai implements FilterInterface
         if (empty($penguji3)) {
             $penguji3  = $db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=3")->getResult();
         }
-        $id_pendaftar = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND nim='" . session()->get('ses_id') . "' ORDER BY create_at DESC LIMIT 1")->getResult()[0]->id_pendaftar;
+        $id_pendaftar = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND nim='" . session()->get('ses_id') . "' ORDER BY create_at DESC LIMIT 1")->getResult();
+        if (!empty($id_pendaftar)) {
+            $id_pendaftar = $id_pendaftar[0]->id_pendaftar;
+        } else {
+            $id_pendaftar = 0;
+        }
         $jadwal_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang WHERE id_pendaftar='$id_pendaftar' AND (hasil_sidang is null or hasil_sidang < 3 )")->getResult();
         // dd($id_pendaftar);
         $dosen_pembimbing = $db->query("SELECT * FROM tb_pengajuan_pembimbing a WHERE a.nim='" . session()->get('ses_id') . "' AND a.status_pengajuan='diterima' ORDER BY a.`sebagai` ASC ")->getResult();
