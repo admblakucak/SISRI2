@@ -5,11 +5,15 @@
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <title> SISRI - Login</title>
-  <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
+  <link href="<?= base_url(); ?>/assets/login/bootstrap.min.css" rel='stylesheet'>
+  <!-- <script script src="<?= base_url(); ?>/assets/login/bootstrap.bundle.min.js"></script> -->
+
+  <!-- <link href="<?= base_url() ?>/assets/login/font-awesome.min.css" rel="stylesheet"> -->
   <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
   <!-- Favicon -->
   <link rel="icon" href="<?= base_url() ?>/assets/img/brand/Sisri.png" type="image/x-icon" />
-  <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+  <!-- <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script> -->
+  <script script src="<?= base_url(); ?>/assets/login/jquery.min.js"></script>
 
   <style>
     ::-webkit-scrollbar {
@@ -243,7 +247,7 @@
               <img src="<?= base_url() ?>/assets/img/logosisri.png" class="logo img-fluid">
             </div>
             <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
-              <img src="https://i.imgur.com/uNGdWHi.png" class="image img-fluid">
+              <img src="<?= base_url() ?>/assets/login/uNGdWHi.png" class="image img-fluid">
             </div>
           </div>
         </div>
