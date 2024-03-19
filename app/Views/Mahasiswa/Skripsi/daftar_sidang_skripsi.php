@@ -315,6 +315,8 @@ use CodeIgniter\Images\Image;
                                                             <?php
                                                             $acc_pem1 = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . session()->get('ses_id') . "' AND izin_sebagai='pembimbing 1' AND jenis_sidang='skripsi' AND `status`='disetujui' ")->getResult();
                                                             $acc_pem2 = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . session()->get('ses_id') . "' AND izin_sebagai='pembimbing 2' AND jenis_sidang='skripsi' AND `status`='disetujui' ")->getResult();
+                                                            $cek_admin_akademik = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . session()->get('ses_id') . "' AND nip='" . $admin_akademik->nip . "' AND izin_sebagai='admin_akademik'  AND jenis_sidang='skripsi'")->getResult();
+
                                                             $acc_kor = $db->query("SELECT * FROM tb_perizinan_sidang WHERE nim='" . session()->get('ses_id') . "' AND izin_sebagai='koordinator' AND jenis_sidang='skripsi' AND `status`='disetujui' ")->getResult();
                                                             $cek_pendaftar_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang WHERE nim='" . session()->get('ses_id') . "' AND id_jadwal='" . $key->id_jadwal . "' ")->getResult();
                                                             $acc_seminar_penguji1 = $db->query("SELECT * from tb_acc_revisi where nim='" . session()->get('ses_id') . "' AND `jenis_sidang`='seminar proposal' AND sebagai='Penguji 1'")->getResult();
@@ -325,7 +327,7 @@ use CodeIgniter\Images\Image;
                                                                 echo "<a class='text-danger'>Belum Dibuka</a>";
                                                             } elseif (time() >= strtotime($key->open)) {
                                                                 if ($acc_seminar_penguji1 > 0 && $acc_seminar_penguji2 > 0 && $acc_seminar_penguji3 > 0) {
-                                                                    if (count($acc_pem1) > 0 && count($acc_pem2) > 0) {
+                                                                    if (count($acc_pem1) > 0 && count($acc_pem2) > 0 && count($cek_admin_akademik) > 0) {
                                                                         if (count($cek_pendaftar_sidang) > 0) {
                                                                             if ($cek_pendaftar_sidang[0]->hasil_sidang < 3) { ?>
                                                                                 <a class='text-success'>Anda Sudah terdaftar pada Sidang Skripsi Periode <?= empty($cek_status_sidang[0]->periode) ? "" : $cek_status_sidang[0]->periode ?></a>
@@ -346,7 +348,7 @@ use CodeIgniter\Images\Image;
                                                             <?php }
                                                                         }
                                                                     } else {
-                                                                        echo "<a class='text-danger'> Dapat mendaftar apabila telah mendapat izin dari pembimbing 1 & pembimbing 2. </a>";
+                                                                        echo "<a class='text-danger'> Dapat mendaftar apabila telah mendapat izin dari pembimbing 1, pembimbing 2 & Admin Akademik </a>";
                                                                     }
                                                                 } else {
                                                                     echo "<a class='text-danger'> Silahkan Selesaikan Revisi Proposal Anda. </a>";
