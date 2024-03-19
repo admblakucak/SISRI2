@@ -3,6 +3,7 @@
 namespace Config;
 
 use App\Filters\UpdateNilai;
+use App\Filters\UpdateNilaiDosen;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -22,7 +23,8 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
-        'updateNilai' => UpdateNilai::class,    
+        'updateNilai' => UpdateNilai::class,
+        'updateNilaiDosen' => UpdateNilaiDosen::class,
     ];
 
     /**
