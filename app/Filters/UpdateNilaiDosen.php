@@ -50,7 +50,6 @@ class UpdateNilaiDosen implements FilterInterface
                 $id_pendaftar = 0;
             }
             $jadwal_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang WHERE id_pendaftar='$id_pendaftar' AND (hasil_sidang is null or hasil_sidang < 3 )")->getResult();
-
             // Revisi TB_NILAI jika lebih dari 24 jam otomatis nilai 80
             if (!empty($jadwal_sidang)) {
                 // Dosen Pembimbing
@@ -73,6 +72,7 @@ class UpdateNilaiDosen implements FilterInterface
 
                 $d_now = new Datetime();
                 $d_sidang = new Datetime($jadwal_sidang[0]->waktu_sidang);
+                // $d_sidang = new Datetime('2024-06-07 10:22:00');
                 if ($d_now > $d_sidang) {
                     $selisih = date_diff($d_now, $d_sidang);
                     $interval = $selisih->days * 24;
@@ -81,7 +81,7 @@ class UpdateNilaiDosen implements FilterInterface
                     if ($interval >= 18) {
 
                         // Update keterangan lulus
-                        $db->query("UPDATE `tb_pengajuan_pembimbing` SET pesan'Sudah Lulus' WHERE status_pengajuan='diterima' and nim='$nim_mhs' ");
+                        $db->query("UPDATE `tb_pengajuan_pembimbing` SET pesan='Sudah Lulus' WHERE status_pengajuan='diterima' and nim='$nim_mhs' ");
 
 
                         $cek_nilai_penguji1 = $db->query("SELECT * FROM tb_nilai where nim ='" . $nim_mhs . "' AND nip ='" . $penguji1[0]->nip . "' AND sebagai = 'penguji 1' ")->getResult();
@@ -283,6 +283,7 @@ class UpdateNilaiDosen implements FilterInterface
 
                 $d_now = new Datetime();
                 $d_sidang = new Datetime($jadwal_sidang[0]->waktu_sidang);
+
                 if ($d_now > $d_sidang) {
                     $selisih = date_diff($d_now, $d_sidang);
                     $interval = $selisih->days * 24;
@@ -290,7 +291,7 @@ class UpdateNilaiDosen implements FilterInterface
                     // karena $d_now utc+00 sedangkan $d_sidang utc+7
                     if ($interval >= 18) {
                         // Update keterangan lulus
-                        $db->query("UPDATE `tb_pengajuan_pembimbing` SET pesan'Sudah Lulus' WHERE status_pengajuan='diterima' and nim='$nim_mhs' ");
+                        $db->query("UPDATE `tb_pengajuan_pembimbing` SET pesan='Sudah Lulus' WHERE status_pengajuan='diterima' and nim='$nim_mhs' ");
 
                         $cek_nilai_penguji1 = $db->query("SELECT * FROM tb_nilai where nim ='" . $nim_mhs . "' AND nip ='" . $penguji1[0]->nip . "' AND sebagai = 'penguji 1' ")->getResult();
                         if (empty($cek_nilai_penguji1)) {

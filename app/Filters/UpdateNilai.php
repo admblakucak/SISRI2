@@ -74,7 +74,7 @@ class UpdateNilai implements FilterInterface
                 // karena $d_now utc+00 sedangkan $d_sidang utc+7
                 if ($interval >= 18) {
                     // Update keterangan lulus
-                    $db->query("UPDATE `tb_pengajuan_pembimbing` SET pesan'Sudah Lulus' WHERE status_pengajuan='diterima' and nim='$nim_mhs' ");
+                    $db->query("UPDATE `tb_pengajuan_pembimbing` SET pesan='Sudah Lulus' WHERE status_pengajuan='diterima' and nim='$nim_mhs' ");
 
                     $cek_nilai_penguji1 = $db->query("SELECT * FROM tb_nilai where nim ='" . $nim_mhs . "' AND nip ='" . $penguji1[0]->nip . "' AND sebagai = 'penguji 1' ")->getResult();
                     if (empty($cek_nilai_penguji1)) {
