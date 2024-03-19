@@ -107,8 +107,8 @@ $routes->add('/delete_admin_akademik', 'Admin\Admin_Akademik::delete');
 
 // -------------------------------------MAHASISWA-----------------------------------------
 //Route Khusus Controller Mahasiswa-Beranda
-$routes->add('/beranda_mahasiswa', 'Mahasiswa\Beranda::index', ['filter' => 'updateNilai']);
-// $routes->add('/beranda_mahasiswa', 'Mahasiswa\Beranda::index');
+// $routes->add('/beranda_mahasiswa', 'Mahasiswa\Beranda::index', ['filter' => 'updateNilai']);
+$routes->add('/beranda_mahasiswa', 'Mahasiswa\Beranda::index');
 //Route Khusus Controller Mahasiswa-Ajukan_Topik
 $routes->add('/ajukan_topik_mahasiswa', 'Mahasiswa\Ajukan_Topik::index');
 $routes->add('/ajukan_dospem_1', 'Mahasiswa\Ajukan_Topik::ajukan_dospem_1');
