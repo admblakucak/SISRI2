@@ -10,7 +10,6 @@
 
 <body>
     <?php
-    header("Cache-Control: no-cache, no-store, must-revalidate");
     header("Content-type: application/vnd-ms-excel");
     header("Content-Disposition: attachment; filename=Daftar Nsilai.xls");
     ?>
@@ -18,7 +17,7 @@
         <thead>
             <tr>
                 <th style="text-align: center; vertical-align: middle;"><span>No.</span></th>
-                <th style="text-align: center; vertical-align: middle;"><span>Nim</span></th>
+                <th style="text-align: center; vertical-align: middle;"><span>Nim &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
                 <th style="text-align: center; vertical-align: middle;" class="col-sm-7 col-md-6 col-lg-2"><span>Nama</span></th>
                 <th style="text-align: center; vertical-align: middle;" class="col-sm-7 col-md-6 col-lg-4"><span>Judul Skripsi</span></th>
                 <th style="text-align: center; vertical-align: middle;" class="col-sm-7 col-md-6 col-lg-3"><span>Nilai Bimbingan</span></th>
@@ -39,6 +38,18 @@
                 $penguji1 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 1'")->getResult();
                 $penguji2 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 2'")->getResult();
                 $penguji3 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 3'")->getResult();
+                if (empty($judul[0]->judul_topik) || empty($mhs[0]->nama)) {
+                    continue;
+                }
+                if ($tipe == 'sudah_dinilai') {
+                    if (empty($pembimbing1[0]->nilai_bimbingan) || empty($pembimbing2[0]->nilai_bimbingan) || empty($penguji1[0]->nilai_ujian) || empty($penguji2[0]->nilai_ujian) || empty($penguji3[0]->nilai_ujian)) {
+                        continue;
+                    }
+                } elseif ($tipe == 'belum_dinilai') {
+                    if (!empty($pembimbing1[0]->nilai_bimbingan) && !empty($pembimbing2[0]->nilai_bimbingan) && !empty($penguji1[0]->nilai_ujian) && !empty($penguji2[0]->nilai_ujian) && !empty($penguji3[0]->nilai_ujian)) {
+                        continue;
+                    }
+                }
                 if (!empty($pembimbing1)) {
                     $nb_pembimbing1 = $pembimbing1[0]->nilai_bimbingan == NULL ? 0 : $pembimbing1[0]->nilai_bimbingan;
                     $ns_pembimbing1 = $pembimbing1[0]->nilai_ujian == NULL ? 0 : $pembimbing1[0]->nilai_ujian;
@@ -95,10 +106,10 @@
                 }
             ?>
                 <tr>
-                    <th scope="row"><?= $no ?></th>
-                    <td style="text-align: center; vertical-align: middle;"><?= $key->id ?></td>
-                    <td style="text-align: left; vertical-align: middle;"><?= $mhs[0]->nama ?></td>
-                    <td style="text-align: center; vertical-align: middle;"><?= $judul[0]->judul_topik ?></td>
+                    <td style="text-align: center; vertical-align: middle;"><?= $no ?></td>
+                    <td style="text-align: center; vertical-align: middle;">="<?= $key->id ?>"</td>
+                    <td style="text-align: left; vertical-align: middle; padding-left: 5px;"><?= $mhs[0]->nama ?></td>
+                    <td style="text-align: center; vertical-align: middle;"><?= strtoupper($judul[0]->judul_topik) ?></td>
                     <td style="text-align: center; vertical-align: middle;"><?= $nb ?></td>
                     <td style="text-align: center; vertical-align: middle;"><?= $ns ?></td>
                     <td style="text-align: center; vertical-align: middle;"><?= $total ?></td>

@@ -63,7 +63,13 @@
         <tbody>
             <?php
             $no = 1;
+            $data_nim = [];
             foreach ($data_mhs as $key) {
+                if (array_search($key->id, $data_nim) !== false) {
+                    continue;
+                } else {
+                    array_push($data_nim, $key->id);
+                }
                 $mhs = $db->query("SELECT * FROM tb_mahasiswa WHERE nim = '" . $key->id . "'")->getResult();
                 $judul = $db->query("SELECT * FROM tb_pengajuan_topik WHERE nim = '" . $key->id . "'")->getResult();
                 $nilai = $db->query("SELECT * FROM tb_mahasiswa WHERE nim = '" . $key->id . "'")->getResult();
@@ -135,7 +141,7 @@
                 <tr>
                     <td style="text-align: center; vertical-align: middle; border: 1px solid black;" scope="row"><?= $no ?></td>
                     <td style="text-align: center; vertical-align: middle; border: 1px solid black;"><?= $key->id ?></td>
-                    <td style="text-align: left; vertical-align: middle; border: 1px solid black; padding-left: 2px; padding-right: 2px; ">
+                    <td style="text-align: left; vertical-align: middle; border: 1px solid black; padding-left: 6px; padding-right: 2px; ">
                         <?php
                         // $mhs[0]->nama 
                         if (!empty($mhs)) {

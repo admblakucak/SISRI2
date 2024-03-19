@@ -81,6 +81,9 @@ use CodeIgniter\Images\Image;
                                             $penguji1 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 1'")->getResult();
                                             $penguji2 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 2'")->getResult();
                                             $penguji3 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 3'")->getResult();
+                                            if (empty($judul[0]->judul_topik) || empty($mhs[0]->nama)) {
+                                                continue;
+                                            }
                                             if (!empty($pembimbing1)) {
                                                 $nb_pembimbing1 = $pembimbing1[0]->nilai_bimbingan == NULL ? 0 : $pembimbing1[0]->nilai_bimbingan;
                                                 $ns_pembimbing1 = $pembimbing1[0]->nilai_ujian == NULL ? 0 : $pembimbing1[0]->nilai_ujian;
@@ -156,7 +159,7 @@ use CodeIgniter\Images\Image;
                                                     <?php
                                                     // $judul[0]->judul_topik 
                                                     if (!empty($judul)) {
-                                                        echo $judul[0]->judul_topik;
+                                                        echo strtoupper($judul[0]->judul_topik);
                                                     } else {
                                                         echo "";
                                                     }

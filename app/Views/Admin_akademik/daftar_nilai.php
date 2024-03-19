@@ -142,7 +142,7 @@ use CodeIgniter\Images\Image;
                                             // }
                                         ?>
                                             <tr>
-                                                <th scope="row"><?= $no ?></th>
+                                                <td style="text-align: center; vertical-align: middle;"><?= $no ?></td>
                                                 <td style="text-align: center; vertical-align: middle;"><?= $key->id ?></td>
                                                 <td style="text-align: left; vertical-align: middle;">
                                                     <?php

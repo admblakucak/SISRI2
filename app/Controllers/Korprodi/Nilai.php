@@ -75,6 +75,7 @@ class Nilai extends BaseController
         $idperiode = $this->request->getPost("id_periode");
         $id_jadwal = $this->request->getPost("id_jadwal");
         $jenis_file = $this->request->getPost("jenis_file");
+        $tipe = $this->request->getPost("tipe");
         if ($jenis_file == 'excel') {
             if ($idperiode == '') {
                 if ($id_jadwal == '') {
@@ -89,10 +90,23 @@ class Nilai extends BaseController
                     $data = $this->db->query("SELECT * FROM tb_users a LEFT JOIN tb_mahasiswa	b ON a.`id`=b.`nim` LEFT JOIN tb_pendaftar_sidang c ON c.`nim`=a.`id` WHERE a.`idunit`='" . session()->get('ses_idunit') . "' AND a.role='mahasiswa' AND b.`idperiode`='$idperiode' AND c.`id_jadwal`='$id_jadwal' ORDER BY id ASC;")->getResult();
                 }
             }
+
+            $new_data = [];
+            foreach ($data as $key) {
+                $sidang = $this->db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE a.`nim`='" . $key->id . "' AND b.`jenis_sidang`='sidang skripsi' ORDER BY create_at DESC LIMIT 1")->getResult();
+                if (!empty($sidang)) {
+                    array_push($new_data, $key);
+                }
+            }
+
+            if (empty($tipe)) {
+                $tipe = 'semua';
+            }
             $data = [
                 'title' => 'Daftar Nilai Ujian Skripsi',
                 'db' => $this->db,
-                'data_mhs' => $data
+                'data_mhs' => $new_data,
+                'tipe' => $tipe,
             ];
             return view('Cetak/export_nilai', $data);
         } else {
@@ -102,7 +116,11 @@ class Nilai extends BaseController
             if ($id_jadwal == '') {
                 $id_jadwal = 'semua';
             }
-            return redirect()->to("export_nilai_pdf/$idperiode/$id_jadwal");
+            if (!empty($tipe)) {
+                return redirect()->to("export_sudah_nilai_pdf/$idperiode/$id_jadwal/$tipe");
+            } else {
+                return redirect()->to("export_nilai_pdf/$idperiode/$id_jadwal");
+            }
         }
     }
 
@@ -132,6 +150,8 @@ class Nilai extends BaseController
             'qr_link' => $qr_link,
             'namaunit' => $tb_unit[0]->namaunit
         ];
+
+        // return view('Cetak/export_nilai_pdf', $data);
         $dompdf = new Dompdf();
         $filename = date('y-m-d-H-i-s');
         $dompdf->loadHtml(view('Cetak/export_nilai_pdf', $data));
@@ -140,10 +160,8 @@ class Nilai extends BaseController
         $dompdf->stream($filename, array('Attachment' => false));
         exit();
     }
-    public function export_sudah_dinilai_pdf($tipe = null, $id_jadwal = null)
+    public function export_sudah_dinilai_pdf($idperiode = null, $id_jadwal = null, $tipe = null,)
     {
-        $idperiode = 'semua';
-        $id_jadwal = 'semua';
         $link = base_url() . "export_nilai_pdf/$tipe/$id_jadwal";
         $qr_link = $this->qr->cetakqr($link);
         $tb_unit = $this->db->query("SELECT * FROM tb_unit WHERE idunit='" . session()->get('ses_idunit') . "'")->getResult();
@@ -160,6 +178,7 @@ class Nilai extends BaseController
                 $data = $this->db->query("SELECT * FROM tb_users a LEFT JOIN tb_mahasiswa	b ON a.`id`=b.`nim` LEFT JOIN tb_pendaftar_sidang c ON c.`nim`=a.`id` WHERE a.`idunit`='" . session()->get('ses_idunit') . "' AND a.role='mahasiswa' AND b.`idperiode`='$idperiode' AND c.`id_jadwal`='$id_jadwal' ORDER BY id ASC;")->getResult();
             }
         }
+
         $data = [
             'tipe' => $tipe,
             'title' => 'Daftar Nilai Ujian Skripsi',

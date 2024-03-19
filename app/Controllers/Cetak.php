@@ -609,6 +609,7 @@ class Cetak extends BaseController
         $dompdf->stream($filename, array('Attachment' => false));
         exit();
     }
+    
     public function direct_hasil_dosen()
     {
         if (session()->get('ses_id') == '' || session()->get('ses_login') == 'mahasiswa') {
@@ -645,7 +646,7 @@ class Cetak extends BaseController
         $sidang = $this->request->getPost('sidang');
         if ($jenis_file == 'pdf') {
             // return redirect()->to("hasil_dosen/$idunit/$date1/$date2");
-            return redirect()->to("hasil_dosen_pdf/$idunit/$date1/$date2/$sebagai");
+            return redirect()->to("hasil_dosen_pdf/$idunit/$date1/$date2/$sebagai/$sidang");
         } else {
             // return redirect()->to("hasil_dosen_excel/$idunit/$date1/$date2/$sidang");
             return redirect()->to("hasil_dosen_excels/$idunit/$date1/$date2/$sidang");
@@ -669,12 +670,13 @@ class Cetak extends BaseController
         $dompdf = new Dompdf();
         $filename = date('y-m-d-H-i-s');
         $dompdf->loadHtml(view('Cetak/hasil_dosen', $data));
-        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->setPaper('A4', 'potrait');
         $dompdf->render();
         $dompdf->stream($filename, array('Attachment' => false));
         exit();
     }
-    public function hasil_dosen_new($idunit, $date1, $date2, $sebagai)
+
+    public function hasil_dosen_new($idunit, $date1, $date2, $sebagai, $sidang)
     {
         $link = base_url() . "hasil_dosen_pdf/$idunit/$date1/$date2/$sebagai";
         $qr_link = $this->qr->cetakqr($link);
@@ -686,6 +688,7 @@ class Cetak extends BaseController
             'qr_link' => $qr_link,
             'namaunit' => $tb_unit[0]->namaunit,
             'date1' => $date1,
+            'sidang'=>$sidang,
             'sebagai' => $sebagai,
             'date2' => $date2,
             'tb_dosen' => $this->db->query("SELECT DISTINCT a.`nip`,b.* FROM tb_nilai a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` WHERE idunit='$idunit'")->getResult(),
@@ -695,11 +698,12 @@ class Cetak extends BaseController
         $dompdf = new Dompdf();
         $filename = date('y-m-d-H-i-s');
         $dompdf->loadHtml(view('Cetak/hasil_dosen_new', $data));
-        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->setPaper('A4', 'potrait');
         $dompdf->render();
         $dompdf->stream($filename, array('Attachment' => false));
         exit();
     }
+
     public function hasil_dosen_excel($idunit, $date1, $date2, $sidang)
     {
         $link = base_url() . "hasil_dosen/$idunit/$date1/$date2/$sidang";
@@ -718,7 +722,7 @@ class Cetak extends BaseController
         ];
         return view('Cetak/hasil_dosen_excel', $data);
     }
-    
+
     public function hasil_dosen_excel_new($idunit, $date1, $date2, $sidang)
     {
         $link = base_url() . "hasil_dosen/$idunit/$date1/$date2/$sidang";

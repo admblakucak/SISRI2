@@ -48,11 +48,11 @@
             <td style="border: 1px solid black;text-align:center;padding: 10px;" rowspan="2">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/UTM_DIKBUDRISTEK.png" style="width: 100px;">
             </td>
-            <td style="text-align:center;font-size: 18px;border: 1px solid black;"><b>HASIL PELAKSANAAN SIDANG</b></td>
+            <td style="text-align:center;font-size: 18px;border: 1px solid black;"><b>DATA MAHASISWA </b></td>
             <td style="border: 1px solid black;padding: 5px;text-align:center;" colspan="2">Periode : <b><?= date('d-m-Y', strtotime($date1)) ?></b> hingga <b><?= date('d-m-Y', strtotime($date2)) ?></b> </td>
         </tr>
         <tr>
-            <td colspan="2" style="text-align:center;font-size: 18px;border: 1px solid black;"><b>DATA DOSEN <?= strtoupper($sebagai) ?> SKRIPSI <?= strtoupper($namaunit) ?></b></td>
+            <td colspan="2" style="text-align:center;font-size: 18px;border: 1px solid black;"><b>DATA DOSEN <?= strtoupper($sebagai) ?> <?= $sidang == 'sempro' ? 'SEMINAR PROPOSAL' : 'SIDANG SKRIPSI' ?> <?= strtoupper($namaunit) ?></b></td>
             <td style="border: 1px solid black;padding: 5px;text-align:center;">Tanggal : <b><?= date('d-m-Y') ?></b></td>
         </tr>
     </table>
@@ -68,28 +68,44 @@
         <tbody>
             <?php
             $no = 1;
+            $data_nim = [];
             foreach ($tb_dosen as $key) {
                 $data_mhs = $db->query("SELECT * FROM tb_nilai a LEFT JOIN tb_mahasiswa b ON a.`nim`=b.`nim` WHERE nip='$key->nip' AND (create_at BETWEEN '$date1' AND ('$date2'+ INTERVAL 1 DAY))")->getResult();
             ?>
-
                 <?php
                 foreach ($data_mhs as $key2) {
+                    if ($sidang == 'sempro') {
+                        $cek_sidang = $db->query("SELECT a.nim,b.jenis_sidang FROM `tb_pendaftar_sidang` a LEFT JOIN tb_jadwal_sidang b on a.id_jadwal=b.id_jadwal WHERE a.nim = '" . $key2->nim . "' AND b.jenis_sidang = 'seminar proposal'")->getResult();
+                        $penguji1  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=1")->getResult();
+                        $penguji2  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=2")->getResult();
+                        $penguji3  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=3")->getResult();
+                    } else {
+                        $penguji1  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=1")->getResult();
+                        if (empty($penguji1)) {
+                            $penguji1  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=1")->getResult();
+                        }
+                        $penguji2  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=2")->getResult();
+                        if (empty($penguji2)) {
+                            $penguji2  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=2")->getResult();
+                        }
+                        $penguji3  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=3")->getResult();
+                        if (empty($penguji3)) {
+                            $penguji3  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=3")->getResult();
+                        }
+                        $cek_sidang = $db->query("SELECT a.nim,b.jenis_sidang FROM `tb_pendaftar_sidang` a LEFT JOIN tb_jadwal_sidang b on a.id_jadwal=b.id_jadwal WHERE a.nim = '" . $key2->nim . "' AND b.jenis_sidang = 'sidang skripsi'")->getResult();
+                    }
+                    if (empty($cek_sidang)) {
+                        continue;
+                    }
+                    if (array_search($key2->nim, $data_nim) !== false) {
+                        continue;
+                    } else {
+                        array_push($data_nim, $key2->nim);
+                    }
                     $mhs = $db->query("SELECT * FROM tb_mahasiswa WHERE nim = '" . $key2->nim . "'")->getResult();
                     $judul = $db->query("SELECT * FROM tb_pengajuan_topik WHERE nim = '" . $key2->nim . "'")->getResult();
                     $pem1 = $db->query("SELECT a.*,b.nama,b.gelardepan,b.gelarbelakang FROM tb_pengajuan_pembimbing a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim = '" . $key2->nim . "' AND a.sebagai='1' AND a.status_pengajuan='diterima'")->getResult();
                     $pem2 = $db->query("SELECT a.*,b.nama,b.gelardepan,b.gelarbelakang FROM tb_pengajuan_pembimbing a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim = '" . $key2->nim . "' AND a.sebagai='2' AND a.status_pengajuan='diterima'")->getResult();
-                    $penguji1  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=1")->getResult();
-                    if (empty($penguji1)) {
-                        $penguji1  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=1")->getResult();
-                    }
-                    $penguji2  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=2")->getResult();
-                    if (empty($penguji2)) {
-                        $penguji2  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=2")->getResult();
-                    }
-                    $penguji3  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=3")->getResult();
-                    if (empty($penguji3)) {
-                        $penguji3  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key2->nim  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=3")->getResult();
-                    }
                 ?>
                     <tr>
                         <td style="text-align: center; vertical-align: middle;border: 1px solid black; border-bottom: none; "><?= $no ?></td>

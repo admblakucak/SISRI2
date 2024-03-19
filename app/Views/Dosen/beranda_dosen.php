@@ -168,11 +168,12 @@ use CodeIgniter\Images\Image;
 															</thead>
 															<tbody>
 																<?php foreach ($data_periode as $key) {
-																	$jumlah_sempro = $db->query("SELECT COUNT(a.nim) as jumlah FROM `tb_mahasiswa` a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim LEFT JOIN tb_jadwal_sidang c ON b.id_jadwal=c.id_jadwal WHERE a.idperiode = '" . $key->idperiode . "' AND b.id_jadwal IS NOT NULL AND c.jenis_sidang='seminar proposal'")->getResult();
-																	$jumlah_sidang_skripsi = $db->query("SELECT COUNT(a.nim) as jumlah FROM `tb_mahasiswa` a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim LEFT JOIN tb_jadwal_sidang c ON b.id_jadwal=c.id_jadwal WHERE a.idperiode = '" . $key->idperiode . "' AND b.id_jadwal IS NOT NULL AND c.jenis_sidang='sidang skripsi'")->getResult();
+																	$jumlah_sempro = $db->query("SELECT COUNT(a.nim) as jumlah FROM `tb_mahasiswa` a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim LEFT JOIN tb_jadwal_sidang c ON b.id_jadwal=c.id_jadwal WHERE a.idperiode = '" . $key->idperiode . "' AND b.id_jadwal IS NOT NULL AND c.jenis_sidang='seminar proposal' AND a.idunit='$idunit' ")->getResult();
+																	$jumlah_sidang_skripsi = $db->query("SELECT COUNT(a.nim) as jumlah FROM `tb_mahasiswa` a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim LEFT JOIN tb_jadwal_sidang c ON b.id_jadwal=c.id_jadwal WHERE a.idperiode = '" . $key->idperiode . "' AND b.id_jadwal IS NOT NULL AND c.jenis_sidang='sidang skripsi' AND a.idunit='$idunit' ")->getResult();
+																	$periode = substr($key->namaperiode, 0, 4);
 																?>
 																	<tr>
-																		<td class="text-center"><?= $key->namaperiode ?></td>
+																		<td class="text-center"><?= $periode ?></td>
 																		<!-- <td class="text-center">50/100</td> -->
 																		<td class="text-center"><?= $jumlah_sempro[0]->jumlah ?></td>
 																		<td class="text-center"><?= $jumlah_sidang_skripsi[0]->jumlah ?> </td>

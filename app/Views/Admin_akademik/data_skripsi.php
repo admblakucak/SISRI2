@@ -55,35 +55,8 @@ use CodeIgniter\Images\Image;
                           <br>
                           Pembimbing 2 : <?= $kuota_p2 != NULL ? $kuota_p2[0]->jumlah . '/' . $kuota_p2[0]->kuota : "0/10" ?>
                         </td>
-                 
+
                       </tr>
-                      <div class="modal" id="modalupdate<?= $key->nip ?>">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content modal-content-demo">
-                            <div class="modal-header">
-                              <h6 class="modal-title">Update Data Dosen</h6><button aria-label="Close" class="close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-                            </div>
-                            <form action="<?= base_url() ?>update_kuota_dosen" method="POST" enctype="multipart/form-data">
-                              <?= csrf_field() ?>
-                              <input type="hidden" name="nip" value="<?= $key->nip ?>" />
-                              <div class="modal-body">
-                                <label for="">Kuota pembimbing 1</label>
-                                <div class="input-group">
-                                  <input class="form-control form-control-sm" name='p1' type="text" value=" <?= $kuota_p1 != NULL ? $kuota_p1[0]->kuota : "10" ?>">
-                                </div>
-                                <label for="" class="mt-2">Kuota Pembimbing 2</label>
-                                <div class="input-group">
-                                  <input class="form-control form-control-sm" name='p2' type="text" value=" <?= $kuota_p2 != NULL ? $kuota_p2[0]->kuota : "10" ?>">
-                                </div>
-                              </div>
-                              <div class="modal-footer">
-                                <button class="btn ripple btn-warning" type="submit">Update</button>
-                                <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Keluar</button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
                     <?php $no++;
                     endforeach; ?>
                   </tbody>
@@ -128,6 +101,25 @@ use CodeIgniter\Images\Image;
                         <select class="form-control select2" name="jenis_file">
                           <option value="pdf" selected>PDF</option>
                           <option value="excel">Excel</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-3">
+                      <div class="form-group">
+                        <label class="form-label">Pilih Dosen</label>
+                        <select class="form-control select2" name="sebagai">
+                          <option value="pembimbing" selected>Pembimbing</option>
+                          <option value="penguji">Penguji</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="form-group">
+                        <label class="form-label">Jenis Sidang</label>
+                        <select class="form-control select2" name="sidang">
+                          <option value="sempro" selected>Sempro</option>
+                          <option value="skripsi">Skripsi</option>
                         </select>
                       </div>
                     </div>

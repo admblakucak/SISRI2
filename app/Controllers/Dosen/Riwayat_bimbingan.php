@@ -201,14 +201,14 @@ class Riwayat_bimbingan extends BaseController
       'tb_dosen' => $this->db->query("SELECT DISTINCT a.`nip`,b.* FROM tb_nilai a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` WHERE idunit='$idunit'")->getResult(),
     ];
 
-    return view('Cetak/riwayat_bimbingan', $data);
+    // return view('Cetak/riwayat_bimbingan', $data);
 
-  //   $dompdf = new Dompdf();
-  //   $filename = date('y-m-d-H-i-s');
-  //   $dompdf->loadHtml(view('Cetak/riwayat_bimbingan', $data));
-  //   $dompdf->setPaper('A4', 'landscape');
-  //   $dompdf->render();
-  //   $dompdf->stream($filename, array('Attachment' => false));
-  //   exit();
+    $dompdf = new Dompdf();
+    $filename = date('y-m-d-H-i-s');
+    $dompdf->loadHtml(view('Cetak/riwayat_bimbingan', $data));
+    $dompdf->setPaper('A4', 'landscape');
+    $dompdf->render();
+    $dompdf->stream($filename, array('Attachment' => false));
+    exit();
   }
 }

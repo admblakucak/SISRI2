@@ -39,6 +39,7 @@ use CodeIgniter\Images\Image;
                   </select>
                 </div>
                 <div class="form-group mb-2 mx-2" style="width: 30%;">
+                  <input type="hidden" name="tipe" value="<?= $tipe ?>" />
                   <select class="form-control  select2" name="id_jadwal">
                     <option selected disabled>Semua Periode Sidang</option>
                     <?php
@@ -77,7 +78,7 @@ use CodeIgniter\Images\Image;
                     <?php
                     $no = 1;
                     foreach ($data_mhs as $key) {
-                      $nama_mahasiswa = $db->query("SELECT nama from tb_mahasiswa where nim ='" . $key->id . "' ")->getResult();
+                      $nama_mahasiswa = $db->query("SELECT * from tb_mahasiswa where nim ='" . $key->id . "' ")->getResult();
                       $judul = $db->query("SELECT * FROM tb_pengajuan_topik WHERE nim = '" . $key->id . "'")->getResult();
                       $pembimbing1 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='pembimbing 1'")->getResult();
                       $pembimbing2 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='pembimbing 2'")->getResult();
@@ -87,6 +88,20 @@ use CodeIgniter\Images\Image;
                       if (empty($judul[0]->judul_topik) || empty($nama_mahasiswa[0]->nama)) {
                         continue;
                       }
+                      $penguji_1  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key->id  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=1")->getResult();
+                      if (empty($penguji_1)) {
+                        $penguji_1  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key->id  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=1")->getResult();
+                      }
+                      $penguji_2  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key->id  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=2")->getResult();
+                      if (empty($penguji_2)) {
+                        $penguji_2  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key->id  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=2")->getResult();
+                      }
+                      $penguji_3  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key->id  . "' AND a.status='aktif' AND a.jenis_sidang = 'sidang skripsi' AND a.sebagai=3")->getResult();
+                      if (empty($penguji_3)) {
+                        $penguji_3  = $db->query("SELECT a.*, b.nama,b.gelardepan,b.gelarbelakang  FROM tb_penguji a LEFT JOIN tb_dosen b ON a.nip=b.nip WHERE a.nim='" . $key->id  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=3")->getResult();
+                      }
+
+
 
                       if (!empty($pembimbing1)) {
                         $nb_pembimbing1 = $pembimbing1[0]->nilai_bimbingan == NULL ? 0 : $pembimbing1[0]->nilai_bimbingan;
@@ -122,6 +137,28 @@ use CodeIgniter\Images\Image;
                       $total = $nb + $ns;
                       $grade = "E";
                       $sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE a.`nim`='" . $key->id . "' AND b.`jenis_sidang`='sidang skripsi' ORDER BY create_at DESC LIMIT 1")->getResult();
+                      if (empty($sidang)) {
+                        continue;
+                      }
+
+                      if (empty($penguji_1)) {
+                        $nip_penguji_1 = '';
+                      } else {
+                        $nip_penguji_1 = $penguji_1[0]->nip;
+                      }
+
+                      if (empty($penguji_2)) {
+                        $nip_penguji_2 = '';
+                      } else {
+                        $nip_penguji_2 = $penguji_2[0]->nip;
+                      }
+
+                      if (empty($penguji_3)) {
+                        $nip_penguji_3 = '';
+                      } else {
+                        $nip_penguji_3 = $penguji_3[0]->nip;
+                      }
+
                       if (!empty($sidang)) {
                         if ($total >= 80) {
                           $grade = "A";
@@ -153,13 +190,15 @@ use CodeIgniter\Images\Image;
                     ?>
                       <tr>
                         <td scope="row"><?= $no ?></td>
-                        <td style="text-align: center; vertical-align: middle;"><?= !empty($nama_mahasiswa[0]->nama) ? $nama_mahasiswa[0]->nama : "" ?></td>
-                        <td style="text-align: center; vertical-align: middle;"><?= $judul[0]->judul_topik ?></td>
+                        <td style="text-align: center; vertical-align: middle;">
+                          <?= !empty($nama_mahasiswa[0]->nama) ? $nama_mahasiswa[0]->nama . "<br>" . $nama_mahasiswa[0]->nim : "" ?>
+                        </td>
+                        <td style="text-align: center; vertical-align: middle;"><?= strtoupper($judul[0]->judul_topik) ?></td>
                         <td style="font-size: 16px; vertical-align: middle;" class=" <?= empty($pembimbing1[0]->nilai_bimbingan) ? "text-danger" : "text-success" ?> text-center"><?= empty($pembimbing1[0]->nilai_bimbingan) ? "Belum <br> Dinilai" : $pembimbing1[0]->nilai_bimbingan ?></td>
                         <td style="font-size: 16px; vertical-align: middle;" class=" <?= empty($pembimbing2[0]->nilai_bimbingan) ? "text-danger" : "text-success" ?> text-center"><?= empty($pembimbing2[0]->nilai_bimbingan) ? "Belum <br> Dinilai" : $pembimbing2[0]->nilai_bimbingan ?></td>
-                        <td style="font-size: 16px; vertical-align: middle;" class=" <?= empty($penguji1[0]->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($penguji1[0]->nilai_ujian) ? "Belum <br> Dinilai" : $penguji1[0]->nilai_ujian ?></td>
-                        <td style="font-size: 16px; vertical-align: middle;" class=" <?= empty($penguji2[0]->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($penguji2[0]->nilai_ujian) ? "Belum <br> Dinilai" : $penguji2[0]->nilai_ujian ?></td>
-                        <td style="font-size: 16px; vertical-align: middle;" class=" <?= empty($penguji3[0]->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($penguji3[0]->nilai_ujian) ? "Belum <br> Dinilai" : $penguji3[0]->nilai_ujian ?></td>
+                        <td style="font-size: 16px; vertical-align: middle;" class=" <?= empty($penguji1[0]->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($penguji1[0]->nilai_ujian) ? $nip_penguji_1 . "<br>  Belum <br> Dinilai" : $penguji1[0]->nilai_ujian ?></td>
+                        <td style="font-size: 16px; vertical-align: middle;" class=" <?= empty($penguji2[0]->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($penguji2[0]->nilai_ujian) ? $nip_penguji_2 . "<br>  Belum <br> Dinilai" : $penguji2[0]->nilai_ujian ?></td>
+                        <td style="font-size: 16px; vertical-align: middle;" class=" <?= empty($penguji3[0]->nilai_ujian) ? "text-danger" : "text-success" ?> text-center"><?= empty($penguji3[0]->nilai_ujian) ? $nip_penguji_3 . "<br>  Belum <br> Dinilai" : $penguji3[0]->nilai_ujian ?></td>
                         <td style="font-size: 16px; vertical-align: middle;"><?= $grade ?></td>
                       </tr>
                     <?php

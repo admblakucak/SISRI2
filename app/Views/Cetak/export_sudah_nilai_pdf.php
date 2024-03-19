@@ -63,7 +63,15 @@
         <tbody>
             <?php
             $no = 1;
+            $data_nim = [];
+            // dd($data_mhs);
+
             foreach ($data_mhs as $key) {
+                if (array_search($key->id, $data_nim) !== false) {
+                    continue;
+                } else {
+                    array_push($data_nim, $key->id);
+                }
                 $mhs = $db->query("SELECT * FROM tb_mahasiswa WHERE nim = '" . $key->id . "'")->getResult();
                 $judul = $db->query("SELECT * FROM tb_pengajuan_topik WHERE nim = '" . $key->id . "'")->getResult();
                 $nilai = $db->query("SELECT * FROM tb_mahasiswa WHERE nim = '" . $key->id . "'")->getResult();
@@ -72,6 +80,13 @@
                 $penguji1 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 1'")->getResult();
                 $penguji2 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 2'")->getResult();
                 $penguji3 = $db->query("SELECT * FROM tb_nilai WHERE nim = '" . $key->id . "' AND sebagai='penguji 3'")->getResult();
+                if (empty($judul[0]->judul_topik) || empty($mhs[0]->nama)) {
+                    continue;
+                }
+                $sidang = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE a.`nim`='" . $key->id . "' AND b.`jenis_sidang`='sidang skripsi' ORDER BY create_at DESC LIMIT 1")->getResult();
+                if (empty($sidang)) {
+                    continue;
+                }
                 if ($tipe == 'sudah_dinilai') {
                     if (empty($pembimbing1[0]->nilai_bimbingan) || empty($pembimbing2[0]->nilai_bimbingan) || empty($penguji1[0]->nilai_ujian) || empty($penguji2[0]->nilai_ujian) || empty($penguji3[0]->nilai_ujian)) {
                         continue;
@@ -137,11 +152,21 @@
                 // else {
                 //     $grade = "<span class='text-danger ms-2'>Belum Mendaftar Sidang Skripsi</span>";
                 // }
+
+                // if ($tipe == 'sudah_dinilai') {
+                //     if (empty($pembimbing1[0]->nilai_bimbingan) || empty($pembimbing2[0]->nilai_bimbingan) || empty($penguji1[0]->nilai_ujian) || empty($penguji2[0]->nilai_ujian) || empty($penguji3[0]->nilai_ujian)) {
+                //         continue;
+                //     }
+                // } else {
+                //     if (!empty($pembimbing1[0]->nilai_bimbingan) && !empty($pembimbing2[0]->nilai_bimbingan) && !empty($penguji1[0]->nilai_ujian) && !empty($penguji2[0]->nilai_ujian) && !empty($penguji3[0]->nilai_ujian)) {
+                //         continue;
+                //     }
+                // }
             ?>
                 <tr>
-                    <th scope="row"><?= $no ?></th>
+                    <td style="text-align: center; vertical-align: middle;border: 1px solid black;"><?= $no ?></td>
                     <td style="text-align: center; vertical-align: middle; border: 1px solid black;"><?= $key->id ?></td>
-                    <td style="text-align: left; vertical-align: middle; border: 1px solid black;">
+                    <td style="text-align: left; vertical-align: middle; border: 1px solid black; padding-left: 10px;">
                         <?php
                         // $mhs[0]->nama 
                         if (!empty($mhs)) {
@@ -155,7 +180,7 @@
                         <?php
                         // $judul[0]->judul_topik
                         if (!empty($judul)) {
-                            echo $judul[0]->judul_topik;
+                            echo strtoupper($judul[0]->judul_topik);
                         } else {
                             echo "";
                         }

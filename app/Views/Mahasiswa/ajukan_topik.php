@@ -24,6 +24,8 @@ use CodeIgniter\Images\Image;
                     <?= session()->getFlashdata('message_ajukan_topik') . "<br>"; ?>
                     <?php
                     $cek_status_sidang_skripsi = $db->query("SELECT * FROM tb_pendaftar_sidang a LEFT JOIN tb_jadwal_sidang b ON a.`id_jadwal`=b.`id_jadwal` WHERE b.`jenis_sidang`='sidang skripsi' AND a.`nim`='" . session()->get('ses_id') . "'")->getResult();
+                    $validasi_daftar_sidang = $db->query("SELECT * FROM `tb_acc_revisi` WHERE nim = '" . session()->get('ses_id') . "' AND jenis_sidang='skripsi'")->getResult();
+
                     ?>
                     <div class="">
                         <form action="<?= base_url() ?>proses_ajukan_topik" method="POST" enctype="multipart/form-data">
@@ -57,7 +59,7 @@ use CodeIgniter\Images\Image;
                                                     // if ($stsp1 > 0 || $stsp2 > 0) {
                                                     //     echo "readonly";
                                                     // }
-                                                    if (count($cek_status_sidang_skripsi) > 0) {
+                                                    if (count($validasi_daftar_sidang) >= 3) {
                                                         echo "readonly";
                                                     }
                                                     ?> name="judul_topik" class="form-control" id="exampleInput" placeholder="Isikan Judul Skripsi Anda" value=<?php if (!empty($data_pengajuan_topik[0]->judul_topik)) {
@@ -80,8 +82,7 @@ use CodeIgniter\Images\Image;
                                 </div>
                             </div>
                             <?php
-                            $validasi_daftar_sidang = $db->query("SELECT * FROM tb_pendaftar_sidang WHERE nim='" . session()->get('ses_id') . "'")->getResult();
-                            if (!empty($validasi_daftar_sidang)) { ?>
+                            if (count($validasi_daftar_sidang) >= 3) { ?>
                                 <button type="submit" class="btn btn-primary mt-3 mb-0" disabled>Update</button>
 
                             <?php } else { ?>
