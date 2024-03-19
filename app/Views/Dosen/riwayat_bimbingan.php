@@ -364,7 +364,7 @@ use CodeIgniter\Images\Image;
                     <hr>
                     <div class="row">
                       <div class="col-md-9 col-lg-9 col-xl-9">
-                        <label class="form-label"><b>Cetak Data Dosen</b></label>
+                        <label class="form-label"><b>Cetak Data Riwayat Bimbingan</b></label>
                         <p class="tx-12 tx-gray-500 pt-0">Data mahasiswa yang akan dicetak adalah yang telah melakukan sidang skripsi menurut periode tertentu.</p>
                       </div>
                       <div class="col-md-3 col-lg-3 col-xl-3">
