@@ -251,11 +251,11 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-6">
-          <div class="col-6 pb-2 ml-0">
+        <div class="col-12 col-lg-6">
+          <div class="col-12 col-lg-4 pb-2 ml-0">
             <a href="https://siakad.trunojoyo.ac.id/"><button class="btn btn-outline btn-modif btn-light btn-block text-white mt-5" type="button" style="background-color: blue;"><b>SIAKAD UTM</b></button></a>
           </div>
-          <div class="col-12 pb-2 ml-0">
+          <div class="col-12 col-lg-9 pb-2 ml-0">
             <form action="<?= base_url() ?>proses_login" method="POST" enctype="multipart/form-data">
               <?= csrf_field() ?>
               <h3 class="text-secondary"><b>SELAMAT DATANG</b><br></h3>
@@ -276,7 +276,7 @@
               // session()->getFlashdata('message');
               ?>
               <div class="row row-xs">
-                <div class="col-sm-7 mg-t-10 mg-sm-t-0">
+                <div class="col-sm-6 mg-t-10 mg-sm-t-0">
                   <a class="btn btn-primary btn-google btn-block btn-outline" href="<?= base_url() ?>redirect"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Sign In with Google</a>
                 </div>
                 <!-- <div class="col-sm-5">
@@ -304,9 +304,9 @@
 
       <div class="bg-blue py-4">
         <div class="row px-3">
-          <small class="ml-1 ml-sm-5 mb-2"> <span>Copyright © 2022 <a href="http://teknik.trunojoyo.ac.id/">FT-UTM SISRI V.2.0</a>.
+          <small class="ml-1 ml-sm-2 mb-2 col-lg-6 text-center text-lg-left"> <span>Copyright © 2022 <a href="http://teknik.trunojoyo.ac.id/">FT-UTM SISRI V.2.0</a>.
               All rights reserved.</span></small>
-          <div class="social-contact ml-4 ml-sm-auto">
+          <div class="social-contact ml-4 ml-sm-auto col-12 col-lg-2 text-center">
             <a target="_blank" href="https://www.facebook.com/universitastrunojoyomadura/?locale=id_ID" class="icon_sosmed fa fa-facebook mr-4 text-sm"></a>
             <a target="_blank" href="https://www.trunojoyo.ac.id/" class="icon_sosmed fa fa-google-plus mr-4 text-sm"></a>
             <a target="_blank" href="https://www.linkedin.com/school/universitas-trunojoyo-madura/" class="icon_sosmed fa fa-linkedin mr-4 text-sm"></a>
