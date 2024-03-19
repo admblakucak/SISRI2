@@ -149,7 +149,8 @@ $routes->add('/mendaftar_sidang', 'Mahasiswa\Skripsi\Daftar_Sidang::mendaftar');
 $routes->add('/informasi_nilai', 'Mahasiswa\Informasi_nilai::index');
 // --------------------------------------DOSEN-------------------------------------------
 //Route Khusus Controller Dosen-Beranda
-$routes->add('/beranda_dosen', 'Dosen\Beranda::index', ['filter' => 'updateNilaiDosen']);
+// $routes->add('/beranda_dosen', 'Dosen\Beranda::index', ['filter' => 'updateNilaiDosen']);
+$routes->add('/beranda_dosen', 'Dosen\Beranda::index');
 //Route Khusus Controller Dosen-Proposal-Validasi_Usulan
 $routes->add('/validasi_usulan', 'Dosen\Proposal\Validasi_Usulan::index');
 $routes->get('/setujui_validasi_usulan/(:any)', 'Dosen\Proposal\Validasi_Usulan::setujui_validasi/$1');
