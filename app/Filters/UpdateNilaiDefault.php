@@ -57,7 +57,7 @@ class UpdateNilaiDefault
         if ($interval >= 18) {
           // Update keterangan lulus
           $db->query("UPDATE `tb_pengajuan_pembimbing` SET pesan='Sudah Lulus' WHERE status_pengajuan='diterima' and nim='$nim_mhs' ");
-          if (!empty($penguji1) || !empty($penguji2) || !empty($penguji3)) {
+          if (!empty($penguji1) && !empty($penguji2) && !empty($penguji3)) {
             $cek_nilai_penguji1 = $db->query("SELECT * FROM tb_nilai where nim ='" . $nim_mhs . "' AND nip ='" . $penguji1[0]->nip . "' AND sebagai = 'penguji 1' ")->getResult();
             if (empty($cek_nilai_penguji1)) {
               // ttd berita acara
@@ -133,7 +133,6 @@ class UpdateNilaiDefault
               $db->query("UPDATE `tb_nilai` SET nilai_ujian='80' where id_nilai='" . $cek_nilai_penguji2[0]->id_nilai . "'");
               // $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . $nim_mhs . "','" . $penguji2[0]->nip . "','penguji 2','80')");
             }
-
 
             $cek_nilai_penguji3 = $db->query("SELECT * FROM tb_nilai where nim ='" . $nim_mhs . "' AND nip ='" . $penguji3[0]->nip . "' AND sebagai = 'penguji 3' ")->getResult();
             if (empty($cek_nilai_penguji3)) {
