@@ -128,7 +128,11 @@ use CodeIgniter\Images\Image;
 																		continue;
 																	}
 
-																	$jadwal_sidang = $db->query("SELECT waktu_sidang FROM `tb_pendaftar_sidang` WHERE id_pendaftar=" . $key_2['id_pendaftar'])->getResult();
+																		if (empty($key_2['id_pendaftar'])) {
+																			dd($key_2);
+																		}
+
+																	$jadwal_sidang = $db->query("SELECT waktu_sidang FROM `tb_pendaftar_sidang` WHERE id_pendaftar='" . $key_2['id_pendaftar'] . "'")->getResult();
 																?>
 																	<tr>
 																		<td><?= $key_2['nama_mhs'] ?></td>
