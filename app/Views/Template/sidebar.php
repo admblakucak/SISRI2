@@ -58,6 +58,9 @@
 						if (empty($penguji3)) {
 							$penguji3  = $db->query("SELECT * FROM tb_penguji a WHERE a.nim='" . session()->get('ses_id')  . "' AND a.status='aktif' AND a.jenis_sidang = '' AND a.sebagai=3")->getResult();
 						}
+
+
+
 						if (count($pem1) != 0 && count($pem2) != 0) {
 						?>
 							<li class="slide">
@@ -85,7 +88,7 @@
 							</li>
 							<?php
 							$dosen_penguji = $db->query("SELECT nip FROM `tb_penguji` WHERE nim = '" . session()->get('ses_id') . "' AND status = 'aktif'  AND jenis_sidang='' ORDER BY `tb_penguji`.`sebagai` ASC")->getResult();
-							if (!empty($dosen_penguji[0]->nip)) {
+							if (!empty($dosen_penguji[0]->nip) && count($dosen_penguji) >= 3) {
 								$acc_dosen_penguji1 = $db->query("SELECT * FROM `tb_acc_revisi` WHERE `nim` ='" . session()->get('ses_id') . "' AND jenis_sidang = 'seminar proposal' AND nip='" . $dosen_penguji[0]->nip . "' ")->getResult();
 								$acc_dosen_penguji2 = $db->query("SELECT * FROM `tb_acc_revisi` WHERE `nim` ='" . session()->get('ses_id') . "' AND jenis_sidang = 'seminar proposal' AND nip='" . $dosen_penguji[1]->nip . "' ")->getResult();
 								$acc_dosen_penguji3 = $db->query("SELECT * FROM `tb_acc_revisi` WHERE `nim` ='" . session()->get('ses_id') . "' AND jenis_sidang = 'seminar proposal' AND nip='" . $dosen_penguji[2]->nip . "' ")->getResult();

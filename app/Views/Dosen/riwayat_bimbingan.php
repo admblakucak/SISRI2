@@ -252,6 +252,10 @@ use CodeIgniter\Images\Image;
                                         $penguji3 = $db->query("SELECT a.nip,b.nama,b.gelardepan,b.gelarbelakang from tb_penguji a left join tb_dosen b on a.nip=b.nip where a.nim = '" . $key['nim'] . "' AND a.status = 'aktif' AND sebagai = 3 AND a.jenis_sidang = ''")->getResult();
                                       }
 
+                                      if (empty($penguji1) || empty($penguji2) || empty($penguji3)) {
+                                        continue;
+                                      }
+
 
                                       $nilai_pem1 = $db->query("SELECT * FROM `tb_nilai`  WHERE nim = '" . $key['nim'] . "' AND sebagai = 'pembimbing 1'")->getResult();
                                       $nilai_pem2 = $db->query("SELECT * FROM `tb_nilai`  WHERE nim = '" . $key['nim'] . "' AND sebagai = 'pembimbing 2'")->getResult();
