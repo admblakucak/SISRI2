@@ -107,8 +107,8 @@ $routes->add('/delete_admin_akademik', 'Admin\Admin_Akademik::delete');
 
 // -------------------------------------MAHASISWA-----------------------------------------
 //Route Khusus Controller Mahasiswa-Beranda
-// $routes->add('/beranda_mahasiswa', 'Mahasiswa\Beranda::index', ['filter' => 'updateNilai']);
-$routes->add('/beranda_mahasiswa', 'Mahasiswa\Beranda::index');
+$routes->add('/beranda_mahasiswa', 'Mahasiswa\Beranda::index', ['filter' => 'updateNilai']);
+// $routes->add('/beranda_mahasiswa', 'Mahasiswa\Beranda::index');
 //Route Khusus Controller Mahasiswa-Ajukan_Topik
 $routes->add('/ajukan_topik_mahasiswa', 'Mahasiswa\Ajukan_Topik::index');
 $routes->add('/ajukan_dospem_1', 'Mahasiswa\Ajukan_Topik::ajukan_dospem_1');
@@ -149,8 +149,8 @@ $routes->add('/mendaftar_sidang', 'Mahasiswa\Skripsi\Daftar_Sidang::mendaftar');
 $routes->add('/informasi_nilai', 'Mahasiswa\Informasi_nilai::index');
 // --------------------------------------DOSEN-------------------------------------------
 //Route Khusus Controller Dosen-Beranda
-// $routes->add('/beranda_dosen', 'Dosen\Beranda::index', ['filter' => 'updateNilaiDosen']);
-$routes->add('/beranda_dosen', 'Dosen\Beranda::index');
+$routes->add('/beranda_dosen', 'Dosen\Beranda::index', ['filter' => 'updateNilaiDosen']);
+// $routes->add('/beranda_dosen', 'Dosen\Beranda::index');
 //Route Khusus Controller Dosen-Proposal-Validasi_Usulan
 $routes->add('/validasi_usulan', 'Dosen\Proposal\Validasi_Usulan::index');
 $routes->get('/setujui_validasi_usulan/(:any)', 'Dosen\Proposal\Validasi_Usulan::setujui_validasi/$1');
