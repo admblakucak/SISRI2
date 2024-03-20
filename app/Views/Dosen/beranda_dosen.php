@@ -94,8 +94,13 @@ use CodeIgniter\Images\Image;
 																	if ($key_2['jenis_sidang'] == 'sidang skripsi') {
 																		continue;
 																	}
+																	
+																	if (!empty($key_2['id_pendaftar'])) {
+																		$jadwal_sidang = $db->query("SELECT waktu_sidang FROM `tb_pendaftar_sidang` WHERE id_pendaftar='" . $key_2['id_pendaftar'] . "'")->getResult();
+																	} else {
+																		$jadwal_sidang = null;
+																	}
 
-																	$jadwal_sidang = $db->query("SELECT waktu_sidang FROM `tb_pendaftar_sidang` WHERE id_pendaftar=" . $key_2['id_pendaftar'])->getResult();
 																?>
 																	<tr>
 																		<td><?= $key_2['nama_mhs'] ?></td>
@@ -128,11 +133,12 @@ use CodeIgniter\Images\Image;
 																		continue;
 																	}
 
-																		if (empty($key_2['id_pendaftar'])) {
-																			dd($key_2);
-																		}
+																	if (!empty($key_2['id_pendaftar'])) {
+																		$jadwal_sidang = $db->query("SELECT waktu_sidang FROM `tb_pendaftar_sidang` WHERE id_pendaftar='" . $key_2['id_pendaftar'] . "'")->getResult();
+																	} else {
+																		$jadwal_sidang = null;
+																	}
 
-																	$jadwal_sidang = $db->query("SELECT waktu_sidang FROM `tb_pendaftar_sidang` WHERE id_pendaftar='" . $key_2['id_pendaftar'] . "'")->getResult();
 																?>
 																	<tr>
 																		<td><?= $key_2['nama_mhs'] ?></td>
