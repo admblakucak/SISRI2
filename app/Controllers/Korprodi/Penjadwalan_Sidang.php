@@ -160,69 +160,69 @@ class Penjadwalan_sidang extends BaseController
                 return redirect()->back()->withInput();
             }
 
-            $tb_penguji_1 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p1 . "' AND a.nim !='" . $nim . "' ")->getResult();
-            if (!empty($tb_penguji_1)) {
-                foreach ($tb_penguji_1 as $key) {
-                    $d_sidang = new DateTime($waktu_sidang);
-                    $d_sidang_2 = new DateTime($key->waktu_sidang);
-                    $interval = date_diff($d_sidang_2, $d_sidang);
-                    $min = $interval->days * 24 * 60;
-                    $min += $interval->h * 60;
-                    $min += $interval->i;
-                    if ($min <= 90) {
-                        session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
-                        <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
-                        <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 1 bentrok' . '</span>
-                        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>');
-                        return redirect()->back()->withInput();
-                    }
-                }
-            }
-            $tb_penguji_2 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p2 . "' AND a.nim !='" . $nim . "' ")->getResult();
-            if (!empty($tb_penguji_2)) {
-                foreach ($tb_penguji_2 as $key) {
-                    $d_sidang = new DateTime($waktu_sidang);
-                    $d_sidang_2 = new DateTime($key->waktu_sidang);
-                    $interval = date_diff($d_sidang_2, $d_sidang);
-                    $min = $interval->days * 24 * 60;
-                    $min += $interval->h * 60;
-                    $min += $interval->i;
-                    if ($min <= 90) {
-                        session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
-                        <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
-                        <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 2 bentrok' . '</span>
-                        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>');
-                        return redirect()->back()->withInput();
-                    }
-                }
-            }
-            $tb_penguji_3 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p3 . "' AND a.nim !='" . $nim . "' ")->getResult();
-            if (!empty($tb_penguji_3)) {
-                foreach ($tb_penguji_3 as $key) {
-                    $d_sidang = new DateTime($waktu_sidang);
-                    $d_sidang_2 = new DateTime($key->waktu_sidang);
-                    $interval = date_diff($d_sidang_2, $d_sidang);
-                    $min = $interval->days * 24 * 60;
-                    $min += $interval->h * 60;
-                    $min += $interval->i;
-                    if ($min <= 90) {
-                        session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
-                        <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
-                        <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 3 bentrok' . '</span>
-                        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>');
-                        return redirect()->back()->withInput();
-                    }
-                }
-            }
+            // $tb_penguji_1 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p1 . "' AND a.nim !='" . $nim . "' ")->getResult();
+            // if (!empty($tb_penguji_1)) {
+            //     foreach ($tb_penguji_1 as $key) {
+            //         $d_sidang = new DateTime($waktu_sidang);
+            //         $d_sidang_2 = new DateTime($key->waktu_sidang);
+            //         $interval = date_diff($d_sidang_2, $d_sidang);
+            //         $min = $interval->days * 24 * 60;
+            //         $min += $interval->h * 60;
+            //         $min += $interval->i;
+            //         if ($min <= 90) {
+            //             session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+            //             <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+            //             <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 1 bentrok' . '</span>
+            //             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+            //                 <span aria-hidden="true">×</span>
+            //             </button>
+            //         </div>');
+            //             return redirect()->back()->withInput();
+            //         }
+            //     }
+            // }
+            // $tb_penguji_2 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p2 . "' AND a.nim !='" . $nim . "' ")->getResult();
+            // if (!empty($tb_penguji_2)) {
+            //     foreach ($tb_penguji_2 as $key) {
+            //         $d_sidang = new DateTime($waktu_sidang);
+            //         $d_sidang_2 = new DateTime($key->waktu_sidang);
+            //         $interval = date_diff($d_sidang_2, $d_sidang);
+            //         $min = $interval->days * 24 * 60;
+            //         $min += $interval->h * 60;
+            //         $min += $interval->i;
+            //         if ($min <= 90) {
+            //             session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+            //             <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+            //             <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 2 bentrok' . '</span>
+            //             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+            //                 <span aria-hidden="true">×</span>
+            //             </button>
+            //         </div>');
+            //             return redirect()->back()->withInput();
+            //         }
+            //     }
+            // }
+            // $tb_penguji_3 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p3 . "' AND a.nim !='" . $nim . "' ")->getResult();
+            // if (!empty($tb_penguji_3)) {
+            //     foreach ($tb_penguji_3 as $key) {
+            //         $d_sidang = new DateTime($waktu_sidang);
+            //         $d_sidang_2 = new DateTime($key->waktu_sidang);
+            //         $interval = date_diff($d_sidang_2, $d_sidang);
+            //         $min = $interval->days * 24 * 60;
+            //         $min += $interval->h * 60;
+            //         $min += $interval->i;
+            //         if ($min <= 90) {
+            //             session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+            //             <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+            //             <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 3 bentrok' . '</span>
+            //             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+            //                 <span aria-hidden="true">×</span>
+            //             </button>
+            //         </div>');
+            //             return redirect()->back()->withInput();
+            //         }
+            //     }
+            // }
             $jenis_sidang = $this->request->getPost('jenis_sidang');
             $cek_p1 = $this->db->query("SELECT * FROM tb_penguji WHERE id_pendaftar='$id_pendaftar' AND sebagai='1'")->getResult();
             $cek_p2 = $this->db->query("SELECT * FROM tb_penguji WHERE id_pendaftar='$id_pendaftar' AND sebagai='2'")->getResult();
@@ -230,6 +230,75 @@ class Penjadwalan_sidang extends BaseController
             $this->db->query("UPDATE tb_pendaftar_sidang SET waktu_sidang='$waktu_sidang',ruang_sidang='$ruang_sidang' WHERE id_pendaftar='$id_pendaftar'");
             // if ($jenis_sidang == 'seminar proposal' || $jenis_sidang == 'sidang skripsi') {
             if ($jenis_sidang == 'seminar proposal') {
+
+
+                // interval waktu sidang
+                $time_intervar_sempro = 60;
+
+                $tb_penguji_1 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p1 . "' AND a.nim !='" . $nim . "' ")->getResult();
+                if (!empty($tb_penguji_1)) {
+                    foreach ($tb_penguji_1 as $key) {
+                        $d_sidang = new DateTime($waktu_sidang);
+                        $d_sidang_2 = new DateTime($key->waktu_sidang);
+                        $interval = date_diff($d_sidang_2, $d_sidang);
+                        $min = $interval->days * 24 * 60;
+                        $min += $interval->h * 60;
+                        $min += $interval->i;
+                        if ($min <= $time_intervar_sempro) {
+                            session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+                            <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 1 bentrok' . '</span>
+                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>');
+                            return redirect()->back()->withInput();
+                        }
+                    }
+                }
+                $tb_penguji_2 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p2 . "' AND a.nim !='" . $nim . "' ")->getResult();
+                if (!empty($tb_penguji_2)) {
+                    foreach ($tb_penguji_2 as $key) {
+                        $d_sidang = new DateTime($waktu_sidang);
+                        $d_sidang_2 = new DateTime($key->waktu_sidang);
+                        $interval = date_diff($d_sidang_2, $d_sidang);
+                        $min = $interval->days * 24 * 60;
+                        $min += $interval->h * 60;
+                        $min += $interval->i;
+                        if ($min <= $time_intervar_sempro) {
+                            session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+                            <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 2 bentrok' . '</span>
+                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>');
+                            return redirect()->back()->withInput();
+                        }
+                    }
+                }
+                $tb_penguji_3 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p3 . "' AND a.nim !='" . $nim . "' ")->getResult();
+                if (!empty($tb_penguji_3)) {
+                    foreach ($tb_penguji_3 as $key) {
+                        $d_sidang = new DateTime($waktu_sidang);
+                        $d_sidang_2 = new DateTime($key->waktu_sidang);
+                        $interval = date_diff($d_sidang_2, $d_sidang);
+                        $min = $interval->days * 24 * 60;
+                        $min += $interval->h * 60;
+                        $min += $interval->i;
+                        if ($min <= $time_intervar_sempro) {
+                            session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+                            <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 3 bentrok' . '</span>
+                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>');
+                            return redirect()->back()->withInput();
+                        }
+                    }
+                }
+
                 $cek = $this->db->query("SELECT * FROM tb_penguji WHERE nim ='$nim'")->getResult();
                 if ($cek != NULL) {
                     $this->db->query("UPDATE tb_penguji SET `status`='nonaktif' WHERE nim='$nim'");
@@ -251,6 +320,74 @@ class Penjadwalan_sidang extends BaseController
                 }
                 echo "INSERT INTO tb_penguji (nim,nip,sebagai,id_pendaftar,`status`) VALUES('$nim','$nip_p3','3','$id_pendaftar','aktif')";
             } else {
+                // interval waktu sidang
+                $time_intervar_sidang = 90;
+                $tb_penguji_1 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p1 . "' AND a.nim !='" . $nim . "' ")->getResult();
+                if (!empty($tb_penguji_1)) {
+                    foreach ($tb_penguji_1 as $key) {
+                        $d_sidang = new DateTime($waktu_sidang);
+                        $d_sidang_2 = new DateTime($key->waktu_sidang);
+                        $interval = date_diff($d_sidang_2, $d_sidang);
+                        $min = $interval->days * 24 * 60;
+                        $min += $interval->h * 60;
+                        $min += $interval->i;
+                        if ($min <= $time_intervar_sidang) {
+                            session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+                            <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 1 bentrok' . '</span>
+                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>');
+                            return redirect()->back()->withInput();
+                        }
+                    }
+                }
+                
+                $tb_penguji_2 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p2 . "' AND a.nim !='" . $nim . "' ")->getResult();
+                if (!empty($tb_penguji_2)) {
+                    foreach ($tb_penguji_2 as $key) {
+                        $d_sidang = new DateTime($waktu_sidang);
+                        $d_sidang_2 = new DateTime($key->waktu_sidang);
+                        $interval = date_diff($d_sidang_2, $d_sidang);
+                        $min = $interval->days * 24 * 60;
+                        $min += $interval->h * 60;
+                        $min += $interval->i;
+                        if ($min <= $time_intervar_sidang) {
+                            session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+                            <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 2 bentrok' . '</span>
+                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>');
+                            return redirect()->back()->withInput();
+                        }
+                    }
+                }
+
+                $tb_penguji_3 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p3 . "' AND a.nim !='" . $nim . "' ")->getResult();
+                if (!empty($tb_penguji_3)) {
+                    foreach ($tb_penguji_3 as $key) {
+                        $d_sidang = new DateTime($waktu_sidang);
+                        $d_sidang_2 = new DateTime($key->waktu_sidang);
+                        $interval = date_diff($d_sidang_2, $d_sidang);
+                        $min = $interval->days * 24 * 60;
+                        $min += $interval->h * 60;
+                        $min += $interval->i;
+                        if ($min <= $time_intervar_sidang) {
+                            session()->setFlashdata('message', '<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+                            <span class="alert-inner--text"><strong>Gagal!</strong> ' . 'Jadwal Penguji 3 bentrok' . '</span>
+                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>');
+                            return redirect()->back()->withInput();
+                        }
+                    }
+                }
+
                 $this->db->query("UPDATE tb_penguji SET `status`='nonaktif' WHERE nim='$nim' AND jenis_sidang='sidang skripsi'");
                 $cek_p1 = $this->db->query("SELECT * FROM tb_penguji WHERE id_pendaftar='$id_pendaftar' AND sebagai='1' AND jenis_sidang ='sidang skripsi'")->getResult();
                 $cek_p2 = $this->db->query("SELECT * FROM tb_penguji WHERE id_pendaftar='$id_pendaftar' AND sebagai='2' AND jenis_sidang ='sidang skripsi'")->getResult();
