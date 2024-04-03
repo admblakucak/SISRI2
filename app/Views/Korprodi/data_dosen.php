@@ -41,8 +41,34 @@ use CodeIgniter\Images\Image;
                                             $db->query("UPDATE tb_jumlah_pembimbing SET jumlah='" . (count($jumlah_bimbingan1) - count($jumlah_bimbinganselesai1)) . "' WHERE nip='$key->nip' AND sebagai='pembimbing 1' ");
                                             $db->query("UPDATE tb_jumlah_pembimbing SET jumlah='" . (count($jumlah_bimbingan2) - count($jumlah_bimbinganselesai2)) . "' WHERE nip='$key->nip' AND sebagai='pembimbing 2' ");
 
+                                            $pengajuan_pembimbing_1 = $db->query("SELECT * FROM `tb_pengajuan_pembimbing` WHERE nip = '" . $key->nip . "'  AND sebagai = 1 AND status_pengajuan ='diterima' AND pesan IS NULL")->getResult();
+                                            $pengajuan_pembimbing_2 = $db->query("SELECT * FROM `tb_pengajuan_pembimbing` WHERE nip = '" . $key->nip . "'  AND sebagai = 2 AND status_pengajuan ='diterima' AND pesan IS NULL")->getResult();
+                                            $jumlah_p1 = $db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . $key->nip . "' AND sebagai='pembimbing 1'")->getResult();
+                                            $jumlah_p2 = $db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . $key->nip . "' AND sebagai='pembimbing 2'")->getResult();
+                                            if (empty($pengajuan_pembimbing_1)) {
+                                                $jumlah_pem1 = 0;
+                                            } else {
+                                                $jumlah_pem1 = count($pengajuan_pembimbing_1);
+                                            }
+                                            if (count($jumlah_p1) > 0) {
+                                                if ($jumlah_pem1 != $jumlah_p1[0]->jumlah) {
+                                                    $db->query("UPDATE tb_jumlah_pembimbing SET jumlah=$jumlah_pem1 WHERE nip='" . $key->nip . "' AND sebagai='pembimbing 1'");
+                                                }
+                                            }
+                                            if (empty($pengajuan_pembimbing_2)) {
+                                                $jumlah_pem2 = 0;
+                                            } else {
+                                                $jumlah_pem2 = count($pengajuan_pembimbing_2);
+                                            }
+                                            if (count($jumlah_p2) > 0) {
+                                                if ($jumlah_pem2 != $jumlah_p2[0]->jumlah) {
+                                                    $db->query("UPDATE tb_jumlah_pembimbing SET jumlah=$jumlah_pem2 WHERE nip='" . $key->nip . "' AND sebagai='pembimbing 2'");
+                                                }
+                                            }
+
                                             $kuota_p1 = $db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='$key->nip' AND sebagai='pembimbing 1'")->getResult();
                                             $kuota_p2 = $db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='$key->nip' AND sebagai='pembimbing 2'")->getResult();
+
                                         ?>
                                             <tr>
                                                 <td><?= $no; ?></td>
@@ -51,7 +77,7 @@ use CodeIgniter\Images\Image;
                                                 <td><?= $key->gelardepan . ' ' . $key->nama . ', ' . $key->gelarbelakang; ?></td>
                                                 <td><?= $key->jk; ?></td>
                                                 <td>
-                                                    Pembimbing 1 : <?= $kuota_p1 != NULL ? $kuota_p1[0]->jumlah . '/' . $kuota_p1[0]->kuota : "0/10" ?>
+                                                    Pembimbing 1: <?= $kuota_p1 != NULL ? $kuota_p1[0]->jumlah . '/' . $kuota_p1[0]->kuota : "0/10" ?>
                                                     <br>
                                                     Pembimbing 2 : <?= $kuota_p2 != NULL ? $kuota_p2[0]->jumlah . '/' . $kuota_p2[0]->kuota : "0/10" ?>
                                                 </td>
