@@ -43,11 +43,22 @@ class Validasi_Usulan extends BaseController
                 $this->db->query("UPDATE tb_jumlah_pembimbing SET jumlah=$jumlah_pem2 WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 2'");
             }
         }
+        $jumlah_pembimbing_p1 = $this->db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 1'")->getResult();
+        $jumlah_pembimbing_p2 = $this->db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 2'")->getResult();
+
+        if ($jumlah_pembimbing_p1[0]->jumlah >= $jumlah_pembimbing_p1[0]->kuota) {
+            $this->db->query("DELETE FROM  `tb_pengajuan_pembimbing` WHERE nip = '" . session()->get('ses_id') . "'  AND sebagai = 1 AND status_pengajuan ='menunggu' AND pesan IS NULL");
+        }
+
+        if ($jumlah_pembimbing_p2[0]->jumlah >= $jumlah_pembimbing_p2[0]->kuota) {
+            $this->db->query("DELETE FROM  `tb_pengajuan_pembimbing` WHERE nip = '" . session()->get('ses_id') . "'  AND sebagai = 2 AND status_pengajuan ='menunggu' AND pesan IS NULL");
+        }
+
         $data = [
             'title' => 'Validasi Usulan',
             'db' => $this->db,
-            'jumlah_pembimbing_p1' => $this->db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 1'")->getResult(),
-            'jumlah_pembimbing_p2' => $this->db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 2'")->getResult(),
+            'jumlah_pembimbing_p1' => $jumlah_pembimbing_p1,
+            'jumlah_pembimbing_p2' => $jumlah_pembimbing_p2,
             'data_menunggu' => $this->db->query("SELECT a.*,b.*,c.*,c.`nama` AS nama_topik,d.nama as nama_mhs FROM tb_pengajuan_pembimbing a LEFT JOIN tb_pengajuan_topik b ON a.`nim`=b.nim LEFT JOIN tb_topik c ON b.`id_topik`=c.`idtopik` LEFT JOIN tb_mahasiswa d ON a.`nim`=d.`nim` WHERE nip='" . session()->get('ses_id') . "' AND status_pengajuan='menunggu'")->getResult(),
             'data_ditolak' => $this->db->query("SELECT a.*,b.nim AS nim,b.`nip` AS nip,sebagai,status_pengajuan,pesan,reject_at,c.`nama`,e.`nama` AS nama_topik,d.`judul_topik` AS judul FROM tb_penolakan_pengajuan_pembimbing a  LEFT JOIN tb_pengajuan_pembimbing b ON a.`id_pengajuan_pembimbing`=b.`id_pengajuan_pembimbing` LEFT JOIN tb_mahasiswa c ON b.`nim`=c.`nim` LEFT JOIN tb_pengajuan_topik d ON b.`nim`=d.`nim` LEFT JOIN tb_topik e ON d.`id_topik`=e.idtopik WHERE b.nip='" . session()->get('ses_id') . "'")->getResult(),
             'data_diterima' => $this->db->query("SELECT d.judul_topik,b.`id_pengajuan_pembimbing`, b.`nim`,c.`nama`,b.`nip`,b.`agree_at`,b.`sebagai`,d.`berkas`,b.`status_pengajuan`,e.`nama` AS nama_topik, b.pesan
