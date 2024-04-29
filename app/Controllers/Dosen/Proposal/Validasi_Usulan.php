@@ -45,13 +45,16 @@ class Validasi_Usulan extends BaseController
         }
         $jumlah_pembimbing_p1 = $this->db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 1'")->getResult();
         $jumlah_pembimbing_p2 = $this->db->query("SELECT * FROM tb_jumlah_pembimbing WHERE nip='" . session()->get('ses_id') . "' AND sebagai='pembimbing 2'")->getResult();
-
-        if ($jumlah_pembimbing_p1[0]->jumlah >= $jumlah_pembimbing_p1[0]->kuota) {
-            $this->db->query("DELETE FROM  `tb_pengajuan_pembimbing` WHERE nip = '" . session()->get('ses_id') . "'  AND sebagai = 1 AND status_pengajuan ='menunggu' AND pesan IS NULL");
+        if (!empty($jumlah_pembimbing_p1)) {
+            if ($jumlah_pembimbing_p1[0]->jumlah >= $jumlah_pembimbing_p1[0]->kuota) {
+                $this->db->query("DELETE FROM  `tb_pengajuan_pembimbing` WHERE nip = '" . session()->get('ses_id') . "'  AND sebagai = 1 AND status_pengajuan ='menunggu' AND pesan IS NULL");
+            }
         }
 
-        if ($jumlah_pembimbing_p2[0]->jumlah >= $jumlah_pembimbing_p2[0]->kuota) {
-            $this->db->query("DELETE FROM  `tb_pengajuan_pembimbing` WHERE nip = '" . session()->get('ses_id') . "'  AND sebagai = 2 AND status_pengajuan ='menunggu' AND pesan IS NULL");
+        if (!empty($jumlah_pembimbing_p2)) {
+            if ($jumlah_pembimbing_p2[0]->jumlah >= $jumlah_pembimbing_p2[0]->kuota) {
+                $this->db->query("DELETE FROM  `tb_pengajuan_pembimbing` WHERE nip = '" . session()->get('ses_id') . "'  AND sebagai = 2 AND status_pengajuan ='menunggu' AND pesan IS NULL");
+            }
         }
 
         $data = [

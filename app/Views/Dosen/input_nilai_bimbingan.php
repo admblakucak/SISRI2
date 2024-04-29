@@ -58,6 +58,9 @@ use CodeIgniter\Images\Image;
                                                         if (!empty($nilai) && !empty($nilai[0]->nilai_bimbingan) && !empty($nilai[0]->nilai_ujian)) {
                                                             continue;
                                                         }
+                                                        if (empty($key['nama_mhs']) || empty($key['nim'])) {
+                                                            continue;
+                                                        }
                                                     ?>
                                                         <tr>
                                                             <th scope="row"><?= $no ?></th>
