@@ -573,7 +573,7 @@ class Cetak extends BaseController
     }
 
 
-    public function pendaftar($id, $date1, $date2)
+    public function pendaftar($id, $date1, $date2, $type = 'pdf')
     {
         $link = base_url() . "cetak_pendaftar/$id/$date1/$date2";
         $qr_link = $this->qr->cetakqr($link);
@@ -589,27 +589,41 @@ class Cetak extends BaseController
                 $data_pendaftar = $this->db->query("SELECT * FROM tb_pendaftar_sidang WHERE id_jadwal='$id' AND (waktu_sidang BETWEEN '$date1' AND ('$date2' + INTERVAL 1 DAY))")->getResult();
             }
         }
-        $data = [
-            'baseurl' => base_url(),
-            'title' => 'Data Pendaftar Sidang',
-            'db' => $this->db,
-            'id_jadwal' => $id,
-            'jenis' => 'semua',
-            'data_pendaftar' => $data_pendaftar,
-            'data_jadwal' => $data_jadwal,
-            'namaunit' => $data_jadwal[0]->namaunit,
-            'qr_link' => $qr_link,
-        ];
-        session()->set('ses_id_jadwal', $id);
-        $dompdf = new Dompdf();
-        $filename = date('y-m-d-H-i-s');
-        $dompdf->loadHtml(view('Cetak/data_pendaftar_sidang', $data));
-        $dompdf->setPaper('A4', 'landscape');
-        $dompdf->render();
-        $dompdf->stream($filename, array('Attachment' => false));
-        exit();
+        if ($type === 'pdf') {
+            $data = [
+                'baseurl' => base_url(),
+                'title' => 'Data Pendaftar Sidang',
+                'db' => $this->db,
+                'id_jadwal' => $id,
+                'jenis' => 'semua',
+                'data_pendaftar' => $data_pendaftar,
+                'data_jadwal' => $data_jadwal,
+                'namaunit' => $data_jadwal[0]->namaunit,
+                'qr_link' => $qr_link,
+            ];
+            session()->set('ses_id_jadwal', $id);
+            $dompdf = new Dompdf();
+            $filename = date('y-m-d-H-i-s');
+            $dompdf->loadHtml(view('Cetak/data_pendaftar_sidang', $data));
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->render();
+            $dompdf->stream($filename, array('Attachment' => false));
+            exit();
+        } else {
+            $data = [
+                'title' => 'Data Pendaftar Sidang',
+                'db' => $this->db,
+                'id_jadwal' => $id,
+                'jenis' => 'semua',
+                'data_pendaftar' => $data_pendaftar,
+                'data_jadwal' => $data_jadwal,
+                'namaunit' => $data_jadwal[0]->namaunit,
+                "sidang" => $data_jadwal[0]->jenis_sidang,
+            ];
+            return view('Cetak/data_pendaftar_excel', $data);
+        }
     }
-    
+
     public function direct_hasil_dosen()
     {
         if (session()->get('ses_id') == '' || session()->get('ses_login') == 'mahasiswa') {
@@ -688,7 +702,7 @@ class Cetak extends BaseController
             'qr_link' => $qr_link,
             'namaunit' => $tb_unit[0]->namaunit,
             'date1' => $date1,
-            'sidang'=>$sidang,
+            'sidang' => $sidang,
             'sebagai' => $sebagai,
             'date2' => $date2,
             'tb_dosen' => $this->db->query("SELECT DISTINCT a.`nip`,b.* FROM tb_nilai a LEFT JOIN tb_dosen b ON a.`nip`=b.`nip` WHERE idunit='$idunit'")->getResult(),
@@ -704,7 +718,7 @@ class Cetak extends BaseController
         exit();
     }
 
-    public function hasil_dosen_excel($idunit, $date1, $date2, $sidang)
+    public function hasil_dosen_excel($idunit, $date1, $date2, $sidang = "sempro")
     {
         $link = base_url() . "hasil_dosen/$idunit/$date1/$date2/$sidang";
         $qr_link = $this->qr->cetakqr($link);

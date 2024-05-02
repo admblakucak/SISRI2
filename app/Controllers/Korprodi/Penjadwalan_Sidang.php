@@ -343,7 +343,7 @@ class Penjadwalan_sidang extends BaseController
                         }
                     }
                 }
-                
+
                 $tb_penguji_2 = $this->db->query("SELECT a.id_pendaftar,b.waktu_sidang, a.nim, a.nip FROM tb_penguji a LEFT JOIN tb_pendaftar_sidang b ON a.nim=b.nim WHERE a.nip='" . $nip_p2 . "' AND a.nim !='" . $nim . "' ")->getResult();
                 if (!empty($tb_penguji_2)) {
                     foreach ($tb_penguji_2 as $key) {
@@ -547,8 +547,8 @@ class Penjadwalan_sidang extends BaseController
                 }
             }
         } else {
-            // return redirect()->to("hasil_dosen_excel/$idunit/$date1/$date2");
-            return "EXCEL";
+            return redirect()->to("cetak_pendaftar/$id_jadwal/$date1/$date2/excel");
+            // return "EXCEL";
         }
     }
 }
