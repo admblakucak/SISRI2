@@ -120,6 +120,10 @@ use CodeIgniter\Images\Image;
                                       //   continue;
                                       // }
 
+                                      if (empty($penguji1) || empty($penguji2) || empty($penguji3)) {
+                                        continue;
+                                      }
+
                                       $status_acc_revisi = $db->query("SELECT * FROM tb_acc_revisi WHERE nim ='" . $key['nim'] . "' AND nip='" . session()->get('ses_id') . "' AND jenis_sidang='skripsi'")->getResult();
                                       // if (empty($status_acc_revisi)) {
                                       //   continue;
@@ -134,6 +138,8 @@ use CodeIgniter\Images\Image;
                                       // if (count($total_acc_dosen_penguji) != 3) {
                                       //   continue;
                                       // }
+
+                                      // dd($penguji1);
                                     ?>
                                       <tr>
                                         <td>
