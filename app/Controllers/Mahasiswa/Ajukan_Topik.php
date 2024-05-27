@@ -24,6 +24,9 @@ class Ajukan_Topik extends BaseController
 
         $data_mahasiswa = $this->db->query("SELECT * FROM tb_mahasiswa where nim='" . session()->get('ses_id') . "'")->getResult();
         $idunit = $data_mahasiswa[0]->idunit;
+        $id_jurusan = $this->db->query("SELECT parentunit FROM tb_unit WHERE idunit = '$idunit'")->getResult();
+        $id_fakultas = $this->db->query("SELECT parentunit FROM tb_unit WHERE idunit ='" . $id_jurusan[0]->parentunit . "'")->getResult();
+        // SELECT * FROM tb_unit WHERE parentunit IN (SELECT idunit FROM tb_unit WHERE parentunit = '$id_fakultas');
 
         //------Start keberadaan nip dosen-------
         $cek_p1 = $this->db->query("SELECT * FROM tb_pengajuan_pembimbing  where nim='" . session()->get('ses_id') . "' AND sebagai='1' AND status_pengajuan='menunggu'")->getResult();
@@ -44,7 +47,12 @@ class Ajukan_Topik extends BaseController
 
         // $data_dosen = $this->db->query("SELECT a.nip as nip_dos,a.*,b.*,c.* FROM tb_dosen a LEFT JOIN tb_unit b ON a.`idunit`=b.`idunit` LEFT JOIN tb_jumlah_pembimbing c ON a.`nip`=c.`nip` WHERE a.idunit IN (SELECT idunit FROM tb_unit WHERE parentunit=(SELECT parentunit FROM tb_unit WHERE idunit='$idunit')) AND a.`nip` NOT IN (SELECT nip FROM tb_pengajuan_pembimbing WHERE nim='" . session()->get('ses_id') . "' AND (status_pengajuan='diterima' OR status_pengajuan='menunggu')) order by a.nama")->getResult();
         $data_dosen_p1 = $this->db->query("SELECT a.nip AS nip_dos,a.*,b.* FROM tb_dosen a LEFT JOIN tb_unit b ON a.`idunit`=b.`idunit` WHERE a.idunit='$idunit' AND a.`nip` NOT IN (SELECT nip FROM tb_pengajuan_pembimbing WHERE nim='" . session()->get('ses_id') . "' AND (status_pengajuan='diterima' OR status_pengajuan='menunggu')) ORDER BY a.nama")->getResult();
-        $data_dosen_p2 = $this->db->query("SELECT a.nip as nip_dos,a.*,b.* FROM tb_dosen a LEFT JOIN tb_unit b ON a.`idunit`=b.`idunit` WHERE a.idunit IN (SELECT idunit FROM tb_unit WHERE parentunit=(SELECT parentunit FROM tb_unit WHERE idunit='$idunit')) AND a.`nip` NOT IN (SELECT nip FROM tb_pengajuan_pembimbing WHERE nim='" . session()->get('ses_id') . "' AND (status_pengajuan='diterima' OR status_pengajuan='menunggu')) order by a.nama")->getResult();
+        // Data Dosen Pembimbing 2 berdasarkan jurusan
+        // $data_dosen_p2 = $this->db->query("SELECT a.nip as nip_dos,a.*,b.* FROM tb_dosen a LEFT JOIN tb_unit b ON a.`idunit`=b.`idunit` WHERE a.idunit IN (SELECT idunit FROM tb_unit WHERE parentunit=(SELECT parentunit FROM tb_unit WHERE idunit='$idunit')) AND a.`nip` NOT IN (SELECT nip FROM tb_pengajuan_pembimbing WHERE nim='" . session()->get('ses_id') . "' AND (status_pengajuan='diterima' OR status_pengajuan='menunggu')) order by a.nama")->getResult();
+
+        // data dosen pembimbing 2 berdasarkan fakultas
+        $data_dosen_p2 = $this->db->query("SELECT a.nip as nip_dos,a.*,b.* FROM tb_dosen a LEFT JOIN tb_unit b ON a.`idunit`=b.`idunit` WHERE a.idunit IN (SELECT idunit FROM tb_unit WHERE parentunit IN (SELECT idunit FROM tb_unit WHERE parentunit = '" . $id_fakultas[0]->parentunit . "')) AND a.`nip` NOT IN (SELECT nip FROM tb_pengajuan_pembimbing WHERE nim='" . session()->get('ses_id') . "' AND (status_pengajuan='diterima' OR status_pengajuan='menunggu')) order by a.nama")->getResult();
+        // dd($data_dosen_p2);
         $data_pengajuan_pembimbing_1 = $this->db->query("SELECT * FROM tb_dosen a LEFT JOIN tb_pengajuan_pembimbing b ON a.`nip`=b.`nip` LEFT JOIN tb_unit c ON a.`idunit`=c.`idunit` WHERE b.nim='" . session()->get('ses_id') . "' AND b.sebagai='1'")->getResult();
         $data_pengajuan_pembimbing_2 = $this->db->query("SELECT * FROM tb_dosen a LEFT JOIN tb_pengajuan_pembimbing b ON a.`nip`=b.`nip` LEFT JOIN tb_unit c ON a.`idunit`=c.`idunit` WHERE b.nim='" . session()->get('ses_id') . "' AND b.sebagai='2'")->getResult();
         $data_topik = $this->db->query("SELECT * FROM tb_topik where idunit='$idunit'")->getResult();
