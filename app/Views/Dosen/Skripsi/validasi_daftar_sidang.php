@@ -65,7 +65,7 @@ use CodeIgniter\Images\Image;
                                                             }
                                                         }
 
-                                                        if (count($total_acc_dosen_penguji) != 3) {
+                                                        if (count($total_acc_dosen_penguji)  < 3) {
                                                             continue;
                                                         }
 
@@ -205,7 +205,7 @@ use CodeIgniter\Images\Image;
                                                             }
                                                         }
 
-                                                        if ($sts_pem1== NULL || $sts_pem2==NULL) {
+                                                        if ($sts_pem1 == NULL || $sts_pem2 == NULL) {
                                                             continue;
                                                         }
 
