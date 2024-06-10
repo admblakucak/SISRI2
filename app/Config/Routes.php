@@ -226,6 +226,8 @@ $routes->add('/proses_validasi_daftar_seminar_koor', 'Korprodi\Validasi_Daftar_S
 $routes->add('/daftar_nilai', 'Korprodi\Nilai::index');
 $routes->add('/daftar_belum_dinilai', 'Korprodi\Nilai::belum_dinilai');
 $routes->add('/daftar_sudah_dinilai', 'Korprodi\Nilai::sudah_dinilai');
+$routes->add('/daftar_nilai_default', 'Korprodi\Nilai::nilai_default');
+$routes->add('/update_nilai_korprodi', 'Korprodi\Nilai::update_nilai');
 $routes->add('/export_nilai', 'Korprodi\Nilai::export');
 $routes->get('/export_nilai_pdf/(:any)/(:any)', 'Korprodi\Nilai::export_pdf/$1/$2');
 $routes->get('/export_sudah_nilai_pdf/(:any)/(:any)', 'Korprodi\Nilai::export_sudah_dinilai_pdf/$1/$2');

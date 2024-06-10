@@ -295,6 +295,7 @@
 									<li><a class="slide-item" href="<?= base_url() ?>daftar_nilai">Daftar Nilai</a></li>
 									<li><a class="slide-item" href="<?= base_url() ?>daftar_sudah_dinilai">Sudah Dinilai</a></li>
 									<li><a class="slide-item" href="<?= base_url() ?>daftar_belum_dinilai">Belum Dinilai</a></li>
+									<li><a class="slide-item" href="<?= base_url() ?>daftar_nilai_default">Daftar nilai default</a></li>
 								</ul>
 							</li>
 						<?php }

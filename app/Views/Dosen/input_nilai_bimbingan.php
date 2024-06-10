@@ -88,7 +88,7 @@ use CodeIgniter\Images\Image;
                                                                 if (!empty($sidang)) {
                                                                     if (!empty($berita_acara)) {
                                                                 ?>
-                                                                        <a class="btn btn-success btn-sm" data-bs-target="#modal<?= $no ?>" data-bs-toggle="modal" href="">Set Nilai</a>
+                                                                        <a class="btn btn-success btn-sm" data-bs-target="#modal<?= $no ?>belum" data-bs-toggle="modal" href="">Set Nilai</a>
                                                                 <?php } else {
                                                                         echo "<span class='text-danger ms-2'>Berita Acara Belum Ditanda Tangani</span>";
                                                                     }
@@ -97,7 +97,7 @@ use CodeIgniter\Images\Image;
                                                                 } ?>
                                                             </td>
                                                         </tr>
-                                                        <div class="modal" id="modal<?= $no ?>">
+                                                        <div class="modal" id="modal<?= $no ?>belum">
                                                             <div class="modal-dialog" role="document">
                                                                 <div class="modal-content modal-content-demo">
                                                                     <div class="modal-header">
@@ -164,6 +164,7 @@ use CodeIgniter\Images\Image;
                                                         if (empty($nilai) || empty($nilai[0]->nilai_bimbingan) || empty($nilai[0]->nilai_ujian)) {
                                                             continue;
                                                         }
+
                                                     ?>
                                                         <tr>
                                                             <th scope="row"><?= $no ?></th>
@@ -191,7 +192,15 @@ use CodeIgniter\Images\Image;
                                                                 if (!empty($sidang)) {
                                                                     if (!empty($berita_acara)) {
                                                                 ?>
-                                                                        <a class="btn btn-success btn-sm" data-bs-target="#modal<?= $no ?>" data-bs-toggle="modal" href="">Set Nilai</a>
+                                                                        <!-- Default -->
+                                                                        <?php
+                                                                        if ($nilai[0]->pesan == 'default') {
+                                                                            echo "<span class='text-danger ms-2'>Harap hubungi korprodi untuk update nilai</span>";
+                                                                        } else { ?>
+                                                                            <a class="btn btn-success btn-sm" data-bs-target="#modal<?= $no ?>" data-bs-toggle="modal" href="">Set Nilai</a>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
                                                                 <?php } else {
                                                                         echo "<span class='text-danger ms-2'>Berita Acara Belum Ditanda Tangani</span>";
                                                                     }

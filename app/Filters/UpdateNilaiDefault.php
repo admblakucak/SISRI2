@@ -73,10 +73,7 @@ class UpdateNilaiDefault
               if (empty($cek_acc_penguji_1)) {
                 $db->query("INSERT INTO tb_acc_revisi (nip,nim,jenis_sidang,sebagai) VALUES ('" . $penguji1[0]->nip . "','" . $nim_mhs . "','skripsi','Penguji 1')");
               }
-
-
-
-              $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . $nim_mhs . "','" . $penguji1[0]->nip . "','penguji 1','80')  ");
+              $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,pesan) VALUES ('" . $nim_mhs . "','" . $penguji1[0]->nip . "','penguji 1','80','default')  ");
             } elseif (empty($cek_nilai_penguji1[0]->nilai_ujian)) {
 
               // ttd berita acara
@@ -93,7 +90,7 @@ class UpdateNilaiDefault
                 $db->query("INSERT INTO tb_acc_revisi (nip,nim,jenis_sidang,sebagai) VALUES ('" . $penguji1[0]->nip . "','" . $nim_mhs . "','skripsi','Penguji 1')");
               }
 
-              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80' where id_nilai='" . $cek_nilai_penguji1[0]->id_nilai . "'");
+              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80', pesan='default' where id_nilai='" . $cek_nilai_penguji1[0]->id_nilai . "'");
             }
 
 
@@ -114,7 +111,7 @@ class UpdateNilaiDefault
                 $db->query("INSERT INTO tb_acc_revisi (nip,nim,jenis_sidang,sebagai) VALUES ('" . $penguji2[0]->nip . "','" . $nim_mhs . "','skripsi','Penguji 2')");
               }
 
-              $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . $nim_mhs . "','" . $penguji2[0]->nip . "','penguji 2','80')");
+              $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,pesan) VALUES ('" . $nim_mhs . "','" . $penguji2[0]->nip . "','penguji 2','80','default')");
             } elseif (empty($cek_nilai_penguji2[0]->nilai_ujian)) {
               // ttd berita acara
               $berita_acara_penguji2 = $db->query("SELECT * FROM tb_berita_acara WHERE nim='" . $nim_mhs . "' AND nip='" . $penguji2[0]->nip . "' AND sebagai='" . 'penguji 2' . "' AND status='ditandatangani' AND jenis_sidang='skripsi' AND id_pendaftar='$id_pendaftar'")->getResult();
@@ -130,7 +127,7 @@ class UpdateNilaiDefault
                 $db->query("INSERT INTO tb_acc_revisi (nip,nim,jenis_sidang,sebagai) VALUES ('" . $penguji2[0]->nip . "','" . $nim_mhs . "','skripsi','Penguji 2')");
               }
 
-              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80' where id_nilai='" . $cek_nilai_penguji2[0]->id_nilai . "'");
+              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80', pesan='default' where id_nilai='" . $cek_nilai_penguji2[0]->id_nilai . "'");
               // $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . $nim_mhs . "','" . $penguji2[0]->nip . "','penguji 2','80')");
             }
 
@@ -151,7 +148,7 @@ class UpdateNilaiDefault
                 $db->query("INSERT INTO tb_acc_revisi (nip,nim,jenis_sidang,sebagai) VALUES ('" . $penguji3[0]->nip . "','" . $nim_mhs . "','skripsi','Penguji 3')");
               }
 
-              $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . $nim_mhs . "','" . $penguji3[0]->nip . "','penguji 3','80')");
+              $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,pesan) VALUES ('" . $nim_mhs . "','" . $penguji3[0]->nip . "','penguji 3','80','default')");
             } elseif (empty($cek_nilai_penguji3[0]->nilai_ujian)) {
 
               // ttd berita acara
@@ -168,7 +165,7 @@ class UpdateNilaiDefault
                 $db->query("INSERT INTO tb_acc_revisi (nip,nim,jenis_sidang,sebagai) VALUES ('" . $penguji3[0]->nip . "','" . $nim_mhs . "','skripsi','Penguji 3')");
               }
 
-              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80' where id_nilai='" . $cek_nilai_penguji3[0]->id_nilai . "'");
+              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80', pesan='default' where id_nilai='" . $cek_nilai_penguji3[0]->id_nilai . "'");
               // $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian) VALUES ('" . $nim_mhs . "','" . $penguji3[0]->nip . "','penguji 3','80')");
             }
 
@@ -182,7 +179,7 @@ class UpdateNilaiDefault
                 $db->query("UPDATE tb_berita_acara SET status= 'ditandatangani' WHERE nim='" . $nim_mhs . "' AND nip='" . $dosen_pembimbing[0]->nip . "' AND sebagai='" . 'pembimbing 1' . "' AND jenis_sidang='skripsi' AND id_pendaftar='$id_pendaftar'");
               }
               $db->query("UPDATE tb_pendaftar_sidang SET hasil_sidang='2' WHERE id_pendaftar='$id_pendaftar'");
-              $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . $nim_mhs . "','" . $dosen_pembimbing[0]->nip . "','pembimbing 1','80','80')  ");
+              $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan,pesan) VALUES ('" . $nim_mhs . "','" . $dosen_pembimbing[0]->nip . "','pembimbing 1','80','80','default')  ");
             } elseif (empty($cek_nilai_pembimbing1[0]->nilai_bimbingan) || empty($cek_nilai_pembimbing1[0]->nilai_ujian)) {
               $berita_acara_pem1 = $db->query("SELECT * FROM tb_berita_acara WHERE nim='" . $nim_mhs . "' AND nip='" . $dosen_pembimbing[0]->nip . "' AND sebagai='" . 'pembimbing 1' . "' AND status='ditandatangani' AND jenis_sidang='skripsi' AND id_pendaftar='$id_pendaftar'")->getResult();
               if (empty($berita_acara_pem1)) {
@@ -191,7 +188,7 @@ class UpdateNilaiDefault
                 $db->query("UPDATE tb_berita_acara SET status= 'ditandatangani' WHERE nim='" . $nim_mhs . "' AND nip='" . $dosen_pembimbing[0]->nip . "' AND sebagai='" . 'pembimbing 1' . "' AND jenis_sidang='skripsi' AND id_pendaftar='$id_pendaftar'");
               }
               $db->query("UPDATE tb_pendaftar_sidang SET hasil_sidang='2' WHERE id_pendaftar='$id_pendaftar'");
-              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80', nilai_bimbingan='80' where id_nilai='" . $cek_nilai_pembimbing1[0]->id_nilai . "'");
+              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80', nilai_bimbingan='80', pesan='default' where id_nilai='" . $cek_nilai_pembimbing1[0]->id_nilai . "'");
               // $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . $nim_mhs . "','" . $dosen_pembimbing[0]->nip . "','pembimbing 1','80','80')");
             }
 
@@ -206,7 +203,7 @@ class UpdateNilaiDefault
                 $db->query("UPDATE tb_berita_acara SET status= 'ditandatangani' WHERE nim='" . $nim_mhs . "' AND nip='" . $dosen_pembimbing[1]->nip . "' AND sebagai='" . 'pembimbing 2' . "' AND jenis_sidang='skripsi' AND id_pendaftar='$id_pendaftar'");
               }
               // input nilai default 80 ke tb_nilai
-              $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . $nim_mhs . "','" . $dosen_pembimbing[1]->nip . "','pembimbing 2','80','80')  ");
+              $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan,pesan) VALUES ('" . $nim_mhs . "','" . $dosen_pembimbing[1]->nip . "','pembimbing 2','80','80','default')  ");
             } elseif (empty($cek_nilai_pembimbing2[0]->nilai_bimbingan) || empty($cek_nilai_pembimbing2[0]->nilai_ujian)) {
               $berita_acara_pem2 = $db->query("SELECT * FROM tb_berita_acara WHERE nim='" . $nim_mhs . "' AND nip='" . $dosen_pembimbing[1]->nip . "' AND sebagai='" . 'pembimbing 2' . "' AND status='ditandatangani' AND jenis_sidang='skripsi' AND id_pendaftar='$id_pendaftar'")->getResult();
               if (empty($berita_acara_pem2)) {
@@ -215,7 +212,7 @@ class UpdateNilaiDefault
                 $db->query("UPDATE tb_berita_acara SET status= 'ditandatangani' WHERE nim='" . $nim_mhs . "' AND nip='" . $dosen_pembimbing[1]->nip . "' AND sebagai='" . 'pembimbing 2' . "' AND jenis_sidang='skripsi' AND id_pendaftar='$id_pendaftar'");
               }
 
-              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80', nilai_bimbingan='80' where id_nilai='" . $cek_nilai_pembimbing2[0]->id_nilai . "'");
+              $db->query("UPDATE `tb_nilai` SET nilai_ujian='80', nilai_bimbingan='80',pesan='default' where id_nilai='" . $cek_nilai_pembimbing2[0]->id_nilai . "'");
 
               // $db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_ujian,nilai_bimbingan) VALUES ('" . $nim_mhs . "','" . $dosen_pembimbing[1]->nip . "','pembimbing 2','80','80')");
             }

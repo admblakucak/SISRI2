@@ -18,6 +18,7 @@ class Nilai extends BaseController
         $this->qr = new QRcodelib();
         $this->db = \Config\Database::connect();
     }
+
     public function index()
     {
         if (session()->get('ses_id') == '' || session()->get('ses_login') != 'korprodi') {
@@ -32,6 +33,93 @@ class Nilai extends BaseController
             'data_jadwal' => $this->db->query("SELECT * FROM tb_jadwal_sidang WHERE idunit='" . session()->get('ses_idunit') . "' AND jenis_sidang='sidang skripsi'")->getResult(),
         ];
         return view('Korprodi/daftar_nilai', $data);
+    }
+
+
+
+
+    public function nilai_default()
+    {
+        if (session()->get('ses_id') == '' || session()->get('ses_login') != 'korprodi') {
+            return redirect()->to('/');
+        }
+
+        $data = [
+            'title' => 'Daftar Nilai Default Skripsi',
+            'db' => $this->db,
+            'data_mhs' => $this->db->query("SELECT * FROM tb_users WHERE idunit='" . session()->get('ses_idunit') . "' AND role='mahasiswa' ORDER BY id ASC")->getResult(),
+            'data_periode' => $this->db->query("SELECT * FROM tb_periode")->getResult(),
+            'data_jadwal' => $this->db->query("SELECT * FROM tb_jadwal_sidang WHERE idunit='" . session()->get('ses_idunit') . "' AND jenis_sidang='sidang skripsi'")->getResult(),
+        ];
+        return view('Korprodi/nilai_default', $data);
+    }
+
+    private function update_tb_nilai($nim, $sebagai, $nilai_bimbingan, $nilai_ujian)
+    {
+        // $this->db->query("INSERT INTO tb_nilai (nim,nip,sebagai,nilai_bimbingan,nilai_ujian,pesan) VALUES ('$nim','" . session()->get('ses_id') . "','$sebagai','$nilai_bimbingan','$nilai_ujian', 'update by koorprodi')");
+        $this->db->query("UPDATE `tb_nilai` SET `nilai_ujian` = '$nilai_ujian', `nilai_bimbingan` = '$nilai_bimbingan' WHERE sebagai='$sebagai' AND nim='$nim' ");
+    }
+
+    public function update_nilai()
+    {
+        if (session()->get('ses_id') == '' || session()->get('ses_login') == 'mahasiswa') {
+            return redirect()->to('/');
+        }
+        $nim = $this->request->getPost('nim');
+        $message = '';
+
+        // Pembimbing 1
+        $nilai_bimbingan_1 = $this->request->getPost('nilai_bimbingan_1');
+        $nilai_ujian_1 = $this->request->getPost('nilai_ujian_1');
+
+        // Pembimbing 2
+        $nilai_bimbingan_2 = $this->request->getPost('nilai_bimbingan_2');
+        $nilai_ujian_2 = $this->request->getPost('nilai_ujian_2');
+
+        // Penguji 1
+        $nilai_penguji_1 = $this->request->getPost('nilai_penguji_1');
+
+        // Penguji 2
+        $nilai_penguji_2 = $this->request->getPost('nilai_penguji_2');
+
+        // Penguji 3
+        $nilai_penguji_3 = $this->request->getPost('nilai_penguji_3');
+        $nilai = $this->db->query("SELECT * FROM `tb_nilai` WHERE nim = '$nim' ORDER BY `tb_nilai`.`sebagai` ASC")->getResult();
+        $sebagai = $this->request->getPost('sebagai');
+
+        // Update Nilai Pembimbing 1
+        if ($nilai[0]->nilai_bimbingan != $nilai_bimbingan_1 || $nilai[0]->nilai_ujian != $nilai_ujian_1) {
+            $this->update_tb_nilai($nim, 'pembimbing 1', $nilai_bimbingan_1, $nilai_ujian_1);
+            $message = $message . '<li>Nilai Pembimbing 1 Berhasil di Update</li>';
+        }
+
+        // Update Nilai Pembimbing 2
+        if ($nilai[1]->nilai_bimbingan != $nilai_bimbingan_2 || $nilai[1]->nilai_ujian != $nilai_ujian_2) {
+            $this->update_tb_nilai($nim, 'pembimbing 2', $nilai_bimbingan_2, $nilai_ujian_2);
+            $message = $message . '<li>Nilai Pembimbing 2 Berhasil di Update</li>';
+        }
+
+        // Update Nilai Penguji 1
+        if ($nilai[2]->nilai_ujian != $nilai_penguji_1) {
+            $this->update_tb_nilai($nim, 'penguji 1', null, $nilai_penguji_1);
+            $message = $message . '<li>Nilai Penguji 1 Berhasil di Update</li>';
+        }
+
+        // Update Nilai Penguji 2
+        if ($nilai[3]->nilai_ujian != $nilai_penguji_2) {
+            $this->update_tb_nilai($nim, 'penguji 2', null, $nilai_penguji_2);
+            $message = $message . '<li>Nilai Penguji 2 Berhasil di Update</li>';
+        }
+
+        // Update Nilai Penguji 3
+        if ($nilai[4]->nilai_ujian != $nilai_penguji_3) {
+            $this->update_tb_nilai($nim, 'penguji 3', null, $nilai_penguji_3);
+            $message = $message . '<li>Nilai Penguji 3 Berhasil di Update</li>';
+        }
+
+        session()->setFlashdata('message', $message);
+
+        return redirect()->to('/daftar_nilai_default');
     }
 
     public function belum_dinilai()
@@ -50,6 +138,7 @@ class Nilai extends BaseController
         ];
         return view('Korprodi/daftar_informasi_nilai', $data);
     }
+
     public function sudah_dinilai()
     {
         if (session()->get('ses_id') == '' || session()->get('ses_login') != 'korprodi') {
