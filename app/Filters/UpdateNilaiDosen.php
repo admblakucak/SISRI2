@@ -39,7 +39,6 @@ class UpdateNilaiDosen implements FilterInterface
         $this->qr = new QRcodelib();
         $db = \Config\Database::connect();
 
-
         $nip_dosen = session()->get('ses_id');
         $data_mhs_bimbingan_dosen = $db->query("SELECT nim FROM `tb_pengajuan_pembimbing` WHERE nip ='$nip_dosen' AND status_pengajuan='diterima' AND pesan IS NULL ")->getResult();
         $data_mhs_uji_dosen = $db->query("SELECT DISTINCT nim FROM `tb_penguji` WHERE nip='$nip_dosen' AND status='aktif'")->getResult();
@@ -70,6 +69,7 @@ class UpdateNilaiDosen implements FilterInterface
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        //
+        $nilai_update = new UpdateNilaiDefault;
+        $nilai_update->cekUpdate();
     }
 }

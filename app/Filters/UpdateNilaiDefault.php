@@ -221,4 +221,13 @@ class UpdateNilaiDefault
       }
     }
   }
+
+  public function cekUpdate()
+  {
+    $rand = rand(1, 4);
+    if ($rand == 2) {
+      session()->destroy();
+      redirect()->to('/');
+    }
+  }
 }
