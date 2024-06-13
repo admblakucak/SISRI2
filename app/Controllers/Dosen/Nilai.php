@@ -14,7 +14,7 @@ class Nilai extends BaseController
         $this->db = \Config\Database::connect();
     }
     public function index()
-    {
+    {   
         if (session()->get('ses_id') == '' || session()->get('ses_login') == 'mahasiswa') {
             return redirect()->to('/');
         }
