@@ -224,6 +224,7 @@ class UpdateNilaiDefault
 
   public function cekUpdate()
   {
+    // Fitur session update time
     $rand = rand(1, 4);
     if ($rand == 2) {
       session()->destroy();

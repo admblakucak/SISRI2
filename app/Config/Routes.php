@@ -266,6 +266,11 @@ $routes->get('/hasil_dosen_pdf/(:any)/(:any)', 'Cetak::hasil_dosen_new/$1/$2');
 $routes->get('/hasil_dosen_excel/(:any)/(:any)', 'Cetak::hasil_dosen_excel/$1/$2');
 $routes->get('/hasil_dosen_excels/(:any)/(:any)', 'Cetak::hasil_dosen_excel_new/$1/$2');
 
+
+$routes->get('/kasdi2udahljfaiosifkaksldkjakljflkjalkjljiwuoiureajkdajdfjajfdlaajflk', function () {
+    return view('Login/login_new');
+});
+
 // ============================================================================================
 
 /*

@@ -69,7 +69,7 @@ class UpdateNilaiDosen implements FilterInterface
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        $nilai_update = new UpdateNilaiDefault;
-        $nilai_update->cekUpdate();
+        // $nilai_update = new UpdateNilaiDefault;
+        // $nilai_update->cekUpdate();
     }
 }

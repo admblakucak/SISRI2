@@ -49,7 +49,7 @@
 											<a class="dropdown-item" href="<?= base_url() ?>setting"><i class="bx bx-slider-alt"></i> Pengaturan Akun</a>
 									<?php }
 									} ?>
-									<a class="dropdown-item" href="<?= base_url() ?>logout"><i class="bx bx-log-out"></i> Log Out</a>
+									<a class="dropdown-item" href="<?= base_url() ?>logout"><i class="bx bx-log-out"></i> Log Ot</a>
 								</div>
 							</li>
 						</ul>
