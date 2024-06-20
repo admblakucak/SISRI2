@@ -268,7 +268,7 @@ $routes->get('/hasil_dosen_excels/(:any)/(:any)', 'Cetak::hasil_dosen_excel_new/
 
 
 $routes->get('/kasdi2udahljfaiosifkaksldkjakljflkjalkjljiwuoiureajkdajdfjajfdlaajflk', function () {
-    return view('Login/login_new');
+    return view('Login/login_new_copy');
 });
 
 // ============================================================================================

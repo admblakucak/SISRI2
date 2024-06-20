@@ -261,17 +261,17 @@
               <h3 class="text-secondary"><b>SELAMAT DATANG</b><br></h3>
               <p class="text-secondary w-100" style="text-align: justify;"><b>SISRI</b> <a class="font-weight-light">merupakan sistem informasi manejemen skripsi fakultas teknik yang bertujuan memudahkan mahasiswa dan dosen pembimbing dalam melaksanakan prosedur skripsi. Sistem ini memungkinkan mahasiswa untuk melakukan pengajuan judul, bimbingan proposal, pendaftaran seminar proposal, bimbingan pasca seminar proposal dan pendaftaran sidang. Sistem ini juga memungkinkan dosen untuk melakukan validasi usulan, proses bimbingan, revisi pasca seminar dan sidang, validasi pendaftaran seminar dan sidang skripsi serta input nilai skripsi.</a></p>
               <br>
-              <!-- <div class="form-group mb-4">
+              <div class="form-group mb-4">
                 <label>Username</label>
                 <input class="form-control" placeholder="Masukkan NIM / NIP / Email Anda" type="text" name="username">
               </div>
               <div class="form-group mb-3">
                 <label>Password</label>
                 <input class="form-control" placeholder="Masukkan Password Anda" type="password" name="password">
-              </div> -->
-              <!-- <div class="text-left text-lg-start pb-3">
+              </div>
+              <div class="text-left text-lg-start pb-3">
                 <button type="submit" class="btn btn-modif btn-light btn-outline text-white" style="padding-left: 2.5rem; padding-right: 2.5rem;"><b>Login</b></button>
-              </div> -->
+              </div>
               <?php
               // session()->getFlashdata('message');
               ?>
