@@ -8,13 +8,16 @@ use App\Libraries\Access_API; // Import library
 
 class Nilai extends BaseController
 {
+    protected $api;
+    protected $db;
+
     public function __construct()
     {
         $this->api = new Access_API();
         $this->db = \Config\Database::connect();
     }
     public function index()
-    {   
+    {
         if (session()->get('ses_id') == '' || session()->get('ses_login') == 'mahasiswa') {
             return redirect()->to('/');
         }
@@ -42,7 +45,7 @@ class Nilai extends BaseController
             'db' => $this->db,
             'data_mhs_bimbingan' => $data_mhs,
         ];
-        return view('Dosen/input_nilai_bimbingan', $data);
+        return view('Dosen/input_nilai_bimbinga', $data);
     }
 
     public static function udiffCompare($a, $b)
@@ -131,7 +134,7 @@ class Nilai extends BaseController
         if (session()->get('ses_id') == '' || session()->get('ses_login') == 'mahasiswa') {
             return redirect()->to('/');
         }
-        $nim = $this->request->getPost('nim');
+        $nim = $this->request->getPost('ni');
         $nilai = $this->request->getPost('nilai_ujian');
         $sebagai = $this->request->getPost('sebagai');
         $d_nilai = $this->db->query("SELECT * FROM tb_nilai WHERE nim='" . $nim . "' AND nip='" . session()->get('ses_id') . "' AND sebagai='" . $sebagai . "'")->getResult();

@@ -12,6 +12,10 @@ use Dompdf\Options;
 
 class Nilai extends BaseController
 {
+    protected $api;
+    protected $qr;
+    protected $db;
+
     public function __construct()
     {
         $this->api = new Access_API();
@@ -36,8 +40,6 @@ class Nilai extends BaseController
     }
 
 
-
-
     public function nilai_default()
     {
         if (session()->get('ses_id') == '' || session()->get('ses_login') != 'korprodi') {
@@ -51,7 +53,7 @@ class Nilai extends BaseController
             'data_periode' => $this->db->query("SELECT * FROM tb_periode")->getResult(),
             'data_jadwal' => $this->db->query("SELECT * FROM tb_jadwal_sidang WHERE idunit='" . session()->get('ses_idunit') . "' AND jenis_sidang='sidang skripsi'")->getResult(),
         ];
-        return view('Korprodi/nilai_default', $data);
+        return view('Korprodi/nilai_defa', $data);
     }
 
     private function update_tb_nilai($nim, $sebagai, $nilai_bimbingan, $nilai_ujian)
