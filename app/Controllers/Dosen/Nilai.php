@@ -45,7 +45,7 @@ class Nilai extends BaseController
             'db' => $this->db,
             'data_mhs_bimbingan' => $data_mhs,
         ];
-        return view('Dosen/input_nilai_bimbinga', $data);
+        return view('Dosen/input_nilai_bimbingan', $data);
     }
 
     public static function udiffCompare($a, $b)
